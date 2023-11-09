@@ -9,7 +9,7 @@
 %%%%%%%%%%%%%%%%%%%%%
 % % !Mode:: "TeX:UTF-8"
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{litesolution}[2023/06/18 v5.0-alpha LiteSolution document class]
+\ProvidesClass{litesolution}[10/11/2023 v0.1b LiteSolution document class]
 \RequirePackage{kvoptions}
 \RequirePackage{etoolbox}
 \SetupKeyvalOptions{family=LITE, prefix=LITE@, setkeys=\kvsetkeys}
@@ -319,7 +319,7 @@
 			{\begin{tikzpicture}[remember picture,overlay]
 					\node[scope fading=south,anchor=north west,inner sep=0pt] at (0,0) {\includegraphics[width=\paperwidth]{\thechapterimage}};
 					\draw (\Gm@lmargin+0.5\paperwidth-1.91cm,-9cm) node [line width=2pt,,draw=ocre,fill=white,fill opacity=0.5,inner sep=15pt]{\strut\makebox[\paperwidth]{}};
-					\draw (\Gm@lmargin+0.5\paperwidth-1.91cm,-9cm) node {\huge\kaishu\bfseries\color{black}\color{teal}\faLeaf\;\color{black}~#1\strut};
+					\draw (\Gm@lmargin+0.5\paperwidth-1.91cm,-9cm) node {\huge\bfseries\color{black}\color{teal}\faLeaf\;\color{black}\heiti~#1\strut};
 			\end{tikzpicture}};
 		\end{tikzpicture}
 		\par\vspace*{230\p@}}
