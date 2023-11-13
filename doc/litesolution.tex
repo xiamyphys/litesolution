@@ -1,20 +1,35 @@
-\documentclass[10pt,separate,mtpro2]{litesolution}
+\documentclass{litesolution}
+\usepackage[level]{datetime}
 
+\makeatletter
+\definecolor{pkgcolor}{Hsb}{103,.8,.5}
+\definecolor{moducolor}{Hsb}{290,.8,.5}
+\definecolor{cmdcolor}{Hsb}{188,.8,.5}
+\definecolor{filecolor}{Hsb}{207,.6,.7}
+\definecolor{H1}{Hsb}{349,.8,.8}% 海棠紅 (Hangzhou MTR L 1 )
+\definecolor{H2}{Hsb}{23, .8,.8}% 丹桂橙 (Hangzhou Metro 2 )
+\definecolor{H3}{Hsb}{48, .8,.8}% 柠檬黄 (Hangzhou Metro 3 )
+\definecolor{H4}{Hsb}{103,.8,.8}% 香樟绿 (Hangzhou Metro 4 )
+\definecolor{H5}{Hsb}{188,.8,.8}% 青藍色 (Hangzhou MTR L 5 )
+\definecolor{H6}{Hsb}{207,.8,.8}% 海洋蓝 (Hangzhou Metro 6 )
+\definecolor{H7}{Hsb}{290,.8,.8}% 浪漫紫 (Hangzhou Metro 7 )
+\hypersetup{colorlinks,urlcolor=H1,linkcolor=H2,filecolor=filecolor,pdfstartview=FitH,pdfview=FitH,pdfcreator=XeTeX output}
 
-\fancyhead[L]{\color{1号色}\kaishu{\href{http://weixin.qq.com/r/DBIABcHEqgnWKIVmb0eI}{\faIcon{weixin}\;微信公众号：WY未央学社}}}
-\fancyhead[R]{\color{1号色}\kaishu{\href{https://qm.qq.com/q/DTiGLTpPAO}{「未央学社」HDU物理营：\texttt{691128343}}}\,}
-% \fancyhead[R]{\color{1号色}\kaishu{\href{https://qm.qq.com/q/k9ZNGJ2Z2g}{HDU物理营 \!$^{\dagger}$：\texttt{560574854}}}\,}
-% \fancyhead[R]{\color{1号色}\kaishu{\href{https://qm.qq.com/q/L3bwJSKAYo}{HDU邮电营：\texttt{729200675}}}\,}
+\def\@pkg#1{\texorpdfstring{\href{https://www.ctan.org/pkg/#1}{\textcolor{pkgcolor}{\textsf{#1}}}}{“#1”}}
+\def\s@pkg#1{\texorpdfstring{\textcolor{pkgcolor}{\textsf{#1}}}{“#1”}}
+\DeclareRobustCommand\pkg{\@ifstar\s@pkg\@pkg}
+\def\mode#1{\texorpdfstring{\textcolor{moducolor}{\textsf{#1}}}{“#1”}}
+\def\cmd#1{\texorpdfstring{\textcolor{cmdcolor}{\textsf{#1}}}{“#1”}}
+\def\datechange#1#2{%
+  \noindent{\makebox[\textwidth][r]{\color{H7}\rule{1.15\textwidth}{.4pt}}}
+  \noindent\makebox[0pt][r]{\makebox[-3em][r]{\small\textbf{\textcolor{H7}{#1}}}\;\;}{\sffamily Update: \ignorespaces#2}}
+\makeatother
 
-% \fancyhead[L]{\color{1号色}\kaishu{\href{http://weixin.qq.com/r/hR1SSofEIdpercMp90iX}{\faWechat\;微信公众号：物理問題作}}}\fancyhead[R]{\color{1号色}\kaishu\leftmark\,}
-% \fancyhead[L]{\color{1号色}\faEnvira\; Written by \href{https://qm.qq.com/q/UPbGudx8cK}{\textbf{Axia}}}\fancyhead[R]{\color{1号色}\ttfamily\mailto{xiamyphys@gmail.com}\;}
+% \watermark{ctanlion}
 
 \begin{document}
-\begin{spacing}{1.75}
 
-\chapterimage{chaptercover3.png}
-% \input{cha/introduction.tex}
-\input{cha/demo.tex}
-
-\end{spacing}
+\chapterimage{cover1.png}
+\input{litesolution-doc.tex}
+\input{litesolution-demo.tex}
 \end{document}

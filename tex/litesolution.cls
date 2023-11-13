@@ -14,7 +14,7 @@
 %% ************************************************************************************************************
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{litesolution}[11/11/2023 v1.0a LiteSolution document class]
+\ProvidesClass{litesolution}[15/11/2023 v1.0a LiteSolution document class]
 \RequirePackage{kvoptions}
 \RequirePackage{etoolbox}
 \SetupKeyvalOptions{family=LITE, prefix=LITE@, setkeys=\kvsetkeys}
@@ -24,10 +24,6 @@
 \DeclareVoidOption{ans}{\ekv{answer=ans}}
 \DeclareVoidOption{noans}{\ekv{answer=noans}}
 
-\DeclareStringOption[light]{appearence}
-\DeclareVoidOption{light}{\ekv{appearence=light}}
-\DeclareVoidOption{dark}{\ekv{appearence=dark}}
-
 \DeclareStringOption[separate]{counter}
 \DeclareVoidOption{separate}{\ekv{counter=separate}}
 \DeclareVoidOption{continuous}{\ekv{counter=continuous}}
@@ -35,13 +31,6 @@
 \DeclareStringOption{math}
 \DeclareVoidOption{mtpro2}{\ekv{math=mtpro2}}
 
-\DeclareStringOption[onecol]{toc}
-\DeclareVoidOption{onecol}{\ekv{toc=onecol}}
-\DeclareVoidOption{twocol}{\ekv{toc=twocol}}
-
-\DeclareStringOption[hang]{titlestyle}[hang]
-\DeclareVoidOption{hang}{\ekv{titlestyle=hang}}
-\DeclareVoidOption{display}{\ekv{titlestyle=display}}
 % ----- Default Options -----
 \DeclareDefaultOption{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessKeyvalOptions*\relax
@@ -63,8 +52,6 @@
 \RequirePackage{csquotes}% 引号
 \RequirePackage{tasks}% 选择题
 \settasks{label=\color{normalcolor}\Alph*.}
-\RequirePackage{arydshln}% 分块矩阵
-
 
 \RequirePackage[colorlinks, linkcolor=1号色, urlcolor=1号色]{hyperref}
 
@@ -78,10 +65,10 @@
 }{\relax}
 
 \RequirePackage[UTF8,scheme=plain]{ctex}
-  \setCJKfamilyfont{zhbs}{FZXiaoBiaoSong-B05S}[Extension =.ttf]
-  \newcommand*{\biaosong}{\CJKfamily{zhbs}}{\relax}
-  \setCJKfamilyfont{zhlx}{HDU}[Extension =.ttf]
-  \newcommand*{\luxun}{\CJKfamily{zhlx}}{\relax}
+\def\chapterfont#1{
+  \setCJKfamilyfont{chapterfont}{#1}[Extension =.ttf]
+  \gdef\@chapterfont{#1}
+}
 
 \setcounter{tocdepth}{1}
 
@@ -89,28 +76,15 @@
 \PassOptionsToPackage{quiet}{fontspec}
 
 %%%% 文本中的数字/字母设置 %%%
-\RequirePackage{iftex}
-\ifXeTeX
-  \RequirePackage[no-math]{fontspec}
-  \setmainfont{texgyretermes}[
-    UprightFont = *-regular ,
-    BoldFont = *-bold ,
-    ItalicFont = *-italic ,
-    BoldItalicFont = *-bolditalic ,
-    Extension = .otf ,
-    Scale = 1.0]
-    
-  \setsansfont{texgyreheros}[
-    UprightFont = *-regular ,
-    BoldFont = *-bold ,
-    ItalicFont = *-italic ,
-    BoldItalicFont = *-bolditalic ,
-    Extension = .otf ,
-    Scale = 0.9]
-\else
-  \RequirePackage{newtxtext}
-  \RequirePackage[scaled=.90]{helvet}
-\fi
+\RequirePackage[no-math]{fontspec}
+\setmainfont{Libertinus Serif}
+\setsansfont{Libertinus Sans}
+\setmonofont{NotoSansMono}[
+  Scale=MatchLowercase,
+  Extension=.ttf,
+  UprightFont=*-Light,
+  BoldFont=*-Medium
+]
 
 
 \AfterEndPreamble{
@@ -118,10 +92,8 @@
 
 %% 章节以及页脚图形
 \RequirePackage{xcolor}
-\RequirePackage{jpcolours}
 \RequirePackage{silence}
 
-\ifdefstring{\LITE@appearence}{light}{
   \definecolor{backgroundcolor}{HTML}{F8F7E9}
   \definecolor{headrulecolor}{HTML}{640125}
   \pagecolor{backgroundcolor!20}
@@ -139,27 +111,6 @@
 }{\relax}
 
   \definecolor{normalcolor}{HTML}{000000} %
-}{\relax}
-
-\ifdefstring{\LITE@appearence}{dark}{
-  \definecolor{backgroundcolor}{HTML}{2C2C2E}
-  \definecolor{headrulecolor}{HTML}{C0A2C7}
-  \pagecolor{backgroundcolor}
-  \definecolor{1号色}{HTML}{DBD0E6} %
-  \definecolor{2号色}{HTML}{D6E9CA} %
-
-  \ifdefstring{\LITE@answer}{ans}{
-  \definecolor{solutioncolor}{HTML}{E2E8F6} %
-  \newcommand{\solutionname}{\faIcon{check-square} 分析与解}
-}{\relax}
-\ifdefstring{\LITE@answer}{noans}{
-  \definecolor{solutioncolor}{HTML}{2B2A28} %
-  \definecolor{solutionbg}{RGB}{130,73,71} %
-  \newcommand{\solutionname}{\faIcon{ban} 答案隐藏}
-}{\relax}
-
-  \definecolor{normalcolor}{HTML}{EAE5E3} %
-}{\relax}
 
 % ----- box -----
 %% 章节设置
@@ -315,41 +266,26 @@
   \color{black!90}\fangsong}{
   \hfill\ensuremath{\square}
   \par}
-  
-\newcommand{\solute}[1]{
-  \begin{tcolorbox}[
-    common,
-    borderline west={1.5pt}{0mm}{1号色},
-    coltitle=1号色,
-    ]%
-    \textcolor{1号色}{\textbf{\solutionname}}
-  \kaishu\color{solutioncolor}#1\end{tcolorbox}}
 
-\newenvironment{solution}{
-  \begin{tcolorbox}[
+\NewDocumentEnvironment{solution}{s}{
+  \IfBooleanTF{#1}{
+    \begin{tcolorbox}[
+      common,
+      borderline west={1.5pt}{0mm}{1号色},
+      coltitle=1号色
+      ]
+    \textcolor{1号色}{\textbf{\solutionname}}
+  }
+  {
+    \begin{tcolorbox}[
     common,
     borderline west={1.5pt}{0mm}{1号色},
     title=\textcolor{1号色}{\textbf{\solutionname}},
     coltitle=1号色,
     colupper=solutioncolor,
     collower=solutioncolor
-    ]%
+    ]}%
   \kaishu\color{solutioncolor}}{\end{tcolorbox}}
-
-\newenvironment{translation}{
-  \begin{tcolorbox}[
-    common,
-    borderline west={1.5pt}{0mm}{2号色!80},
-    title=\color{2号色!80}Translation,
-    bottomtitle=.75\baselineskip,
-    coltitle=2号色!80,
-  ]
-  \rmfamily\color{normalcolor!80}}{\end{tcolorbox}}
-
-
-% ----- Title Style -----
-\ifdefstring{\LITE@titlestyle}{hang}{\def\style{hang}}{\relax}
-\ifdefstring{\LITE@titlestyle}{display}{\def\style{display}}{\relax}
 
 \RequirePackage{enumerate}
 % list/itemize/enumerate setting
@@ -391,9 +327,6 @@
 \setlist[itemize,2]{label={\eitemii}}
 \setlist[itemize,3]{label={\eitemiii}}
 
-\titleformat{\chapter}[\style]{\bfseries}{
-  \filcenter\LARGE\enspace\bfseries{\color{1号色}{\chaptername~}}}{1pt}{
-  \LARGE\bfseries\color{1号色}\filcenter}[]
 \def\thesection{\arabic{section}}
 \titleformat{\section}[hang]{\bfseries}{
     \Large\bfseries\heiti{\color{1号色}\thesection.}\enspace}{1pt}{%
@@ -412,13 +345,25 @@
 	\begin{tikzpicture}[remember picture,overlay]
       \fill [fill=backgroundcolor,opacity=0.2] (current page.north west) rectangle +(\paperwidth,-\paperwidth/13*6);
       \node[scope fading=south,anchor=north,inner sep=0pt] at (current page.north) {\includegraphics[width=\paperwidth]{\@chapterimage}};
-      \draw [line width=2pt,2号色!40] ($(current page.north west)-(0,3.5/13*\paperwidth)$) --++ (\paperwidth,0);
-      \draw [line width=2pt,2号色!40] ($(current page.north west)-(0,4.5/13*\paperwidth)$) --++ (\paperwidth,0);
+      \draw [line width=2pt,2号色!40] ($(current page.north west)-(0,3.5/13*\paperwidth)$) -- ($(current page.north east)-(0,3.5/13*\paperwidth)$);
+      \draw [line width=2pt,2号色!40] ($(current page.north west)-(0,4.5/13*\paperwidth)$) -- ($(current page.north east)-(0,4.5/13*\paperwidth)$);
       \fill [backgroundcolor!40,opacity=0.5] ($(current page.north west)-(0,3.5/13*\paperwidth)$) rectangle +(\paperwidth,-\paperwidth/13);
-      \node at ($(current page.north west)-(-0.5*\paperwidth,4/13*\paperwidth)$) {\biaosong\huge\color{2号色}\faIcon{leaf}\bfseries\color{normalcolor}~#1};
+      \node at ($(current page.north west)-(-0.5*\paperwidth,4/13*\paperwidth)$) {\ifcsname @chapterfont\endcsname\CJKfamily{chapterfont}\fi\huge\bfseries\color{normalcolor}#1~\color{2号色}\faIcon{feather-alt}};
 	\end{tikzpicture}\par
   \vspace{3.5\paperwidth/13}
 	\thispagestyle{plain}
+  \fancypagestyle{plain}{
+  \fancyhead{} % 页眉清空
+  \def\headrulewidth{0pt} % 去页眉线
+  }
+  \ifdefstring{\LITE@counter}{separate}{
+    \setcounter{page}{1}
+  }{\relax}
+}
+\def\@makeschapterhead#1{
+  \centering
+  \ifcsname @chapterfont\endcsname\CJKfamily{chapterfont}\fi\huge\bfseries\color{normalcolor}#1\normalsize
+  \thispagestyle{plain}
   \fancypagestyle{plain}{
   \fancyhead{} % 页眉清空
   \def\headrulewidth{0pt} % 去页眉线
@@ -438,77 +383,15 @@
 \fancyhf{}
 
 \fancyfoot[C]{\color{1号色}\sout{\hbox to 0.4\textwidth{}}\quad\faIcon{chevron-left}\;第~\color{normalcolor}{\sffamily\thepage}\color{1号色}~页\;\faIcon{chevron-right}\quad\sout{\hbox to 0.4\textwidth{}}}
-
 \fancyfoot[L]{\color{1号色}{$\boldsymbol{\cdot}$}}
 \fancyfoot[R]{\color{1号色}{$\boldsymbol{\cdot}$}}
+
 \renewcommand{\headrule}{\color{headrulecolor}\hrule width\textwidth}
 \pagestyle{fancy}
 
 \renewcommand{\sectionmark}[1]{\markright{#1}{}}
 \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%
-
-%% 代码框 %%
-\RequirePackage{listings}
-\lstdefinestyle{Matlab}{
-    language        =   Matlab, % 语言选Matlab
-    frame           =   none,
-    basicstyle      =   {\small\color{white}\tt},
-    mathescape,
-    emphstyle       =   {\small\bfseries\color{white}},
-    numbers         =   none,
-    stepnumber      =   2,
-    numbersep       =   3em,
-    numberstyle     =   \small\ttfamily\bfseries\tiny,
-    keywordstyle    =   \small\ttfamily\bfseries\color{orange},
-    stringstyle     =   \small\ttfamily\bfseries\color{white},
-    breaklines      =   true,   % 自动换行，
-    columns         =   fixed,  % 字间距就不固定很丑，必须加
-    basewidth       =   .5em,
-    commentstyle    =   \small\ttfamily\bfseries\color{cyan!40},
-    backgroundcolor =   \color{macosbox@bgdark},
-    tabsize         =   4,
-    showspaces      =   false,
-    showstringspaces=   false,
-    morekeywords    =   {Out,In,maketitle,pip,matplotlib,pandas,numpy,np,dtype},
-}
-\lstdefinestyle{TeX}{
-    language        =   [LaTeX]TeX,
-    texcsstyle      =   *\color{orange},
-    numbers         =   none,
-    basicstyle      =   {\small\color{white}\tt},
-    mathescape      =   false,
-    breaklines      =   true,   % 自动换行，
-    columns         =   fixed,  % 字间距就不固定很丑，必须加
-    keywordstyle    =   \color{orange},
-    commentstyle    =   \color{gray},
-    emphstyle       =   {\small\bfseries\color{white}},
-    tabsize         =   2,
-    rulecolor       =   \color{1号色},
-}
-\definecolor{macosbox@bgdark}{RGB}{30,30,30}
-\definecolor{macosbox@titledark}{RGB}{61,62,64}
-\definecolor{macosbox@linedark}{RGB}{116,116,118}
-\newtcolorbox{macboxd}[2][]{%
-  top              =   -.5em,
-  bottom           =   -.5em,
-  arc              =   5pt,
-  enhanced,
-  colupper         =   white,
-  coltitle         =   white,
-  colback          =   macosbox@bgdark,
-  boxrule          =   0.5pt,
-  frame style      =   {
-  draw             =   macosbox@linedark,
-  fill             =   macosbox@bgdark},
-  title style      =   {
-  color            =   macosbox@titledark},
-  drop fuzzy shadow=   darkgray,
-  title            =   {\hspace{-1em}
-  \textcolor[RGB]{220,105,98}{\scriptsize\faIcon{circle}}\ \ 
-  \textcolor[RGB]{244,191,79}{\scriptsize\faIcon{circle}}\ \ 
-  \textcolor[RGB]{97, 197,84}{\scriptsize\faIcon{circle}}\rightline{#2\hspace{0.5\textwidth}}},#1
-}
 
 %%%%%%%%%%%%%%%%[第三方定制]%%%%%%%%%%%%%%%%%%%%%
 \def\e{\mathrm{e}}
@@ -522,6 +405,27 @@
 \draw [->|] ($0.5*($#2+#1-#4$)$) -- #1;}
 \newcommand\cdotfill{\leavevmode\cleaders\hb@xt@.44em{\hss$\cdot$\hss}\hfill\kern\z@}
 \newcommand{\point}[1]{\cdotfill\texttt{(#1pt)}}
-\newcommand{\hdu}{\luxun\Huge{~杭\hspace{-0.35em} 州\hspace{-0.25em} 电\hspace{-0.5em} 子\hspace{-0.55em} 科\hspace{-0.45em} 技\hspace{-0.55em} 大\hspace{-0.5em} 学~}\biaosong\huge}
 \setstretch{1.5}
-\everymath{\displaystyle}% 行间公式
+\AtBeginDocument{\everymath{\displaystyle}}
+
+\makeatletter 
+\protected\def\titlelogo#1#2{
+  \leavevmode@ifvmode
+  \lower\dimexpr\f@size\p@*1/10\hbox{\href{#1}{\includegraphics[height={\f@size\p@}]{#2}}}
+  }
+\makeatother
+
+\usepackage{listings,dirtree}
+\lstdefinestyle{TeX}{
+    language      =  [LaTeX]TeX,
+    texcsstyle    =  *\color{H7},
+    numbers       =  none,
+    basicstyle    =  {\small\color{H6}\tt},
+    mathescape    =  false,
+    breaklines    =  true,
+    columns       =  fixed,
+    keywordstyle  =  \color{H3},
+    commentstyle  =  \color{darkgray},
+    tabsize       =  2,
+    keywords      =  {chapter,choice,problem,solution,enumerate}
+}

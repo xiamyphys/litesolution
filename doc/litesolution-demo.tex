@@ -1,0 +1,85 @@
+\chapter{A Sample for \pkg{LiteSolution} Template}
+\fancyhead[L]{\color{H6}\kaishu\faIcon{atom}\;2022年\titlelogo{https://sci.hdu.edu.cn}{HDU}「普通物理2」期中试题解析}
+\fancyhead[R]{\color{H6}\kaishu\rightmark\,}
+
+\section{选填题（共15分）}
+\begin{choice}{D}[波的能量]
+    一平面简谐波在弹性媒介中传播，在媒质质元从最大位移处回到平衡位置的过程中
+    \begin{tasks}(2)
+        \task 它的势能转换成动能
+        \task 它的动能转换成势能
+        \task 它从相邻的一段质元获得能量，其能量逐渐增加
+        \task 它把能量传给相邻的一段质元，其能量逐渐减小
+    \end{tasks}
+\end{choice}
+\begin{solution}*
+    波在传播过程中介质质元振动的动能和势能同时变化.\sokka{C}
+\end{solution}
+
+\begin{choice}{D}[双缝干涉]
+    在双缝干涉实验中，两缝间距离为$d$，双缝与屏幕之间的距离为$D$（$D\gg d$）.波长为$\lambda$的平行单色光垂直照射到双缝上，屏幕上干涉条纹中相邻暗纹之间的距离是
+    \begin{tasks}(4)
+        \task $\frac{2\lambda D}{d}$
+        \task $\frac{\lambda d}{D}$
+        \task $\frac{dD}{\lambda}$
+        \task $\frac{\lambda D}{d}$
+    \end{tasks}
+\end{choice}
+\begin{solution}*
+    由明纹公式$x=k\lambda D/d$得暗纹间距$\Delta x=\lambda D/d$.\sokka{D}
+\end{solution}
+
+\begin{problem}[简谐振动的合成][3]
+    一个质点同时参与两个在同一直线上的简谐振动：$x_1=4\cos{\ab(2t+\frac{\pi}{6})},\ x_2=2\cos{\ab(2t-\frac{\pi}{6})}$.该质点合振动的振幅大小为\ans{$2\sqrt{7}$}.
+\end{problem}
+\begin{solution}*
+    $A=\sqrt{A_1^2+A_2^2+2A_1A_2\cos{\Delta\varphi}}=2\sqrt{7}$.
+\end{solution}
+
+\begin{problem}[多普勒效应][6]
+    一辆运动的警车发出警铃声音频率为$f_s=1400\mathrm{Hz}$，从左向右移动，速度大小为$70\mathrm{m/s}$. 一个观察者从右向左移动，速度大小为$10\mathrm{m/s}$，空气中的声速$u=340\mathrm{m/s}$.观察者与警车相遇前后，听到警铃的频率分别为\ans{$1814.8\mathrm{Hz}$，$1126.8\mathrm{Hz}$}.
+\end{problem}
+\begin{solution}*
+    $f_1=\frac{340+10}{340-70}\times 1400\mathrm{Hz}\approx 1814.8\mathrm{Hz},\ f_2=\frac{340-10}{340+70}\times 1400\mathrm{Hz}\approx 1126.8\mathrm{Hz}$.
+\end{solution}
+
+\section{计算题（共20分）}
+\begin{problem}[简谐振动][10]
+    一个质量为$1\mathrm{kg}$的物块沿$x$轴做简谐振动，振幅为$10\mathrm{cm}$，最大速度$2\times 10^{-2}\mathrm{m/s}$.在时间$t=4\mathrm{s}$时，物块位于$5\mathrm{cm}$.求
+    \begin{enumerate}
+        \item 简谐运动的周期和最大加速度.
+        \item 简谐运动的位移方程.
+    \end{enumerate}
+\end{problem}
+\begin{solution}
+    \begin{enumerate}
+        \item 由$v_{\max}=\omega,\ T=\frac{2\pi}{\omega}$得$T=10\pi\mathrm{s},\ \omega=0.2\mathrm{s}^{-1},\ a_{\max}=\omega^2A=4\times 10^{-3}\mathrm{m/s}^2$.\point{4}
+        \item $t=4\mathrm{s}$时$x=\frac{1}{2}A,\ v<0$，所以此时相位$\varphi=\frac{\pi}{3}$.故位移方程为\point{2}
+        \[x=0.1\cos{\ab[0.2\ab(t-4)]+\frac{\pi}{3}}=0.1\cos{\ab(0.2t+0.079\pi)}\eqno\point{4}\]
+    \end{enumerate}
+\end{solution}
+
+\begin{problem}[牛顿环][10]
+    空气中，使用波长为$480\mathrm{nm}$平行单色光观察牛顿环.在反射光中测得某一明环的直径为$4.74\mathrm{mm}$，在它外面第$10$个明环的直径为$7.24\mathrm{mm}$.求
+\begin{enumerate}
+    \item 平凸透镜的曲率半径.
+    \item 直径为$4.74\mathrm{mm}$明环的条纹级数$k$.
+    \item 假设把整个装置放入水中($n=1.33$)，原直径为$4.74\mathrm{mm}$明环的新直径.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+\begin{enumerate}
+    \item $R=\ab(r_{k+10}^2-r_k^2)/10\lambda=1.56\mathrm{m}$.\point{4}
+    \item 由$r_k=\sqrt{\frac{2k-1}{2}\lambda R}$得$k=\frac{r_k^2}{\lambda R}+\frac{1}{2}=8$.\point{3}
+    \item 由于光在介质中的波长与折射率成反比，所以此时$d_k^{\prime}=\frac{d_k}{\sqrt{n}}=4.11\mathrm{mm}$.\point{3}
+\end{enumerate}
+\end{solution}
+
+\section{计算题\! $^\dagger$（共15分）}
+
+\begin{problem}[弹簧振子][15]
+    一个质量为$m=1\mathrm{kg}$的盘子刚性连接竖直悬挂的轻弹簧下端，弹簧的劲度系数为$k=90\mathrm{N/m}$.盘子在竖直方向做简谐运动，振幅$A=10.0\mathrm{cm}$.现有一个质量$m_2=1\mathrm{kg}$的物体自由落下掉在盘上，没有反弹.当\textbf{盘子位于向上最大位移处}，盘子与物体发生碰撞，物体从开始自由自由落体发生处，距离为$h=20\mathrm{cm}$，假设碰撞瞬间完成.求碰撞后盘子和物体组成的系统，它的振动周期、振幅和振动能量.
+\end{problem}
+\begin{solution}*
+    Answer omitted.
+\end{solution}

@@ -1,0 +1,213 @@
+\chapter{The \pkg{LiteSolution} Template}
+\fancyhead[L]{\,\color{H7}\href{https://github.com/xiamyphys/litesolution}{\faIcon{github}\;\leftmark}}
+\fancyhead[R]{\color{H7}\rightmark\,}
+
+\centerline{Xia Mingyu, \href{https://www.hdu.edu.cn}{Hangzhou Dianzi University}}
+\ddmmyyyydate
+\centerline{\mailto{xiamyphys@gmail.com}}
+\centerline{\today,\quad Version 1.0a}
+
+This is the document for \pkg{LiteSolution} template, which provides a lite design of the solution of test paper.
+
+Some designs of this template currently only support \textbf{Simplified Chinese (Mainland)}. If necessary, you can change some Chinese characters to the language you want in the \verb|*.cls| file.
+
+\section{Introduction}
+\subsection{The purpose of this template}
+This template provides a lite and fresh template, and mainly used for typesetting solutions of final, textbooks' and other exercises. This template is developed based on ElegantBook, ported and improved the chapter design module code of \href{https://www.overleaf.com/latex/templates/the-legrand-orange-book-template-english/jtctyfmnpppc}{The Legrand Orange Book}. I'd like to express my gratitude to the two template authors for their previous work.
+
+If you meet bugs when using this template, or you have better suggestions or ideas, or you want to participate in the development of the template or other templates by me, welcome to contact via email \href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com}.
+
+Also, you can join my \textsf\LaTeX{} Template Discussion \href{https://qm.qq.com/q/OnHzbNvVAG}{QQ Group: 760570712} to communicate with me and get the insider preview edition of the template.
+
+\section{Modes of \pkg{LiteSolution}}
+\subsection{The \mode{answer} mode}
+These two modes \mode{ans} and \mode{noans} can show and hide answers respectively. After you choose the \mode{noans}, the contents in the environment \cmd{solution}, the command \cmd{ans} and the answers in the multiple choice questions will all become the same color as the pagecolor. So the area that originally contained the answer will be replaced by an area of the same blank size. You can generate exams without answers and solutions by enabling \mode{noans}.
+
+\subsection{The \mode{mtpro2} mode}
+If you've installed the \emph{Mathtime Pro 2 Lite} font in your computer, then you can use this mode to change the formula font in the test paper.
+\subsection{The \mode{separate} and \mode{continuous} modes}
+You can insert multiple test questions into one document. The page numbers between each test question will be continuous when you use the \mode{continuous} mode or the page number of each test question will start from 1 when you use the \mode{separate}.
+
+
+\section{Commands of \pkg{LiteSolution}}
+\subsection{The \cmd{chapterimage} command}
+\begin{verbatim}
+    \chapterimage{cover1.png}
+\end{verbatim}
+This command can assign the title background image for each subsequent chapter.
+
+\subsection{The \cmd{chapterfont} command}
+This command can assign the title font for each subsequent chapter, if you do not use this command, the title font will be \emph{songti} in Chinese and \emph{Libertinus} in English.
+
+\subsection{The \cmd{ans} command}
+This command can underlines the answer and changes the color of the answer to \textcolor{1号色}{Blue Sapphire}.
+
+\paragraph{If mode \mode{noans} is enabled, the answer will disappear, leaving only a horizontal line the same width as the answer.}
+
+\subsection{The \cmd{watermark} command}
+\begin{verbatim}
+    \watermark{ctanlion.pdf}
+\end{verbatim}
+
+This command can add watermark to the document.
+
+\subsection{Other customer commands}
+In order to facilitate input, the following commands are scheduled. You can add others in the \verb|*.cls| file as you like.
+\vskip1em
+\begin{center}
+    \begin{tabular}{l|l|l|l|l|l}
+        \toprule
+        Command & Output & Command & Output & Command & Output\\
+        \midrule
+        \verb|\titlelogo{#1}{#2}| & Add emoji with link in text & \verb|\point{#1}| & Add score & \verb|\i| & $\mathrm{i}$\\
+        \hline
+        \verb|\sokka{#1}| & 故本题选择\#1项 & \verb|\d| & $\mathrm{d}$ & \verb|\e| & $\mathrm{e}$\\
+        \bottomrule
+    \end{tabular}    
+\end{center}
+
+\section{Environments of \pkg{LiteSolution}}
+\subsection{The \cmd{choice} environment}
+There're two variables in this envrionment. The first one is the answer of the choice problem, the second one is the keywords of this choice problem and it's optional.
+
+\begin{tcblisting}{sidebyside}
+\begin{choice}{D}[Keywords]
+If you want to add choice and keywords.
+\begin{tasks}(2) % 2 choices per line
+    \task This is choice A  \task This is choice B
+    \task This is choice C  \task This is choice D
+\end{tasks}
+\end{choice}
+\begin{choice}{D}
+If you want to add choice only.
+\begin{tasks}(4) % 4 choices per line
+    \task Chc A \task Chc B \task Chc C \task Chc D
+\end{tasks}
+\end{choice}
+\end{tcblisting}
+
+\begin{paracol}{2}
+    \begin{choice}{D}[Gaussian theory]
+        $A$和$B$为两个均匀带电球体，$A$带电荷$+q$，$B$带电荷$-q$，作一与$A$...
+        \begin{tasks}(2)
+            \task 通过$S$面的电场强度...        \task 通过$S$面的电场强度...
+            \task 通过$S$面的电场强度...        \task 通过$S$面的电场强度...
+        \end{tasks}
+    \end{choice}
+    \switchcolumn
+    \centering\vfill
+    \begin{tikzpicture}
+        \draw [thick] (0,0) circle (0.8);
+        \draw [thick] (0,0) circle (1.2);
+        \draw [thick] (2.4,0) circle (0.8);
+        \draw [thick] (0,0)--(0.85,0.85);
+        \node [anchor=east] at (0,0) {$A$};
+        \node [anchor=north] at (0,0) {$+q$};
+        \node [anchor=east] at (0.566,0.566) {$r$};
+        \node [anchor=south] at (0.85,0.85) {$S$};
+        \node [anchor=south] at (2.4,0) {$-q$};
+    \end{tikzpicture}
+    \vfill
+\end{paracol}
+\begin{verbatim}
+\begin{paracol}{2}
+\begin{choice}{D}[Gaussian theory]
+    $A$和$B$为两个均匀带电球体，$A$带电荷$+q$，$B$带电荷$-q$，作一与$A$...
+    \begin{tasks}(2)
+        \task 通过$S$面的电场强度...        \task 通过$S$面的电场强度...
+        \task 通过$S$面的电场强度...        \task 通过$S$面的电场强度...
+    \end{tasks}
+\end{choice}
+\switchcolumn\centering\vfill\tikz{...}\vfill
+\end{paracol}
+\end{verbatim}
+
+\subsection{The \cmd{problem} environment}
+Sightly different from the cmd{choice} environment: the two variables are points and keywords, and the question number counter is shared with the multiple-choice question number counter.
+\begin{tcblisting}{sidebyside}
+    \begin{problem}[Keywords][5]
+        If you want to add keywords and points.
+    \end{problem}
+    \begin{problem}
+        If you want to add none.
+    \end{problem}
+    \begin{problem}[Keywords]
+        If you want to add keywords only.
+    \end{problem}
+    \begin{problem}*[][5]
+        If you want to add points only.
+    \end{problem}
+\end{tcblisting}
+
+\begin{paracol}{2}
+\begin{problem}[Gaussian theory \& Field strength][6]
+    一均匀带电直导线长为$d$，电荷线密度为$+\lambda$.过导线中点$O$作一半径为$R$（$R>\frac{d}{2}$）的球面$S$，$P$为带电直导线的延长线与球面$S$的交点. 则通过该球面的电场强度通量$\Phi_e=$\ans{$\frac{\lambda d}{\varepsilon_0}$}，带电直线的延长线与球面交点$P$处的电场强度的大小为\ans{$\frac{\lambda d}{4\pi\varepsilon_0(R^2-d^2/4)}$}，方向\ans{沿矢径$\boldsymbol{OP}$}.
+    \end{problem}
+\switchcolumn\centering
+\vfill
+\begin{tikzpicture}[scale=0.83]
+    \draw (0,0) circle (2);
+    \draw [thick,->] (-2,0)--(0,0)--(1,1.732);
+    \node [anchor=east] at (-2,0) {$P$};
+    \filldraw (-2,0) circle (0.05);
+    \node [anchor=west] at (0.5,0.866) {$R$};
+    \filldraw [pattern=north east lines] (-0.8,-0.1)--(-0.8,0.1)--(0.8,0.1)--(0.8,-0.1)--cycle;
+    \draw [thick,|<-] (-0.8,-0.3)--(-0.25,-0.3);
+    \draw [thick,|<-] (0.8,-0.3)--(0.25,-0.3);
+    \node at (0,-0.3) {$L$};
+\end{tikzpicture}
+\vfill
+\end{paracol}
+\begin{verbatim}
+\begin{paracol}{2}
+    \begin{problem}[Gaussian theory \& Field strength][6]
+        一均匀带电直导线长为$d$，电荷线密度为$+\lambda$，过导线中点$O$...
+        场强大小\ans{$\frac{\lambda d}{4\pi\varepsilon_0(R^2-d^2/4)}$}...
+    \end{problem}
+\switchcolumn\centering\vfill\tikz{...}\vfill
+\end{paracol}
+\end{verbatim}
+
+\subsection{The \cmd{note} environment}
+\begin{tcblisting}{sidebyside}
+\begin{note}
+    Please note that...
+\end{note}
+\end{tcblisting}
+
+\subsection{The \cmd{solution} environment}
+\begin{tcblisting}{sidebyside}
+\begin{solution}
+    This is the answer for the problem.
+\end{solution}
+\end{tcblisting}
+
+If a star (*) is added after the \verb|\begin{solution}|, then the content will follow the 
+\begin{tcblisting}{sidebyside}
+\begin{solution}*
+    This is the answer for the problem.
+\end{solution}
+\end{tcblisting}
+
+\paragraph{If mode \mode{noans} is enabled, the solution will disappear, leaving only a blank box with the same height as the solution, and the name of the box will change to \emph{\textcolor{1号色}{\textbf{\faIcon{ban} 答案隐藏}}}.}
+
+\section{Version History}
+
+\textsf{\bfseries Version 0.1a} was finished developing on 29 June, 2023. 
+
+\textsf{\bfseries Version 0.1b} was finished developing on 6 July, 2023 and released on \href{https://www.latexstudio.net/index/details/index/mid/3553.html}{LaTeX Studio} (Xiaoshan, Hangzhou) and \href{http://xhslink.com/YBuuuw}{Xiaohongshu}, where won the favor of many people and even some people.
+
+\datechange{06/07/2023}{Version 0.1b}
+\begin{itemize}
+    \item Support page number remaking between chapters.
+    \item Added \cmd{watermark} command.
+\end{itemize}
+
+\datechange{15/11/2023}{Version 1.0a}
+\begin{itemize}
+    \item Redesigned the \cmd{chapterimage} part, include the layout and the code.
+    \item Redesigned the \cmd{choice} environment, supports not adding keywords.
+    \item Deleted the \cmd{exercise} environment, replaced with the \cmd{problem} environment, supports adding only keywords or points.
+    \item Redesigned the \cmd{solution} environment, supports star (*) key. 
+    \item Added the \cmd{note} environment and some customer commands.
+\end{itemize}
