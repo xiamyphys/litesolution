@@ -1,5 +1,8 @@
 # The `LiteSolution` document
 
+This template provides a light and fresh template, mainly used for typesetting solutions of final, textbook and other exercises.
+
+The template has been developed based on [ElegantBook](https://ctan.org/pkg/elegantbook) and [VividBooK](https://github.com/Azure1210/VividBooK) and has ported and improved the chapter design module code of the [Legrand Orange Book Template](https://www.overleaf.com/latex/templates/the-legrand-orange-book-template-english/jtctyfmnpppc).
 
 Modules of `LiteSolution` provide the following supports:
 

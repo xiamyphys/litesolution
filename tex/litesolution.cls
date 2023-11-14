@@ -89,7 +89,7 @@
 \RequirePackage[no-math]{fontspec}
 
 \AfterEndPreamble{
-  \setlength\parindent{2\ccwd}}
+  \setlength\parindent{2\ccwd}}{\relax}
 
 %% 章节以及页脚图形
 \RequirePackage{xcolor}
