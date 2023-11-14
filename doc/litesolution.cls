@@ -9,7 +9,7 @@
 %% start of file `litesolution.cls'.                                                                          *
 %% Copyright 2023 LiteLaTeX (xiamyphys@gmail.com)                                                             *
 %% available at https://github.com/xiamyphys/LiteSolution                                                     *
-%% Thanks https://github.com/ElegantLaTeX/ElegantBook                                                         *
+%% Thanks https://github.com/ElegantLaTeX/ElegantBook,  https://github.com/Azure1210/VividBooK                *
 %% !Mode:: "TeX:UTF-8"                                                                                        *
 %% ************************************************************************************************************
 
@@ -53,7 +53,19 @@
 \RequirePackage{tasks}% 选择题
 \settasks{label=\color{normalcolor}\Alph*.}
 
-\RequirePackage[colorlinks, linkcolor=1号色, urlcolor=1号色]{hyperref}
+\definecolor{pkgcolor}{Hsb}{103,.8,.5}
+\definecolor{moducolor}{Hsb}{290,.8,.5}
+\definecolor{cmdcolor}{Hsb}{188,.8,.5}
+\definecolor{filecolor}{Hsb}{207,.6,.7}
+\definecolor{H1}{Hsb}{349,.8,.8}% 海棠紅 (Hangzhou MTR L 1 )
+\definecolor{H2}{Hsb}{23, .8,.8}% 丹桂橙 (Hangzhou Metro 2 )
+\definecolor{H3}{Hsb}{48, .8,.8}% 柠檬黄 (Hangzhou Metro 3 )
+\definecolor{H4}{Hsb}{103,.8,.8}% 香樟绿 (Hangzhou Metro 4 )
+\definecolor{H5}{Hsb}{188,.8,.8}% 青藍色 (Hangzhou MTR L 5 )
+\definecolor{H6}{Hsb}{207,.8,.8}% 海洋蓝 (Hangzhou Metro 6 )
+\definecolor{H7}{Hsb}{290,.8,.8}% 浪漫紫 (Hangzhou Metro 7 )
+\RequirePackage{hyperref}
+\hypersetup{colorlinks,urlcolor=H1,linkcolor=H2,filecolor=filecolor,pdfstartview=FitH,pdfview=FitH,pdfcreator=XeTeX output}
 
 \RequirePackage[letterpaper,margin=0.75in,headheight=0.25in,headsep=0.2in,footskip=0.2in]{geometry}
 
@@ -74,18 +86,7 @@
 
 \PassOptionsToPackage{no-math}{fontspec}
 \PassOptionsToPackage{quiet}{fontspec}
-
-%%%% 文本中的数字/字母设置 %%%
 \RequirePackage[no-math]{fontspec}
-\setmainfont{Libertinus Serif}
-\setsansfont{Libertinus Sans}
-\setmonofont{NotoSansMono}[
-  Scale=MatchLowercase,
-  Extension=.ttf,
-  UprightFont=*-Light,
-  BoldFont=*-Medium
-]
-
 
 \AfterEndPreamble{
   \setlength\parindent{2\ccwd}}

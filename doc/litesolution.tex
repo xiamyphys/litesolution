@@ -1,20 +1,8 @@
 \documentclass{litesolution}
 \usepackage[level]{datetime}
 
+% document setup
 \makeatletter
-\definecolor{pkgcolor}{Hsb}{103,.8,.5}
-\definecolor{moducolor}{Hsb}{290,.8,.5}
-\definecolor{cmdcolor}{Hsb}{188,.8,.5}
-\definecolor{filecolor}{Hsb}{207,.6,.7}
-\definecolor{H1}{Hsb}{349,.8,.8}% 海棠紅 (Hangzhou MTR L 1 )
-\definecolor{H2}{Hsb}{23, .8,.8}% 丹桂橙 (Hangzhou Metro 2 )
-\definecolor{H3}{Hsb}{48, .8,.8}% 柠檬黄 (Hangzhou Metro 3 )
-\definecolor{H4}{Hsb}{103,.8,.8}% 香樟绿 (Hangzhou Metro 4 )
-\definecolor{H5}{Hsb}{188,.8,.8}% 青藍色 (Hangzhou MTR L 5 )
-\definecolor{H6}{Hsb}{207,.8,.8}% 海洋蓝 (Hangzhou Metro 6 )
-\definecolor{H7}{Hsb}{290,.8,.8}% 浪漫紫 (Hangzhou Metro 7 )
-\hypersetup{colorlinks,urlcolor=H1,linkcolor=H2,filecolor=filecolor,pdfstartview=FitH,pdfview=FitH,pdfcreator=XeTeX output}
-
 \def\@pkg#1{\texorpdfstring{\href{https://www.ctan.org/pkg/#1}{\textcolor{pkgcolor}{\textsf{#1}}}}{“#1”}}
 \def\s@pkg#1{\texorpdfstring{\textcolor{pkgcolor}{\textsf{#1}}}{“#1”}}
 \DeclareRobustCommand\pkg{\@ifstar\s@pkg\@pkg}
@@ -24,8 +12,14 @@
   \noindent{\makebox[\textwidth][r]{\color{H7}\rule{1.15\textwidth}{.4pt}}}
   \noindent\makebox[0pt][r]{\makebox[-3em][r]{\small\textbf{\textcolor{H7}{#1}}}\;\;}{\sffamily Update: \ignorespaces#2}}
 \makeatother
-
-% \watermark{ctanlion}
+\setmainfont{Libertinus Serif}
+\setsansfont{Libertinus Sans}
+\setmonofont{NotoSansMono}[
+  Scale=MatchLowercase,
+  Extension=.ttf,
+  UprightFont=*-Light,
+  BoldFont=*-Medium
+]
 
 \begin{document}
 

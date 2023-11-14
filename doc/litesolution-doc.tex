@@ -13,20 +13,36 @@ Some designs of this template currently only support \textbf{Simplified Chinese 
 
 \section{Introduction}
 \subsection{The purpose of this template}
-This template provides a lite and fresh template, and mainly used for typesetting solutions of final, textbooks' and other exercises. This template is developed based on ElegantBook, ported and improved the chapter design module code of \href{https://www.overleaf.com/latex/templates/the-legrand-orange-book-template-english/jtctyfmnpppc}{The Legrand Orange Book}. I'd like to express my gratitude to the two template authors for their previous work.
+This template provides a lite and fresh template, and mainly used for typesetting solutions of final, textbooks' and other exercises. This template is developed based on \href{https://www.ctan.org/pkg/elegantbook}{\pkg*{ElegantBook}} and \href{https://github.com/Azure1210/VividBooK}{\pkg*{VividBooK}}, ported and improved the chapter design module code of \href{https://www.overleaf.com/latex/templates/the-legrand-orange-book-template-english/jtctyfmnpppc}{The Legrand Orange Book}. I'd like to express my gratitude to the template authors above for their previous work.
 
 If you meet bugs when using this template, or you have better suggestions or ideas, or you want to participate in the development of the template or other templates by me, welcome to contact via email \href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com}.
 
 Also, you can join my \textsf\LaTeX{} Template Discussion \href{https://qm.qq.com/q/OnHzbNvVAG}{QQ Group: 760570712} to communicate with me and get the insider preview edition of the template.
 
+\subsection{Loading \pkg{LiteSolution} and its modes}
+
+Update all the packages to the latest version or switch to portable version instead by implementing the commands 
+\begin{verbatim}
+    tlmgr update --self
+    tlmgr update --all
+    tlmgr update --self --all --reinstall-forcibly-removed
+\end{verbatim}
+
+To learn more, please refer to \href{https://tex.stackexchange.com/questions/55437/how-do-i-update-my-tex-distribution}{How do I update my TEX distribution?}
+
+Save the file \verb|litesolution.cls| to your project's root directory, and then create a \verb|.tex| file, just input the command \verb|\documentclass{litesolution}| on the first line.
+
+The template provides 3 modes, \mode{answer}, \mode{mtpro2} and \mode{counter}. Just add the options of the modes you want separately in the square bracket of the command \verb|\documentclass[options]{litesolution}| in your \verb|.tex| file.
+
 \section{Modes of \pkg{LiteSolution}}
 \subsection{The \mode{answer} mode}
-These two modes \mode{ans} and \mode{noans} can show and hide answers respectively. After you choose the \mode{noans}, the contents in the environment \cmd{solution}, the command \cmd{ans} and the answers in the multiple choice questions will all become the same color as the pagecolor. So the area that originally contained the answer will be replaced by an area of the same blank size. You can generate exams without answers and solutions by enabling \mode{noans}.
+This mode has two options, \mode{ans} and \mode{noans}, which can show and hide answers respectively. After you choose the \mode{noans}, the contents in the environment \cmd{solution}, the command \cmd{ans} and the answers in the multiple choice questions will all become the same color as the pagecolor. So the area that originally contained the answer will be replaced by an area of the same blank size. You can generate exams without answers and solutions by enabling \mode{noans}.
 
 \subsection{The \mode{mtpro2} mode}
-If you've installed the \emph{Mathtime Pro 2 Lite} font in your computer, then you can use this mode to change the formula font in the test paper.
-\subsection{The \mode{separate} and \mode{continuous} modes}
-You can insert multiple test questions into one document. The page numbers between each test question will be continuous when you use the \mode{continuous} mode or the page number of each test question will start from 1 when you use the \mode{separate}.
+If you've installed the \emph{Mathtime Pro 2 Lite} font in your computer, then you can use this mode to change the math font.
+
+\subsection{The \mode{counter}}
+This mode has two options, \mode{separate} and \mode{continuous}, which can make the page counter between chapters be remaked or continuous.The page numbers between each test question will be continuous when you use the \mode{continuous} mode or the page number of each test question will start from 1 when you use the \mode{separate}.
 
 
 \section{Commands of \pkg{LiteSolution}}
@@ -191,11 +207,15 @@ If a star (*) is added after the \verb|\begin{solution}|, then the content will 
 
 \paragraph{If mode \mode{noans} is enabled, the solution will disappear, leaving only a blank box with the same height as the solution, and the name of the box will change to \emph{\textcolor{1号色}{\textbf{\faIcon{ban} 答案隐藏}}}.}
 
+\newpage
 \section{Version History}
+This template is used to type the mid-term and final exam solutions of \emph{College Physics}. Initially, I used the \href{https://www.ctan.org/pkg/elegantbook}{ElegantBook} template for layout, however, it's no longer be maintained since January 1st, 2023, so I trun to use the \href{https://github.com/Azure1210/VividBooK}{\pkg*{VividBooK}} instead. But this template is too bloated and some functions \& designs need to be redesigned, so I started developing \pkg{LiteSolution}.
 
-\textsf{\bfseries Version 0.1a} was finished developing on 29 June, 2023. 
+\textsf{\bfseries Version 0.1a} was finished developing on 29 June, 2023 and released on \href{https://mp.weixin.qq.com/s/kd4StYk3XybhNQZkAfoY6A}{\faIcon{weixin} WeChat Public Account: 物理问题作} with the name \emph{FreshSolution}. This version redesigned the \cmd{exercise} environment and the \cmd{solution} environment in terms of designs and functions, and improvements have been made to the design of the chapterimage part.
 
-\textsf{\bfseries Version 0.1b} was finished developing on 6 July, 2023 and released on \href{https://www.latexstudio.net/index/details/index/mid/3553.html}{LaTeX Studio} (Xiaoshan, Hangzhou) and \href{http://xhslink.com/YBuuuw}{Xiaohongshu}, where won the favor of many people and even some people.
+\textsf{\bfseries Version 0.1b} was finished developing on 6 July, 2023 and released on \href{https://www.latexstudio.net/index/details/index/mid/3553.html}{LaTeX Studio} (Xiaoshan, Hangzhou) and \href{http://xhslink.com/YBuuuw}{Xiaohongshu}, where won the favor of many people. This version has added the global option to make the page number be remaked or continuous between chapters, and command \cmd{watermark} has been added in this version.
+
+\textsf{\bfseries Version 1.0a} was finished developing on 15 November, 2023. This version has redesigned the \cmd{chapterimage} part, \cmd{choice} and replaced the \cmd{exercise} environment with the \cmd{problem} environment.
 
 \datechange{06/07/2023}{Version 0.1b}
 \begin{itemize}
@@ -206,8 +226,16 @@ If a star (*) is added after the \verb|\begin{solution}|, then the content will 
 \datechange{15/11/2023}{Version 1.0a}
 \begin{itemize}
     \item Redesigned the \cmd{chapterimage} part, include the layout and the code.
-    \item Redesigned the \cmd{choice} environment, supports not adding keywords.
-    \item Deleted the \cmd{exercise} environment, replaced with the \cmd{problem} environment, supports adding only keywords or points.
-    \item Redesigned the \cmd{solution} environment, supports star (*) key. 
+    \item Redesigned the \cmd{choice} and \cmd{solution} environment, keywords become optional and supports star (*) key. 
+    \item Replaced the \cmd{exercise} environment with the \cmd{problem} environment, supports adding only keywords or points.
     \item Added the \cmd{note} environment and some customer commands.
+\end{itemize}
+
+\subsection*{Future Plans}
+\begin{itemize}
+    \item Plan to integrate the color management of \href{https://www.ctan.org/pkg/elegantbook}{\pkg*{ElegantBook}}.
+    \item Plan to integrate the chapter design of \href{https://www.ctan.org/pkg/elegantbook}{\pkg*{ElegantBook}} into the star (*) key value of this template \cmd{chapter}.
+    \item Plan to add the \mode{dark} mode to this template to make the text color light while make the page color dark to protect eyesight.
+    \item Plan to change the \verb|*.cls| file to a block code design to make it easier for subsequent developers to maintain or modify.
+    \item ......
 \end{itemize}
