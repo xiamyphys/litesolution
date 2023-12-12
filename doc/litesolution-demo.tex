@@ -2,84 +2,416 @@
 \fancyhead[L]{\color{H6}\kaishu\faIcon{atom}\;2023年\titlelogo{https://sci.hdu.edu.cn}{HDU}「大学物理2」期中模拟}
 \fancyhead[R]{\color{H6}\kaishu\rightmark\,}
 
-\section{选填题（共15分）}
-\begin{choice}{D}[波的能量]
-    一平面简谐波在弹性媒介中传播，在媒质质元从最大位移处回到平衡位置的过程中
-    \begin{tasks}(2)
-        \task 它的势能转换成动能
-        \task 它的动能转换成势能
-        \task 它从相邻的一段质元获得能量，其能量逐渐增加
-        \task 它把能量传给相邻的一段质元，其能量逐渐减小
-    \end{tasks}
+\date{2023年12月3日}{大学物理教学团队}{A0715012}
+{\href{https://qm.qq.com/q/UPbGudx8cK}{\textbf{物理問題作}}}
+{https://qm.qq.com/q/asJiytD5pC}{HDU 物理营}
+{http://weixin.qq.com/r/mhKYgFTEMQlOrRDj90eI}{未央学社公众号}
+
+\section{选择题（每题3分，共36分）}
+\begin{choice}{D}[弹簧振子]
+    一劲度系数为$k$的轻弹簧，下端挂一质量为$m$的物体，系统的振动周期为$T_1$. 若将此弹簧截去一半的长度，下端挂一质量为$m/2$的物体，则系统振动周期$T_2$等于
+\begin{tasks}(4)
+    \task $2T_1$
+    \task $T_1$
+    \task $\frac{T_1}{\sqrt2}$
+    \task $\frac{T_1}{2}$
+\end{tasks}
 \end{choice}
 \begin{solution}*
-    波在传播过程中介质质元振动的动能和势能同时变化.\sokka{C}
+    弹簧的劲度系数与长度成反比，所以剪断一半后劲度系数变为$2k$；根据弹簧振子的周期表达式$T=2\pi\sqrt{\frac mk}$可知此时的周期$T_2=2\pi\sqrt{\frac{m/2}{2k}}=\frac{T_1}{2}$.\sokka{D}
 \end{solution}
 
-\begin{choice}{D}[双缝干涉]
-    在双缝干涉实验中，两缝间距离为$d$，双缝与屏幕之间的距离为$D$（$D\gg d$）.波长为$\lambda$的平行单色光垂直照射到双缝上，屏幕上干涉条纹中相邻暗纹之间的距离是
+\begin{choice}{B}[单摆]
+    把单摆摆球从平衡位置向位移正方向拉开，使摆线与竖直方向成一微小角度$\theta$，然后由静止放手任其振动，从放手时开始计时.若用余弦函数表示其运动方程，则该单摆振动的初相为
     \begin{tasks}(4)
-        \task $\frac{2\lambda D}{d}$
-        \task $\frac{\lambda d}{D}$
-        \task $\frac{dD}{\lambda}$
-        \task $\frac{\lambda D}{d}$
+        \task $\theta$
+        \task $0$
+        \task $\frac\pi2$
+        \task $-\pi$
+    \end{tasks}
+\end{choice}
+
+\vskip-2ex
+\begin{paracol}{2}
+\begin{choice}{A}[平面简谐波的波函数]
+    一平面简谐波，波速$u=5\mathrm{m/s}$，$t=3\mathrm{s}$时波形曲线如图，则$x=0$处质点的振动方程可能为
+\begin{tasks}(2)
+    \task $y=2\ee{-2}\cos\ab(\frac12\pi t-\frac12\pi)$
+    \task $y=2\ee{-2}\cos\ab(\frac12\pi t+\frac12\pi)$
+    \task $y=2\ee{-2}\cos(\pi t+\pi)$
+    \task $y=2\ee{-2}\cos\ab(\pi t-\frac32\pi)$
+\end{tasks}
+\end{choice}
+\switchcolumn\centering
+\vfill
+\begin{tikzpicture}
+    \draw [->,thick] (-1.2,0) -- (4.8,0) node [anchor=south] {$x(\mathrm{m})$};
+    \draw [->,thick] (0,-1.8) -- (0,1.8) node [anchor=west] {$y(\mathrm{m})$};
+    \draw [very thick] (-.8,0) sin (0,-1) node [anchor=north west] {$-2\ee{-2}$} cos (.8,0) sin (1.6,1) cos (2.4,0) sin (3.2,-1) cos (4,0) sin (4.8,1);
+    \draw [thick,->] (1.6,1.2) -- (2.4,1.2) node [midway,anchor=south] {$u$};
+    \foreach \a in {5,10,...,25}
+    \node [anchor=north,xshift=0.16*\a cm] at (0,0) {\a};
+\end{tikzpicture}
+\vfill
+\end{paracol}
+\vspace{-.75em}
+\begin{solution}*
+    由图可知$A=0.02\mathrm{m},\ \omega=\frac{2\pi u}{\lambda}=\frac12\pi$.由于原点处$v>0$，所以初相$\varphi=-\frac\pi2$.\sokka{A}
+\end{solution}
+
+\begin{choice}{A}[增透膜]
+    一艘油船行经我国台湾岛东部海域时发生石油泄漏，在海面上形成大片油膜，太阳光在头顶正射时，救授人员乘直升飞机从上往下看，发现油膜对$552\mathrm{nm}$波长的可见光反射形成干涉相长而最亮，则可以推测该区域油膜厚度可能为多少？（设石油折射率$n=1.2$，海水折射率$n=1.3$）
+\begin{tasks}(4)
+    \task $460\mathrm{nm}$
+    \task $552\mathrm{nm}$
+    \task $345\mathrm{nm}$
+    \task $425\mathrm{nm}$
+\end{tasks}
+\end{choice}
+\begin{solution}
+    \begin{itemize}
+        \item 由于$n_{\text{空}}>n_{\text{海}}>n_{\text{油}}$，所以石油两个表面反射光光程差为$\delta=2ne$.
+        \item 使反射光干涉相长，即$2ne=k\lambda$. A选项刚好满足$k=2$时，$e_{\min}=2\cdot\frac{\lambda}{2n}=460\mathrm{nm}$.
+    \end{itemize}
+\end{solution}
+
+\begin{choice}{C}[光程和光程差]
+    在相同的时间内，一束波长为$\lambda$的单色光在空气中和在玻璃中
+    \begin{tasks}(2)
+        \task 传播的路程相等，走过的光程相等
+        \task 传播的路程相等，走过的光程不相等
+        \task 传播的路程不相等，走过的光程相等
+        \task 传播的路程不相等，走过的光程不相等
     \end{tasks}
 \end{choice}
 \begin{solution}*
-    由明纹公式$x=k\lambda D/d$得暗纹间距$\Delta x=\lambda D/d$.\sokka{D}
+    光程的定义：在相同时间内光线在真空中传播的距离.题目中光传播时间相同，故光程相等；又因为光在两种介质中的传播速度不同，所以在相同的时间内传播的路程不相等.\sokka{C}
 \end{solution}
 
-\begin{problem}[简谐振动的合成][3]
-    一个质点同时参与两个在同一直线上的简谐振动：$x_1=4\cos{(2t+\frac{\pi}{6})},\ x_2=2\cos{(2t-\frac{\pi}{6})}$.该质点合振动的振幅大小为\ans{$2\sqrt{7}$}.
+\begin{choice}{C}[多普勒效应]
+    一观察者站在铁路旁，一火车以$30\mathrm{m/s}$的速度向他驶来并发出频率为$440\mathrm{Hz}$的汽笛声. 已知空气中声速为$330\mathrm{m/s}$，问观察者听到的火车频率为
+\begin{tasks}(4)
+    \task $403\mathrm{Hz}$
+    \task $480\mathrm{Hz}$
+    \task $484\mathrm{Hz}$
+    \task $528\mathrm{Hz}$
+\end{tasks}
+\end{choice}
+\begin{solution}
+    已知多普勒效应观察者（Observer）和发射源（Source）的的频率关系为
+    \[\nu=\frac{u\pm v_o}{u\mp v_s}\nu_0\]
+
+    $v_o$为观察者速度，接近为$+$，远离为$-$；$v_s$为发射源速度，接近为$-$，远离为$+$.观察者静止，其所听频率为
+    \[\nu=\frac{330}{330-30}\times 440\mathrm{Hz}=484\mathrm{Hz}\]
+
+    \sokka{C}
+\end{solution}
+
+\vskip-2ex
+\begin{paracol}{2}
+\begin{choice}{C}[弗琅禾费衍射]
+    在如图所示的单缝弗琅禾费衍射实验中，若将单缝沿透镜光轴方向向透镜平移，则屏幕上的衍射条纹
+\begin{tasks}(5)
+    \task 间距变大\!
+    \task 间距变小\!
+    \task 不变化
+    \task* 间距不变，明暗纹交替
+\end{tasks}
+\end{choice}
+\switchcolumn\centering
+\vfill
+\begin{tikzpicture}
+    \filldraw [fill=gray] (0,1.5) rectangle (0.2,0.5);
+    \filldraw [fill=gray] (0,-1.5) rectangle (0.2,-0.5);
+    \draw [thick,densely dashed] (-1.2,0)--(3,0);
+    \draw [thick] (3,1.5)--(3,-1.5);
+    \filldraw [fill=white] (1.5,0) ellipse (0.1 and 1.2);
+    \foreach \y in {0.5,-0.5}
+    \draw [thick,->,yshift=\y cm] (-1,0)--(0,0);
+    \length{(1.5,-1.4)}{(3,-1.4)}{$f$}{(0.25,0)}
+    \node [anchor=south] at (-1.2,0.5) {$\lambda$};
+    \node [anchor=south] at (1.5,1.2) {$L$};
+    \node [anchor=west] at (3,1.5) {Screen};
+\end{tikzpicture}
+\vfill
+\end{paracol}
+\vspace{-.75em}
+\begin{solution}*
+    条纹间距只与波长、焦距、缝宽有关，入射光方向不变，所以条纹间距、位置不变. \sokka{C}
+\end{solution}
+
+\begin{choice}{A}[牛顿环]
+    牛顿环干涉装置上平凸透镜在垂直于平板玻璃的方向上，逐渐向下平移（靠近玻璃板）时，反射光形成的干涉条纹的变化情况是
+    \begin{tasks}(2)
+        \task 环纹向边缘扩散，环数不变
+        \task 环纹向边缘扩散，环数增加
+        \task 环纹向中心靠拢，环数不变
+        \task 环纹向中心靠拢，环数增加
+    \end{tasks}
+\end{choice}
+\begin{solution}*
+    对于某条环，其光程差是确定的，所以环数不变；向边缘扩散光程差增大，可抵消透镜下移时导致的光程差减小.\sokka{A}
+\end{solution}
+
+\begin{choice}{B}[最大分辨力]
+    假设用FAST装置探测波长为$20\mathrm{cm}$的宇宙射电信号，FAST望远镜的镜面直径为$500\mathrm{m}$，则装置的最小分辨角为
+\begin{tasks}(4)
+    \task $9.76\ee{-4}$
+    \task $4.88\ee{-4}$
+    \task $2.44\ee{-4}$
+    \task $4.00\ee{-4}$
+\end{tasks}
+\end{choice}
+\begin{solution}*
+    $\theta=\frac{1.22\lambda}{D}=4.88\ee{-4}\mathrm{rad}$.\sokka{B}
+\end{solution}
+
+\vskip-2ex
+\begin{paracol}{2}
+    \begin{choice}{B}[双缝干涉]
+        在双缝干涉实验中，屏幕$E$上的$P$点是明纹.若将缝$S_2$盖住，并在$S_1S_2$连线的垂直平分面处放一高折射率反射面$M$，如图所示.则此时$P$点
+    \begin{tasks}(2)
+        \task $P$点仍为明条纹
+        \task $P$点为暗条纹
+        \task 不能确定$P$点是明纹还是暗纹
+        \task 无干涉条纹
+    \end{tasks}   
+    \end{choice}
+    \switchcolumn\centering
+    \vfill
+    \begin{tikzpicture}[decoration={markings,mark=between positions .2 and .8 step 18mm with {\arrow{stealth}}}]
+        \draw [very thick] (0,1.5)--(0,-1.5);
+        \draw [thick,postaction=decorate] (-1,0)--(0,0.5)--(2,0.8);
+        \draw [thick] (0,0.5)--(0.8,0);
+        \draw [thick,postaction=decorate] (-1,0)--(0,-0.5)--(2,0.8);
+        \draw [very thick] (0,0)--(1.8,0);
+        \draw [very thick] (2,1.8)--(2,-1.8);
+        \fill [pattern=north west lines] (0,0) rectangle (1.8,-0.2);
+        \fill [pattern=north east lines] (2,1.8) rectangle (2.2,-1.8);
+        \node [anchor=east] at (-1,0) {$S$} node [anchor=south east] at (0,0.5) {$S_1$} node [anchor=north east] at (0,-0.5) {$S_2$};
+        \node [anchor=north] at (0.8,-0.2) {$M$} node [anchor=west] at (2.2,0.8) {$P$} node [anchor=north] at (2.1,-1.8) {$E$};
+        \node at (-1,0) {$\times$};
+    \end{tikzpicture}
+    \vfill
+\end{paracol}
+\vspace{-.75em}
+\begin{solution}*
+    $S_1MP$、$S_2MP$长度相等，但平面镜使在反射中一条光路发生半波损失，两条光路的相位差变化$\pi$，所以$P$点由原来的明纹变为暗纹.\sokka{B}
+\end{solution}
+
+\begin{choice}{A}[迈克尔逊干涉仪]
+    如果使迈克尔逊干涉仪的动镜移动$0.233\mathrm{mm}$，观察到$792$个条纹的移动，则所用照明单色光源的波长是多少？
+\begin{tasks}(4)
+    \task $588\mathrm{nm}$
+    \task $294\mathrm{nm}$
+    \task $442\mathrm{nm}$
+    \task $552\mathrm{nm}$
+\end{tasks}
+\end{choice}
+\begin{solution}*
+    移动带来的光程差满足$\delta=2d=N\lambda$，由此得$\lambda=\frac{2d}{N}=588.38\mathrm{mm}$.\sokka{A}
+\end{solution}
+
+\begin{choice}{B}[光栅]
+    某元素的特征光谱中含有波长分别为$\lambda_1=450\mathrm{nm},\ \lambda_2=750\mathrm{nm}$的谱线，在光栅光谱中这两种波长的谱线有重合现象，重叠处$\lambda_2$的谱线级数将是
+\begin{tasks}(4)
+    \task $2,\ 4,\ 6,\ 8,\cdots$
+    \task $3,\ 6,\ 9,\ 12,\cdots$
+    \task $4,\ 8,\ 12,\ 16,\cdots$
+    \task $5,\ 10,\ 15,\ 20,\cdots$
+\end{tasks}
+\end{choice}
+\begin{solution}*
+    由光栅方程$d\sin\theta=k_1\lambda_1=k_2\lambda_2$得$k_2=\frac{k_1\lambda_1}{\lambda_2}$，取整值得$k_2=3,6,9,12,\cdots$.
+\end{solution}
+
+\section{填空题（共18分）}
+\begin{problem}[弹簧振子][3]
+    当弹簧振子以频率$f$做简谐振动时，它的动能的变化频率为\ans{$2f$}.
 \end{problem}
 \begin{solution}*
-    $A=\sqrt{A_1^2+A_2^2+2A_1A_2\cos{\Delta\varphi}}=2\sqrt{7}$.
+    动能和势能变化趋势相反，所以二者变化频率相同. 势能$E_p\propto x^2$，由于$x$是周期为$T$的余弦函数，所以$x^2$的周期为$\frac T2$，即势能的变化频率等于动能的变化频率等于$2f$.
 \end{solution}
 
-\begin{problem}[多普勒效应][6]
-    一辆运动的警车发出警铃声音频率为$f_s=1400\mathrm{Hz}$，从左向右移动，速度大小为$70\mathrm{m/s}$. 一个观察者从右向左移动，速度大小为$10\mathrm{m/s}$，空气中的声速$u=340\mathrm{m/s}$.观察者与警车相遇前后，听到警铃的频率分别为\ans{$1814.8\mathrm{Hz}$，$1126.8\mathrm{Hz}$}.
-\end{problem}
-\begin{solution}*
-    $f_1=\frac{340+10}{340-70}\times 1400\mathrm{Hz}\approx 1814.8\mathrm{Hz},\ f_2=\frac{340-10}{340+70}\times 1400\mathrm{Hz}\approx 1126.8\mathrm{Hz}$.
-\end{solution}
-
-\section{计算题（共20分）}
-\begin{problem}[简谐振动][10]
-    一个质量为$1\mathrm{kg}$的物块沿$x$轴做简谐振动，振幅为$10\mathrm{cm}$，最大速度$2\times 10^{-2}\mathrm{m/s}$.在时间$t=4\mathrm{s}$时，物块位于$5\mathrm{cm}$.求
-    \begin{enumerate}
-        \item 简谐运动的周期和最大加速度.
-        \item 简谐运动的位移方程.
-    \end{enumerate}
+\begin{problem}[驻波][3]
+    在均匀介质中，一列余弦波沿$Ox$轴传播，波动方程为$y_1=A\cos\ab(2\pi t+\frac{2\pi x}3)$ (SI)，在$x=1\mathrm{m}$处反射，反射点为固定端，则反射波和入射波产生的驻波表达式为\ans{$2A\cos{\ab(2\pi t+\frac{7\pi}6)}\cos{\ab(\frac{2\pi x}{3}-\frac{7\pi}{6})}$}.
 \end{problem}
 \begin{solution}
+\begin{itemize}
+    \item 考虑反射带来的半波损失，$x=1\mathrm{m}$处反射波的振动方程为$y_{10}=A\cos\ab(2\pi t+\frac{2\pi}{3}+\pi)$.
+    \item 反射后传播方向改变，考虑以$x=1$处为参考点需坐标变换$x'=x-1$，所以反射波的表达式为
+    \[y_2=A\cos\ab(2\pi t+\frac{2\pi}{3}-\frac{2\pi(x-1)}3+\pi)=A\cos\ab(2\pi t-\frac{2\pi x}{3}+\frac{7\pi}3)\]
+    \item 驻波表达式$y=y_1+y_2=2A\cos{\ab(2\pi t+\frac{7\pi}6)}\cos{\ab(\frac{2\pi x}{3}-\frac{7\pi}{6})}$.
+\end{itemize}
+\end{solution}
+
+\begin{problem}[双缝干涉][6]
+    如图所示，在双缝干涉实验中，若把一厚度为$e$、折射率为$n$的薄云母片覆盖在$S_1$缝上，中央明条纹将向\ans{上}移动；覆盖云母片后，两束相干光至原中央明纹$O$处的光程差为\ans{$(n-1)e$}.
+\end{problem}
+\begin{solution}*
+    覆盖云母片后，通过$S_1$的光路光程差变大，为抵消这一变化中央明纹需上移使通过$S_2$的光路变长；原光程差为零，现光程差即云母片带来的光程差$\delta=ne-e=(n-1)e$.
+\end{solution}
+
+\begin{problem}[牛顿环][3]
+    若把牛顿环装置（都是用折射率为$1.52$的玻璃制成的）由空气搬入折射率为$1.33$的水中，则干涉条纹\ans{变密}（变疏/变密）.
+\end{problem}
+\begin{solution}*
+    放入水中后每条条纹的光程差变大，为抵消这一变化条纹需向中心收缩，所以干涉条纹变密.
+\end{solution}
+
+\begin{problem}[弗琅禾费衍射][3]
+    在单缝夫琅禾费衍射实验中，波长为$\lambda$的单色光垂直入射在宽度为$a=6\lambda$的单缝上，对应于衍射角为$30^\circ$的方向，单缝处波阵面可分成的半波带数目为\ans{6}.
+\end{problem}
+\begin{solution}*
+    由衍射公式$a\sin{\theta}=k\lambda$得$k=3$，可分成的半波带数目为$2k=6$.
+\end{solution}
+
+\section{计算题（共46分）}
+\begin{paracol}{2}
+\begin{problem}[平面简谐波的波函数][10]
+    一列平面简谐波在媒质中以波速$u=5\mathrm{m/s}$沿$x$轴正向传播，原点$O$处质元的振动曲线如图所示.
+\begin{enumerate}
+    \item 求解$x=25\mathrm{m}$处质元的振动方程并画出该点振动曲线.
+    \item 求解波动方程，并画出$t=3\mathrm{s}$时的波形曲线.
+\end{enumerate}
+\end{problem}
+\switchcolumn\centering
+    \vfill
+    \begin{tikzpicture}
+        \draw [->,thick] (-0.5,0)--(4,0) node [anchor=south] {$t(\mathrm{s})$} node [anchor=north] {\textcolor{H6}{$x(\mathrm{cm})$}};
+        \draw [->,thick] (0,-1.5)--(0,1.5) node [anchor=west] {$y(\mathrm{cm})$};
+        \draw[thick,H1] (0,0) sin (0.6,1) cos (1.2,0) sin (1.8,-1) cos (2.4,0) sin (3.0,1) cos (3.6,0);
+        \draw [densely dashed] (0,1)--(.6,1) node [anchor=east,at start] {$2$};
+        \node [anchor=north east] at (0,0) {$O$} node [anchor=south west] at (1.2,0) {$2$}  node [anchor=south east] at (2.4,0) {$4$};
+        \draw [very thick,H2,dotted,line cap=round] (0,-1) cos (0.6,0) sin (1.2,1) cos (1.8,0) sin (2.4,-1) cos (3,0) sin (3.6,1);
+        \draw [very thick,H6,densely dashed,line cap=round] (-.8,0) sin (0,-1) cos (.8,0) sin (1.6,1) cos (2.4,0) sin (3.2,-1) cos (4,0);
+        \node [anchor=north] at (.8,0) {\textcolor{H6}{5}}  node [anchor=north] at (2.4,0) {\textcolor{H6}{15}};
+    \end{tikzpicture}
+    \vfill
+\end{paracol}
+\vspace{-.75em}
+\begin{solution}
     \begin{enumerate}
-        \item 由$v_{\max}=\omega,\ T=\frac{2\pi}{\omega}$得$T=10\pi\mathrm{s},\ \omega=0.2\mathrm{s}^{-1},\ a_{\max}=\omega^2A=4\times 10^{-3}\mathrm{m/s}^2$.\point{4}
-        \item $t=4\mathrm{s}$时$x=\frac{1}{2}A,\ v<0$，所以此时相位$\varphi=\frac{\pi}{3}$.故位移方程为\point{2}
-        \[x=0.1\cos{[0.2(t-4)]+\frac{\pi}{3}}=0.1\cos{(0.2t+0.079\pi)}\eqno\point{4}\]
+        \item 由图知振幅$A=0.02\mathrm{m}$，角频率$\omega=\frac{2\pi}{T}=0.5\pi\mathrm{s}$. $t=0$时，$y=0,\ v>0$，初相$\varphi=-\frac\pi2$. 波动方程为\point{2}
+        \[y=0.02\cos{\ab[\frac\pi2\ab(t-\frac{x}{5})-\frac\pi2]}\eqno\point{2}\]
+        $x=25\mathrm{m}$处质元的振动方程为$y(x_0,t)=0.02\cos\ab(\frac\pi2t-\pi)$.\point{2}
+        \item 波动方程见上问. $t=3\mathrm{s}$时的波形方程为
+        \[y(x,t_0)=0.02\cos\ab(-\frac{\pi}{10}x+\pi)\eqno\point{2}\]
     \end{enumerate}
 \end{solution}
 
-\begin{problem}[牛顿环][10]
-    空气中，使用波长为$480\mathrm{nm}$平行单色光观察牛顿环.在反射光中测得某一明环的直径为$4.74\mathrm{mm}$，在它外面第$10$个明环的直径为$7.24\mathrm{mm}$.求
+\vskip-2ex
+\begin{paracol}{2}
+\begin{problem}[光程和光程差][8]\footnote{\kaishu 选自37th CPhO预赛试题第10题，原题未并提供参考图片.}
+    一艘船（如图中$S$）在$25\mathrm{m}$高的桅杆（$SS'$）上装有一天线（如图中$S''$），不断发射某种波长的无线电波，已知波长在$2-4\mathrm{m}$范围内，在高出海平面$150\mathrm{m}$的悬崖顶（$OP$）上有一接收站$P$能收到这无线电波，但当那艘船驶至离悬崖底部$OS=2\mathrm{km}$时，接收站就收不到无线电波.设海平面完全反射这无线电波，求所用无线电波的波长.
+\end{problem}
+\switchcolumn\centering
+\vfill
+\begin{tikzpicture}[scale=0.8]
+    \coordinate [label=below left:{$S$}] (S) at (0,0);
+    \coordinate [label=above left:{$S'$}] (S') at (0,1);
+    \coordinate [label=below left:{$S''$}] (S'') at (0,-1);
+    \coordinate [label=below:{$M$}] (M) at (1.5,0);
+    \coordinate [label=above:{$P$}] (P) at (6,3);
+    \coordinate [label=below:{$O$}] (O) at (6,0);
+    \draw [thick,line join=round,line cap=round] (P) -- (O) -- (S) -- (S');
+    \draw [thick,dashed,line join=round] (P) -- (S) -- (S'') -- (M);
+    \draw [very thick,line cap=round,densely dashed,H1] (S') -- (P);
+    \draw [very thick,line cap=round,dotted,H1] (S') -- (M) --  (P);
+    \length{(-.25,0)}{(-.25,1)}{$a$}{(0,0.25)}
+    \pic ["$\theta$", draw, thick, angle radius=5mm, angle eccentricity=1.5] {angle=O--S--P};
+    \pic ["$\theta'$", draw, thick, angle radius=5mm, angle eccentricity=1.5] {angle=O--M--P};
+    \pic ["$\Delta\theta$", draw, thick, angle radius=10mm, angle eccentricity=1.5] {angle=S--P--M};
+    \draw [thick] (S') -- (0.75,-0.5) coordinate [label=below:$K$] (foot);
+    \pic ["$\theta$", draw, thick, angle radius=3mm, angle eccentricity=2] {angle=S''--S'--foot};
+    \length{($(S'')+({0.5*sin(atan(2/3))},{-0.5*cos(atan(2/3))})$)}{($(foot)+({0.5*sin(atan(2/3))},{-0.5*cos(atan(2/3))})$)}{$\scriptstyle 2a\sin\theta$}{({0.5*cos(atan(2/3))},{0.5*sin(atan(2/3))})}
+    \length{($(S)-(0,2)$)}{($(O)-(0,2)$)}{$2\mathrm{km}$}{(1.5,0)}
+    \length{($(O)+(0.5,0)$)}{($(P)+(0.5,0)$)}{$150\mathrm{m}$}{(0,0.5)}
+    \draw [dashed,H4] (S') --++ (6,0) -- (P);
+    \draw [dashed,H6] (S'') --++ (6,0) -- (P);
+\end{tikzpicture}
+\vfill
+\end{paracol}
+\vspace{-.75em}
+\begin{solution}
+    考虑半波损失，经海平面反射的光波与直达$P$点的光波之间的光程差为
+    \[\delta=2a\sin\theta+\frac\lambda2\eqno\point{3}\]
+    由几何关系$\sin\theta=\sin\arctan\ab(\frac{150}{2000})=0.075$. 利用干涉相消条件得无线电波长为\point{2}
+    \[\delta=\frac{2k+1}{2}\lambda,\ \lambda=\frac{2a\sin\theta}{k}\xlongequal[2<\lambda<4]{k=1}3.74\mathrm{m}\eqno\point{3}\]
+    \textbf{本题中$\Delta\theta$不可忽略，不得认为$\theta=\angle PMO$! 否则会得到$k=2.18$.}
+    \vskip1ex\hrule\vskip1ex
+    另一种更精确的解法是直接计算两条光路的长度之差\footnote{值得一提的是，因上一种解法近似认为$S'K\bot S''K$，相对于这种解法有$7.73\ee{-3}\%$的误差（小数点第四位及以后不同）.}
+    \[\begin{aligned}
+        \delta&=\overline{S''P}-\overline{S'P}+\frac\lambda2=\sqrt{\ab(\overline{SO})^2+\ab(\overline{OP}+\overline{SS''})^2}-\sqrt{\ab(\overline{SO})^2+\ab(\overline{OP}-\overline{SS''})^2}+\frac\lambda2\\
+        &=\sqrt{2000^2+(150+25)^2}-\sqrt{2000^2+(150-25)^2}+\frac\lambda2=\frac{2k+1}{2}\lambda
+    \end{aligned}\]
+
+    解得$\lambda\xlongequal{k=1}3.74\mathrm{m}$.
+\end{solution}
+
+\begin{problem}[薄膜干涉][10]
+波长为$\lambda=500\mathrm{nm}$的单色光垂直入射到\textbf{置于空气中}的上下表面平行的薄膜上，已知膜的折射率$n=1.25$，求反射光、透射光最强时膜的最小厚度.
+\end{problem}
+\begin{solution}*
+    两个表面反射光光程差为$\delta=2ne+\frac\lambda2$. 分别由反射光干涉相长$\delta=k\lambda$和相消$\delta=\frac{2k+1}{2}\lambda$得\point{4}
+    \[e_{\min_1}=\frac{\lambda}{4n}=100\mathrm{nm},\ e_{\min_2}=\frac{\lambda}{2n}=200\mathrm{nm}\eqno\point{4}\]
+\begin{itemize}
+    \item 反射光干涉相长时，反射光最强，膜的最小厚度为$e_{\min_1}=100\mathrm{nm}$.\point{1}
+    \item 反射光干涉相消时，透射光最强，膜的最小厚度为$e_{\min_2}=200\mathrm{nm}$.\point{1}
+\end{itemize}
+\end{solution}
+
+\vskip-2ex
+\begin{paracol}{2}
+\begin{problem}[光栅][12]
+    如右图所示，$AB$之间的虚线为一透射式光栅，该光栅在$1\mathrm{mm}$内刻画有$500$条狭缝，单条狭缝的缝宽为$a=0.5\mu\mathrm{m}$，一波长为$\lambda=500\mathrm{nm}$的单色平行光斜入射在该光栅上，入射角$\theta=30^\circ$（从光栅光轴下方入射），在光栅后放置凸透镜和观察屏（屏位于透镜的焦平面处），问屏上能看到哪几级谱线？
+\end{problem}
+\switchcolumn\centering
+\vfill
+\begin{tikzpicture}[decoration={markings,mark=between positions .25 and .8 step 20mm with {\arrow{stealth}}}]
+    \filldraw [thick,fill=gray] (0,1.6) rectangle (0.15,0.5);
+    \draw [densely dashed,thick] (0,0.5)--(0,-0.5);
+    \filldraw [thick,fill=gray] (0,-1.6) rectangle (0.15,-0.5);
+    \draw [densely dashed,thick] (-1.5,0)--(2,0);
+    \coordinate (b) at (-1.5,0);
+    \coordinate (a) at (0,0);
+    \coordinate (c) at (-1,-0.4);
+    \coordinate (d) at (1.5,0.2);
+    \coordinate (e) at (2,0);
+    \foreach \a in {-0.5,-0.25,0,0.25,0.5}
+    \draw [yshift=\a cm,thick,postaction=decorate,->] (-1,-0.4)--(0,0)--(1.5,0.2);
+    \pic["$\theta$", draw=black, very thick, angle
+    eccentricity=1.35, angle radius=24]{angle=b--a--c};
+    \pic["$\varphi$", draw=black, very thick, angle
+    eccentricity=1.35, angle radius=36]{angle=e--a--d};
+    \node[anchor=east] at (0,0.6) {$A$} node[anchor=east] at (0,-0.6) {$B$};
+\end{tikzpicture}
+\vfill
+\end{paracol}
+\vspace{-.75em}
+\begin{solution}*
+    光栅常数$d=\frac{1\ee{-3}}{500}=2\mu\mathrm{m}$. 由于光栅方程\point{2}
+    \[d(\sin\varphi-\sin\theta)=k\lambda\eqno\point{2}\]
+\begin{itemize}
+    \item 令$\varphi=\pm 90^\circ$得$k_{\min}=-6,\ k_{\max}=2$. 由缺级条件得$k'=\frac{d}{a}=\pm 4$，第$-4$级缺级.\point{4}
+    \item 由于$\varphi$无法取到$\pm 90^\circ$，所以屏上可见主极大级次为$k=0,\ \pm 1,\ -2,\ -3,\ -5$.\point{4}
+\end{itemize}
+\end{solution}
+
+\begin{problem}[驻波][6]
+    由振动频率为$400\mathrm{Hz}$的音叉在两端固定拉紧的弦线上建立驻波.这个驻波共有三个波腹，其振幅为$0.30\mathrm{cm}$，波在弦上的速度为$320\mathrm{m/s}$.
 \begin{enumerate}
-    \item 平凸透镜的曲率半径.
-    \item 直径为$4.74\mathrm{mm}$明环的条纹级数$k$.
-    \item 假设把整个装置放入水中($n=1.33$)，原直径为$4.74\mathrm{mm}$明环的新直径.
+    \item 求此弦线的长度.
+    \item 若以弦的中点为坐标原点，试写出弦线上驻波的表达式.
 \end{enumerate}
 \end{problem}
 \begin{solution}
 \begin{enumerate}
-    \item $R=(r_{k+10}^2-r_k^2)/10\lambda=1.56\mathrm{m}$.\point{4}
-    \item 由$r_k=\sqrt{\frac{2k-1}{2}\lambda R}$得$k=\frac{r_k^2}{\lambda R}+\frac{1}{2}=8$.\point{3}
-    \item 由于光在介质中的波长与折射率成反比，所以此时$d_k^{\prime}=\frac{d_k}{\sqrt{n}}=4.11\mathrm{mm}$.\point{3}
+    \item 由题意得弦长为$1.5$个波长，即$l=1.5\lambda=1.5\frac{u}{f}=1.2\mathrm{m}$.\point{2}
+    \item 驻波的角频率$\omega=2\pi f=800\pi$，波矢$k=\frac{2\pi}{\lambda}=\frac{5}{2}\pi$. 设驻波的表达式为
+    \[y=3\ee{-3}\cos\ab(800\pi t+\phi)\cos\ab(\frac52\pi x+\varphi)\eqno\point{2}\]
+    中点$x=0$处是波腹，所以$\cos\varphi=1,\ \varphi=0\ \text{or}\ \pi$. 所以驻波的表达式为
+    \[y=\pm 3\ee{-3}\cos\ab(800\pi t+\phi)\cos\ab(\frac52\pi x)\eqno\point{2}\]
+    符号$\pm$对应$\varphi$的两个解，$\phi$由初始条件决定.
 \end{enumerate}
-\end{solution}
-
-\section{计算题\! $^\dagger$（共15分）}
-
-\begin{problem}[弹簧振子][15]
-    一个质量为$m=1\mathrm{kg}$的盘子刚性连接竖直悬挂的轻弹簧下端，弹簧的劲度系数为$k=90\mathrm{N/m}$.盘子在竖直方向做简谐运动，振幅$A=10.0\mathrm{cm}$.现有一个质量$m_2=1\mathrm{kg}$的物体自由落下掉在盘上，没有反弹.当\textbf{盘子位于向上最大位移处}，盘子与物体发生碰撞，物体从开始自由自由落体发生处，距离为$h=20\mathrm{cm}$，假设碰撞瞬间完成.求碰撞后盘子和物体组成的系统，它的振动周期、振幅和振动能量.
-\end{problem}
-\begin{solution}*
-    Answer omitted.
 \end{solution}

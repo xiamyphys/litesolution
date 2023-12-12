@@ -23,6 +23,7 @@
 \DeclareStringOption[ans]{answer}
 \DeclareVoidOption{ans}{\ekv{answer=ans}}
 \DeclareVoidOption{noans}{\ekv{answer=noans}}
+\DeclareVoidOption{preprint}{\ekv{answer=preprint}}
 
 \DeclareStringOption[separate]{counter}
 \DeclareVoidOption{separate}{\ekv{counter=separate}}
@@ -34,24 +35,67 @@
 % ----- Default Options -----
 \DeclareDefaultOption{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessKeyvalOptions*\relax
-% \ProcessOptions*\relax
 \LoadClass[a4paper,oneside]{book}
+\RequirePackage[letterpaper,margin=0.75in,headheight=0.25in,headsep=0.2in,footskip=0.2in]{geometry}
 
 \RequirePackage{extarrows}% 长等号
 \RequirePackage{fixdif,derivative}% 微分算子修复
 \RequirePackage{physics2}
 \usephysicsmodule{ab,ab.legacy,braket,nabla.legacy}
-\RequirePackage{qrcode}
-\qrset{link, height=4em}
+\RequirePackage{amsmath,amssymb}
+\usepackage{nicematrix}
+\RequirePackage{bm}
+\RequirePackage{esint}
+\makeatletter
+\def\sim@x@scale{.15}
+\def\sim@y@scale{.05}
+\def\sim@y@thick{.02}
+\newsavebox\sim@upper
+\newsavebox\sim@lower
+% extensible sim symbol
+\NewDocumentCommand{\xSim}{ O{} m }{%
+  \TextOrMath{%
+    \PackageError{TEST}{`\string\xSim` is valid in math mode only.}{}%
+  }{
+    % math mode only, hence no need to eliminate spaces
+    \sbox\sim@upper{$\scriptsize #2$}
+    \sbox\sim@lower{$\scriptsize #1$}
+    \pgfmathparse{min(max(\wd\sim@upper/1em, \wd\sim@lower/1em, 1.0), 1.5)}
+    \edef\sim@ratio{\pgfmathresult}
+    \def\sim@x {\sim@x@scale * \sim@ratio}
+    \def\sim@y {\sim@y@scale * \sim@ratio}
+    \def\sim@@y{\sim@y@thick * \sim@ratio}
+    \pgfmathparse{floor(max(\wd\sim@upper/1em, \wd\sim@lower/1em)) + 1}
+    \edef\sim@wd{\pgfmathresult em}
+    \mathrel{
+      \begin{tikzpicture}[baseline=-.7ex]
+        \filldraw[line width=.2pt] 
+          (0, 0)
+            .. controls +(\sim@x, \sim@y+\sim@@y) and +(-\sim@x, -\sim@y) .. 
+          +(\sim@wd, 0) 
+            node[midway, above] {\usebox\sim@upper} 
+            node[midway, below] {\usebox\sim@lower}
+            .. controls +(-\sim@x, -\sim@y-\sim@@y) and +(\sim@x, \sim@y) .. 
+          (0, 0);
+      \end{tikzpicture}
+    }
+  }%
+}
 
 \RequirePackage[e]{esvect}% 矢量箭头
-\RequirePackage{setspace}
 \RequirePackage{bbm}% 花体字
 \RequirePackage{dutchcal}% 花体字2
 \RequirePackage{mathrsfs}% 花体字3
 \RequirePackage{csquotes}% 引号
 \RequirePackage{tasks}% 选择题
-\settasks{label=\color{normalcolor}\Alph*.}
+\settasks{label=\Alph*.}
+\RequirePackage{setspace}
+\setstretch{1.5}
+\AtBeginDocument{
+  \everymath{\displaystyle}
+  \setlength{\abovedisplayskip}{3pt}
+  \setlength{\belowdisplayskip}{3pt}
+}
 
 \definecolor{pkgcolor}{Hsb}{103,.8,.5}
 \definecolor{moducolor}{Hsb}{290,.8,.5}
@@ -67,8 +111,6 @@
 \RequirePackage{hyperref}
 \hypersetup{colorlinks,urlcolor=H1,linkcolor=H2,filecolor=filecolor,pdfstartview=FitH,pdfview=FitH,pdfcreator=XeTeX output}
 
-\RequirePackage[letterpaper,margin=0.75in,headheight=0.25in,headsep=0.2in,footskip=0.2in]{geometry}
-
 \RequirePackage{indentfirst,comment}
 % fontsetting
 \ifdefstring{\LITE@math}{mtpro2}{
@@ -77,9 +119,15 @@
 }{\relax}
 
 \RequirePackage[UTF8,scheme=plain]{ctex}
-\def\chapterfont#1{
-  \setCJKfamilyfont{chapterfont}{#1}[Extension =.ttf]
-  \gdef\@chapterfont{#1}
+\RequirePackage{xeCJK}
+\NewDocumentCommand\chapterfont{s m}{
+  \IfBooleanTF{#1}{
+    \setCJKfamilyfont{chapterfont}{#2}[Extension =.ttf]
+  }
+  {
+    \setCJKfamilyfont{chapterfont}{#2}
+  }
+  \gdef\@chapterfont{#2}
 }
 
 \setcounter{tocdepth}{1}
@@ -94,64 +142,32 @@
 %% 章节以及页脚图形
 \RequirePackage{xcolor}
 \RequirePackage{silence}
-
-  \definecolor{backgroundcolor}{HTML}{F8F7E9}
-  \definecolor{headrulecolor}{HTML}{640125}
-  \pagecolor{backgroundcolor!20}
-  \definecolor{1号色}{HTML}{4D5AAF} %
-  \definecolor{2号色}{HTML}{006E54} %
-
-  \ifdefstring{\LITE@answer}{ans}{
-  \definecolor{solutioncolor}{HTML}{0F2350} %
-  \newcommand{\solutionname}{\faIcon{check-square} 分析与解}
-}{\relax}
-\ifdefstring{\LITE@answer}{noans}{
-  \definecolor{solutioncolor}{HTML}{FEFEFB} %
-  \definecolor{solutionbg}{RGB}{130,73,71} %
-  \newcommand{\solutionname}{\faIcon{ban} 答案隐藏}
-}{\relax}
-
-  \definecolor{normalcolor}{HTML}{000000} %
-
-% ----- box -----
-%% 章节设置
 \RequirePackage[center,pagestyles]{titlesec}
 \RequirePackage[title,titletoc,header]{appendix}
 
-\newcommand{\notename}{\faIcon{snowflake} 注意}
-\renewcommand*{\proofname}{证明}
+% ----- box -----
+\definecolor{headrulecolor}{HTML}{640125}
+\definecolor{1号色}{HTML}{4D5AAF} %
+\definecolor{2号色}{HTML}{006E54} %
+
+\ifdefstring{\LITE@answer}{ans}{
+  \definecolor{solutioncolor}{HTML}{0F2350} %
+  \newcommand{\solutionname}{\faIcon{check-square} 分析与解}
+  \def\ans#1{\underline{\color{solutioncolor}\ #1\ }}
+  \def\choiceans#1{{\color{solutioncolor}\ #1\ }}
+  \definecolor{backgroundcolor}{HTML}{F8F7E9}
+}{\relax}
+\ifdefstring{\LITE@answer}{noans}{
+  \definecolor{solutioncolor}{HTML}{FEFEFB} %
+  \def\solutionname{\faIcon{pen-square} 答题区域}
+  \def\ans#1{\underline{\phantom{\color{solutioncolor}#1}}}
+  \def\choiceans#1{\phantom{\color{solutioncolor}}}
+  \definecolor{backgroundcolor}{HTML}{FFFFFF}
+}{\relax}
+\pagecolor{backgroundcolor!20}
+\newcommand{\notename}{\faIcon{info-circle} 注意}
+\def\proofname{证明.}
 \newcommand{\problemname}{\faIcon{pen-square} 题目} % 题目=习题
-
-\newcommand{\remarkname}{注}
-\renewcommand*{\date}[8]{
-  \vspace{-0.5em}\color{normalcolor}
-  \begin{minipage}{0.64\textwidth}
-    \begin{multicols}{2}
-      \textbf{考试时间}：\kaishu #1
-  
-      \textbf{\songti 课程编号}：\kaishu #3
-
-      \textbf{\songti 任课教师}：\kaishu #2
-      
-      \textbf{\songti 解析制作}：\kaishu #4
-    \end{multicols}
-  \end{minipage}
-  \hfill
-  \begin{minipage}{0.15\textwidth}
-    \centering
-      #5
-
-      \vskip1ex\scriptsize\textbf{#6}
-  \end{minipage}
-  \hfill
-  \begin{minipage}{0.15\textwidth}
-    \centering
-      #7
-
-      \vskip1ex\scriptsize\textbf{#8}
-  \end{minipage}
-  \vspace{-0.5em}
-}
 
 \RequirePackage[most]{tcolorbox}
 \tcbuselibrary{breakable}
@@ -176,22 +192,18 @@
     \begin{tcolorbox}[
       common,
       borderline west={1.5pt}{0mm}{2号色},
-      title=\bfseries\color{2号色}{\problemname}\theprob\hfill【\quad\color{solutioncolor} #1 \color{2号色}\quad 】,
-      coltitle=2号色,
-      colupper=normalcolor,
-      collower=normalcolor
+      title=\bfseries\color{2号色}{\problemname}\theprob\hfill【\quad \choiceans#1 \color{2号色}\quad 】,
+      coltitle=2号色
     ]
   }{
     \begin{tcolorbox}[
       common,
       borderline west={1.5pt}{0mm}{2号色},
-      title=\bfseries\color{2号色}{\problemname}\theprob\hfill\color{2号色}\faIcon{tag}~#2\qquad【\quad\color{solutioncolor} #1 \color{2号色}\quad 】,
-      coltitle=2号色,
-      colupper=normalcolor,
-      collower=normalcolor
+      title=\bfseries\color{2号色}{\problemname}\theprob\hfill\color{2号色}\faIcon{tag}~#2\qquad【\quad \choiceans#1 \color{2号色}\quad 】,
+      coltitle=2号色
     ]
   }
-  \rmfamily\color{normalcolor}}{\end{tcolorbox}}  
+  \rmfamily}{\end{tcolorbox}}  
 
 \NewDocumentEnvironment{problem}{s o o}{
   \refstepcounter{prob}
@@ -207,8 +219,6 @@
         borderline west={1.5pt}{0mm}{2号色},
         title=\color{2号色}{\problemname} \theprob,
         coltitle=2号色,
-        colupper=normalcolor,
-        collower=normalcolor
       ]
     }{
       \begin{tcolorbox}[
@@ -216,8 +226,6 @@
         borderline west={1.5pt}{0mm}{2号色},
         title=\color{2号色}{\problemname} \theprob\tagname~#2,
         coltitle=2号色,
-        colupper=normalcolor,
-        collower=normalcolor
       ]
     }
   }{
@@ -227,8 +235,6 @@
         borderline west={1.5pt}{0mm}{2号色},
         title=\color{2号色}{\problemname} \theprob（本题#3分）,
         coltitle=2号色,
-        colupper=normalcolor,
-        collower=normalcolor
       ]
     }{
       \begin{tcolorbox}[
@@ -236,37 +242,24 @@
         borderline west={1.5pt}{0mm}{2号色},
         title=\color{2号色}{\problemname} \theprob（本题#3分）\tagname~#2,
         coltitle=2号色,
-        colupper=normalcolor,
-        collower=normalcolor
       ]
     }
   }
-  \rmfamily\color{normalcolor}}{\end{tcolorbox}}
-
-\newcommand{\noting}[1]{
-  \begin{tcolorbox}[
-    common,
-    borderline west={1.5pt}{0mm}{orange},
-    coltitle=orange,
-    ]%
-    {\textbf{\color{orange}\notename}}
-  \kaishu\color{normalcolor}#1\end{tcolorbox}}
+  \rmfamily}{\end{tcolorbox}}
 
 \newenvironment{note}{
   \begin{tcolorbox}[
     common,
-    borderline west={1.5pt}{0mm}{orange},
-    title=\textbf{\color{orange}\notename},
-    coltitle=2号色,
+    borderline west={1.5pt}{0mm}{H1},
+    title=\textbf{\color{H1}\notename},
+    coltitle=H1 
   ]
-  \kaishu\color{normalcolor}}{\end{tcolorbox}}
+  \kaishu}{\end{tcolorbox}}
 
-\definecolor{second}{RGB}{226,106,106} %
-\newenvironment{proof}{
-  \par\noindent\bfseries\songti{\color{second}\proofname\;}
-  \color{black!90}\fangsong}{
-  \hfill\ensuremath{\square}
-  \par}
+\NewDocumentEnvironment{proof}{s}{
+  \par\noindent\bfseries\songti{\color{H1}\proofname\;}
+  \color{solutioncolor!90}\fangsong
+}{\IfBooleanTF{#1}{\relax}{\QED}}
 
 \NewDocumentEnvironment{solution}{s}{
   \IfBooleanTF{#1}{
@@ -295,9 +288,7 @@
 
 \RequirePackage{graphicx}
 \graphicspath{{./figure/}{./figures/}{./image/}{./images/}{./graphics/}{./graphic/}{./pictures/}{./picture/}}
-\RequirePackage{bm}% 数学加粗
 \RequirePackage{pdfpages}
-\RequirePackage{esint}% 面积分
 \RequirePackage{wrapstuff}% 图文绕排
 \RequirePackage{booktabs}
 \RequirePackage{paracol}
@@ -305,11 +296,10 @@
 \RequirePackage{multicol,multirow}
 
 \RequirePackage{fancyvrb}
-%%中文结构名字
 
 %绘图
 \RequirePackage{tikz} %% load tikz without tikz
-\usetikzlibrary{intersections,decorations.markings,spy,arrows,shapes,fadings,mindmap,shapes.arrows,shapes.symbols,tikzmark,shapes.geometric,graphs,decorations.pathmorphing,through,arrows.meta,shapes.misc,decorations.shapes,angles,backgrounds,calc,math,decorations,decorations.pathreplacing,fit,quotes,shadows,positioning,patterns,shadings}
+\usetikzlibrary{intersections,decorations.markings,spy,arrows,shapes,fadings,mindmap,shapes.arrows,shapes.symbols,tikzmark,shapes.geometric,graphs,decorations.pathmorphing,through,arrows.meta,shapes.misc,decorations.shapes,angles,backgrounds,calc,math,decorations,decorations.pathreplacing,fit,quotes,shadows,positioning,patterns,shadings,snakes}
 \tikzset{>=stealth,line cap=round,line join=round}
 \RequirePackage{pgfplots}
 \pgfplotsset{compat=1.9}
@@ -347,65 +337,57 @@
 \def\chapterimage{\gdef\@chapterimage}
 \def\@makechapterhead#1{%
 	\begin{tikzpicture}[remember picture,overlay]
-      \fill [fill=backgroundcolor,opacity=0.2] (current page.north west) rectangle +(\paperwidth,-\paperwidth/13*6);
-      \node[scope fading=south,anchor=north,inner sep=0pt,outer sep=auto] at (current page.north) {\includegraphics[width=\paperwidth]{\@chapterimage}};
-      \draw [line width=2pt,2号色!40] ($(current page.north west)-(0,3.5/13*\paperwidth)$) -- ($(current page.north east)-(0,3.5/13*\paperwidth)$);
-      \draw [line width=2pt,2号色!40] ($(current page.north west)-(0,4.5/13*\paperwidth)$) -- ($(current page.north east)-(0,4.5/13*\paperwidth)$);
-      \fill [backgroundcolor!40,opacity=0.5] ($(current page.north west)-(0,3.5/13*\paperwidth)$) rectangle +(\paperwidth,-\paperwidth/13);
-      \node at ($(current page.north west)-(-0.5*\paperwidth,4/13*\paperwidth)$) {\ifcsname @chapterfont\endcsname\CJKfamily{chapterfont}\fi\huge\bfseries\color{normalcolor}#1~\color{2号色}\faIcon{feather-alt}};
+      \node[scope fading=south,anchor=north,inner sep=0pt,outer sep=0pt] at (current page.north) {\includegraphics[width=\paperwidth]{\@chapterimage}}; % 图片
+      \draw [line width=2pt,2号色!40] ($(current page.north west)-(0,3.5/13*\paperwidth)$) -- ($(current page.north east)-(0,3.5/13*\paperwidth)$); % 上线
+      \draw [line width=2pt,2号色!40] ($(current page.north west)-(0,4.5/13*\paperwidth)$) -- ($(current page.north east)-(0,4.5/13*\paperwidth)$); % 下线
+      \fill [backgroundcolor!40,opacity=0.5] ($(current page.north west)-(0,3.5/13*\paperwidth)$) rectangle +(\paperwidth,-\paperwidth/13); % 中间
+      \node at ($(current page.north west)-(-0.5*\paperwidth,4/13*\paperwidth)$) {\ifcsname @chapterfont\endcsname\CJKfamily{chapterfont}\fi\huge\bfseries#1~\color{2号色}\faIcon{feather-alt}}; % 标题
 	\end{tikzpicture}\par
   \vspace{3.5\paperwidth/13}
 	\thispagestyle{plain}
   \fancypagestyle{plain}{
   \fancyhead{} % 页眉清空
-  \def\headrule{\relax} % 去页眉线
+  \renewcommand{\headrule}{} % 首页去页眉线
   }
   \ifdefstring{\LITE@counter}{separate}{
     \setcounter{page}{1}
   }{\relax}
 }
+\def\@makeschapterhead#1{
+  {\parindent \z@ \raggedright
+  \normalfont
+  \interlinepenalty\@M
+    \centering  \ifcsname @chapterfont\endcsname\CJKfamily{chapterfont}\fi  \huge \bfseries  \color{1号色!80!2号色!80!black}  #1\par\nobreak
+    \vspace*{1em}
+  }
+	\thispagestyle{plain}
+  \fancypagestyle{plain}{
+  \fancyhead{} % 页眉清空
+  \renewcommand{\headrule}{} % 首页去页眉线
+  }
+  \ifdefstring{\LITE@counter}{separate}{
+    \setcounter{page}{1}
+  }{\relax}
+  \setcounter{section}{0}
+  \setcounter{prob}{0}
+}
 %%%%%%%%%%%chapter图片定制结束%%%%%%%%%%%%%%%
 
-\newcommand{\watermark}[1]{\RequirePackage{wallpaper}\CenterWallPaper{0.5}{#1}}
+\def\watermark#1{\RequirePackage{wallpaper}\CenterWallPaper{0.5}{#1}}
 %%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{ulem}
 \RequirePackage{fancyhdr}
 \RequirePackage{fontawesome5}
-
 \fancyhf{}
-
-\fancyfoot[C]{\color{1号色}\sout{\hbox to 0.4\textwidth{}}\quad\faIcon{chevron-left}\;第~\color{normalcolor}{\sffamily\thepage}\color{1号色}~页\;\faIcon{chevron-right}\quad\sout{\hbox to 0.4\textwidth{}}}
+\fancyfoot[C]{\color{1号色}\sout{\hbox to 0.4\textwidth{}}\quad\faIcon{chevron-left}\;第~{\sffamily\thepage}\color{1号色}~页\;\faIcon{chevron-right}\quad\sout{\hbox to 0.4\textwidth{}}}
 \fancyfoot[L]{\color{1号色}{$\boldsymbol{\cdot}$}}
 \fancyfoot[R]{\color{1号色}{$\boldsymbol{\cdot}$}}
-
 \renewcommand{\headrule}{\color{headrulecolor}\hrule width\textwidth}
-\pagestyle{fancy}
 
+\pagestyle{fancy}
 \renewcommand{\sectionmark}[1]{\markright{#1}{}}
 \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%[第三方定制]%%%%%%%%%%%%%%%%%%%%%
-\def\e{\mathrm{e}}
-\def\i{\mathrm{i}}
-\newcommand\mailto[1]{\href{mailto:#1}{\nolinkurl{#1}}}
-\newcommand\sokka[1]{故本题选择 \textbf{#1} 项.}
-\newcommand\ans[1]{\underline{\color{solutioncolor}\ #1\ }}
-\newcommand\length[4]{
-\node (a) at ($0.5*($#2+#1$)$) {#3};
-\draw [->|] ($0.5*($#2+#1+#4$)$) -- #2; 
-\draw [->|] ($0.5*($#2+#1-#4$)$) -- #1;}
-\newcommand\cdotfill{\leavevmode\cleaders\hb@xt@.44em{\hss$\cdot$\hss}\hfill\kern\z@}
-\newcommand{\point}[1]{\cdotfill\texttt{(#1pt)}}
-\setstretch{1.5}
-\AtBeginDocument{\everymath{\displaystyle}}
-
-\makeatletter 
-\protected\def\titlelogo#1#2{
-  \leavevmode@ifvmode
-  \lower\dimexpr\f@size\p@*1/10\hbox{\href{#1}{\includegraphics[height={\f@size\p@}]{#2}}}
-  }
-\makeatother
 
 \usepackage{listings,dirtree}
 \lstdefinestyle{TeX}{
@@ -421,3 +403,78 @@
     tabsize       =  2,
     keywords      =  {chapter,choice,problem,solution,enumerate}
 }
+
+% document setup
+\def\e{\mathrm{e}}
+\def\i{\mathrm{i}}
+\def\ee#1{\times 10^{#1}}
+\def\T{\mathsf{T}}
+\def\unit#1{\,\mathrm{#1}}
+\def\mat#1{\mathbf{#1}}
+\def\rank#1{\text{R}\ab({#1})}
+\def\QED{\hfill\sffamily Q.E.D. }
+\def\mailto#1{\href{mailto:#1}{\nolinkurl{#1}}}
+\def\sokka#1{故本题选择 \textbf{#1} 项.}
+\newcommand\length[4]{
+\node (a) at ($0.5*($#2+#1$)$) {#3};
+\draw [->|] ($0.5*($#2+#1+#4$)$) -- #2; 
+\draw [->|] ($0.5*($#2+#1-#4$)$) -- #1;}
+\def\point#1{\leavevmode\cleaders\hb@xt@.44em{\hss$\cdot$\hss}\hfill\kern\z@\texttt{(#1pt)}}
+\makeatletter
+\def\@pkg#1{\texorpdfstring{\href{https://www.ctan.org/pkg/#1}{\textcolor{pkgcolor}{\textsf{#1}}}}{“#1”}}
+\def\s@pkg#1{\texorpdfstring{\textcolor{pkgcolor}{\textsf{#1}}}{“#1”}}
+\DeclareRobustCommand\pkg{\@ifstar\s@pkg\@pkg}
+\def\mode#1{\texorpdfstring{\textcolor{moducolor}{\textsf{#1}}}{“#1”}}
+\def\cmd#1{\texorpdfstring{\textcolor{cmdcolor}{\textsf{#1}}}{“#1”}}
+\def\datechange#1#2{%
+  \noindent{\makebox[\textwidth][r]{\color{H7}\rule{1.15\textwidth}{.4pt}}}
+  \noindent\makebox[0pt][r]{\makebox[-3em][r]{\small\textbf{\textcolor{H7}{#1}}}\;\;}{\sffamily Update: \ignorespaces#2}}
+\protected\def\@titlelogo#1#2{
+  \leavevmode@ifvmode
+  \lower\dimexpr\f@size\p@*1/10\hbox{\href{#1}{\includegraphics[height={\f@size\p@}]{#2}}}
+  }
+\protected\def\s@titlelogo#1#2{
+  \leavevmode@ifvmode
+  \lower\dimexpr\f@size\p@*1/10\hbox{\includegraphics[height={\f@size\p@}]{#1}}
+  }
+\DeclareRobustCommand\titlelogo{\@ifstar\s@titlelogo\@titlelogo}
+\RequirePackage{qrcode}
+\qrset{link, height=4em}
+\renewcommand*{\date}[8]{
+  \vspace{-0.5em}
+  \begin{minipage}{0.64\textwidth}
+    \begin{multicols}{2}
+      \textbf{考试时间}：\kaishu #1
+  
+      \textbf{\songti 课程编号}：\kaishu #3
+
+      \textbf{\songti 任课教师}：\kaishu #2
+      
+      \textbf{\songti 解析制作}：\kaishu #4
+    \end{multicols}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.15\textwidth}
+    \centering
+      \qrcode{#5}
+
+      \vskip1ex\scriptsize\textbf{\href{#5}{#6}}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.15\textwidth}
+    \centering
+      \qrcode{#7}
+
+      \vskip1ex\scriptsize\textbf{\href{#7}{#8}}
+  \end{minipage}
+  \vspace{-0.5em}
+}
+\makeatother
+\setmainfont{Libertinus Serif}
+\setsansfont{Libertinus Sans}
+\setmonofont{NotoSansMono}[
+  Scale=MatchLowercase,
+  Extension=.ttf,
+  UprightFont=*-Light,
+  BoldFont=*-Medium
+]

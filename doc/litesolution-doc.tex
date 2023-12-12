@@ -3,9 +3,9 @@
 \fancyhead[R]{\color{H7}\rightmark\,}
 
 \centerline{Xia Mingyu, \href{https://www.hdu.edu.cn}{Hangzhou Dianzi University}}
-\ddmmyyyydate
+\yyyymmdddate
 \centerline{\mailto{xiamyphys@gmail.com}}
-\centerline{\today,\quad Version 1.0a}
+\centerline{\today,\quad Version 1.2a}
 
 This is the document for \pkg{LiteSolution} template, which provides a lite design of the solution of test paper.
 
@@ -205,7 +205,7 @@ If a star (*) is added after the \verb|\begin{solution}|, then the content will 
 \end{solution}
 \end{tcblisting}
 
-\paragraph{If mode \mode{noans} is enabled, the solution will disappear, leaving only a blank box with the same height as the solution, and the name of the box will change to \emph{\textcolor{1号色}{\textbf{\faIcon{ban} 答案隐藏}}}.}
+\paragraph{If mode \mode{noans} is enabled, the solution will disappear, leaving only a blank box with the same height as the solution, and the name of the box will change to \emph{\textcolor{1号色}{\textbf{\faIcon{pen-square} 答题区域}}}.}
 
 \newpage
 \section{Version History}
@@ -215,15 +215,17 @@ This template is used to type the mid-term and final exam solutions of \emph{Col
 
 \textsf{\bfseries Version 0.1b} was finished developing on 6 July, 2023 and released on \href{https://www.latexstudio.net/index/details/index/mid/3553.html}{LaTeX Studio} (Xiaoshan, Hangzhou) and \href{http://xhslink.com/YBuuuw}{Xiaohongshu}, where won the favor of many people. This version has added the global option to make the page number be remaked or continuous between chapters, and command \cmd{watermark} has been added in this version.
 
-\textsf{\bfseries Version 1.0a} was finished developing on 15 November, 2023. This version has redesigned the \cmd{chapterimage} part, \cmd{choice} and replaced the \cmd{exercise} environment with the \cmd{problem} environment.
+\textsf{\bfseries Version 1.0a} was finished developing on 13 December, 2023. This version has redesigned the \cmd{chapterimage} part, \cmd{choice} and replaced the \cmd{exercise} environment with the \cmd{problem} environment.
 
-\datechange{06/07/2023}{Version 0.1b}
+\textsf{\bfseries Version 1.2a} was finished developing on 15 November, 2023. This version has  integrated the chapter design of \href{https://www.ctan.org/pkg/elegantbook}{\pkg*{ElegantBook}} into the star (*) key value of this template \cmd{chapter}. And some commands friendly for matrices typesetting were added in. The command \cmd{chapterfont} was redesigned that it can call the font in the local path or call system font with(out) a star (*) after it. Also, the environment \cmd{proof} was redesigned.
+
+\datechange{2023/07/06}{Version 0.1b}
 \begin{itemize}
     \item Support page number remaking between chapters.
     \item Added \cmd{watermark} command.
 \end{itemize}
 
-\datechange{15/11/2023}{Version 1.0a}
+\datechange{2023/11/15}{Version 1.0a}
 \begin{itemize}
     \item Redesigned the \cmd{chapterimage} part, include the layout and the code.
     \item Redesigned the \cmd{choice} and \cmd{solution} environment, keywords become optional and supports star (*) key. 
@@ -231,10 +233,14 @@ This template is used to type the mid-term and final exam solutions of \emph{Col
     \item Added the \cmd{note} environment and some customer commands.
 \end{itemize}
 
+\datechange{\today}{Version 1.0b}
+\begin{itemize}
+    \item Fixed the bug with the gap above the chapter image.
+    \item Redesigned the \cmd{chapterfont} command.
+\end{itemize}
+
 \subsection*{Future Plans}
 \begin{itemize}
-    \item Plan to integrate the color management of \href{https://www.ctan.org/pkg/elegantbook}{\pkg*{ElegantBook}}.
-    \item Plan to integrate the chapter design of \href{https://www.ctan.org/pkg/elegantbook}{\pkg*{ElegantBook}} into the star (*) key value of this template \cmd{chapter}.
     \item Plan to add the \mode{dark} mode to this template to make the text color light while make the page color dark to protect eyesight.
     \item Plan to change the \verb|*.cls| file to a block code design to make it easier for subsequent developers to maintain or modify.
     \item ......
