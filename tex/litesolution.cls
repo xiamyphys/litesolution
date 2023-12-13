@@ -14,11 +14,16 @@
 %% ************************************************************************************************************
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{litesolution}[15/11/2023 v1.0a LiteSolution document class]
+\PassOptionsToPackage{quiet}{xeCJK}
+\PassOptionsToPackage{quiet}{fontspec}
+\PassOptionsToPackage{no-math}{fontspec}
+
+\ProvidesClass{litesolution}[2023/12/13 v1.2a LiteSolution document class]
 \RequirePackage{kvoptions}
 \RequirePackage{etoolbox}
 \SetupKeyvalOptions{family=LITE, prefix=LITE@, setkeys=\kvsetkeys}
 \newcommand{\ekv}[1]{\kvsetkeys{LITE}{#1}}
+
 % ---- 全局选项
 \DeclareStringOption[ans]{answer}
 \DeclareVoidOption{ans}{\ekv{answer=ans}}
@@ -37,51 +42,15 @@
 \ProcessKeyvalOptions*\relax
 \LoadClass[a4paper,oneside]{book}
 \RequirePackage[letterpaper,margin=0.75in,headheight=0.25in,headsep=0.2in,footskip=0.2in]{geometry}
+\usepackage[level]{datetime}
 
 \RequirePackage{extarrows}% 长等号
-\RequirePackage{fixdif,derivative}% 微分算子修复
 \RequirePackage{physics2}
 \usephysicsmodule{ab,ab.legacy,braket,nabla.legacy}
 \RequirePackage{amsmath,amssymb}
 \usepackage{nicematrix}
 \RequirePackage{bm}
 \RequirePackage{esint}
-\makeatletter
-\def\sim@x@scale{.15}
-\def\sim@y@scale{.05}
-\def\sim@y@thick{.02}
-\newsavebox\sim@upper
-\newsavebox\sim@lower
-% extensible sim symbol
-\NewDocumentCommand{\xSim}{ O{} m }{%
-  \TextOrMath{%
-    \PackageError{TEST}{`\string\xSim` is valid in math mode only.}{}%
-  }{
-    % math mode only, hence no need to eliminate spaces
-    \sbox\sim@upper{$\scriptsize #2$}
-    \sbox\sim@lower{$\scriptsize #1$}
-    \pgfmathparse{min(max(\wd\sim@upper/1em, \wd\sim@lower/1em, 1.0), 1.5)}
-    \edef\sim@ratio{\pgfmathresult}
-    \def\sim@x {\sim@x@scale * \sim@ratio}
-    \def\sim@y {\sim@y@scale * \sim@ratio}
-    \def\sim@@y{\sim@y@thick * \sim@ratio}
-    \pgfmathparse{floor(max(\wd\sim@upper/1em, \wd\sim@lower/1em)) + 1}
-    \edef\sim@wd{\pgfmathresult em}
-    \mathrel{
-      \begin{tikzpicture}[baseline=-.7ex]
-        \filldraw[line width=.2pt] 
-          (0, 0)
-            .. controls +(\sim@x, \sim@y+\sim@@y) and +(-\sim@x, -\sim@y) .. 
-          +(\sim@wd, 0) 
-            node[midway, above] {\usebox\sim@upper} 
-            node[midway, below] {\usebox\sim@lower}
-            .. controls +(-\sim@x, -\sim@y-\sim@@y) and +(\sim@x, \sim@y) .. 
-          (0, 0);
-      \end{tikzpicture}
-    }
-  }%
-}
-
 \RequirePackage[e]{esvect}% 矢量箭头
 \RequirePackage{bbm}% 花体字
 \RequirePackage{dutchcal}% 花体字2
@@ -117,9 +86,10 @@
   \let\Bbbk\relax
   \RequirePackage[lite]{mtpro2}
 }{\relax}
-
 \RequirePackage[UTF8,scheme=plain]{ctex}
 \RequirePackage{xeCJK}
+\RequirePackage[no-math]{fontspec}
+\RequirePackage{fixdif,derivative}
 \NewDocumentCommand\chapterfont{s m}{
   \IfBooleanTF{#1}{
     \setCJKfamilyfont{chapterfont}{#2}[Extension =.ttf]
@@ -129,17 +99,14 @@
   }
   \gdef\@chapterfont{#2}
 }
+\setmainfont{Libertinus Serif}
+\setsansfont{Libertinus Sans}
 
 \setcounter{tocdepth}{1}
-
-\PassOptionsToPackage{no-math}{fontspec}
-\PassOptionsToPackage{quiet}{fontspec}
-\RequirePackage[no-math]{fontspec}
-
 \AfterEndPreamble{
   \setlength\parindent{2\ccwd}}{\relax}
 
-%% 章节以及页脚图形
+%% 章节
 \RequirePackage{xcolor}
 \RequirePackage{silence}
 \RequirePackage[center,pagestyles]{titlesec}
@@ -152,22 +119,31 @@
 
 \ifdefstring{\LITE@answer}{ans}{
   \definecolor{solutioncolor}{HTML}{0F2350} %
-  \newcommand{\solutionname}{\faIcon{check-square} 分析与解}
+  \def\solutionname{\faIcon{check-square} 分析与解}
   \def\ans#1{\underline{\color{solutioncolor}\ #1\ }}
   \def\choiceans#1{{\color{solutioncolor}\ #1\ }}
   \definecolor{backgroundcolor}{HTML}{F8F7E9}
+  \def\solute#1{\relax}
+  \def\hidesolution{\relax}
 }{\relax}
+
 \ifdefstring{\LITE@answer}{noans}{
   \definecolor{solutioncolor}{HTML}{FEFEFB} %
   \def\solutionname{\faIcon{pen-square} 答题区域}
   \def\ans#1{\underline{\phantom{\color{solutioncolor}#1}}}
   \def\choiceans#1{\phantom{\color{solutioncolor}}}
   \definecolor{backgroundcolor}{HTML}{FFFFFF}
+  \def\solute#1{\begin{draft}\vspace{#1em}\end{draft}}
+  \def\hidesolution{
+  \excludecomment{solution}
+  \let\endsolution\relax
+  }
 }{\relax}
+
 \pagecolor{backgroundcolor!20}
-\newcommand{\notename}{\faIcon{info-circle} 注意}
+\def\notename{\faIcon{info-circle} 注意}
 \def\proofname{证明.}
-\newcommand{\problemname}{\faIcon{pen-square} 题目} % 题目=习题
+\def\problemname{\faIcon{pen-square} 题目} % 题目=习题
 
 \RequirePackage[most]{tcolorbox}
 \tcbuselibrary{breakable}
@@ -192,14 +168,14 @@
     \begin{tcolorbox}[
       common,
       borderline west={1.5pt}{0mm}{2号色},
-      title=\bfseries\color{2号色}{\problemname}\theprob\hfill【\quad \choiceans#1 \color{2号色}\quad 】,
+      title=\color{2号色}{\problemname}\theprob\hfill【\quad \choiceans#1 \color{2号色}\quad 】,
       coltitle=2号色
     ]
   }{
     \begin{tcolorbox}[
       common,
       borderline west={1.5pt}{0mm}{2号色},
-      title=\bfseries\color{2号色}{\problemname}\theprob\hfill\color{2号色}\faIcon{tag}~#2\qquad【\quad \choiceans#1 \color{2号色}\quad 】,
+      title=\color{2号色}{\problemname}\theprob\hfill\color{2号色}\faIcon{tag}~#2\qquad【\quad \choiceans#1 \color{2号色}\quad 】,
       coltitle=2号色
     ]
   }
@@ -251,13 +227,13 @@
   \begin{tcolorbox}[
     common,
     borderline west={1.5pt}{0mm}{H1},
-    title=\textbf{\color{H1}\notename},
+    title=\color{H1}\notename,
     coltitle=H1 
   ]
   \kaishu}{\end{tcolorbox}}
 
 \NewDocumentEnvironment{proof}{s}{
-  \par\noindent\bfseries\songti{\color{H1}\proofname\;}
+  \par\noindent\songti{\color{H1}\proofname\;}
   \color{solutioncolor!90}\fangsong
 }{\IfBooleanTF{#1}{\relax}{\QED}}
 
@@ -268,18 +244,28 @@
       borderline west={1.5pt}{0mm}{1号色},
       coltitle=1号色
       ]
-    \textcolor{1号色}{\textbf{\solutionname}}
+    \color{1号色}\textbf{\solutionname}
   }
   {
     \begin{tcolorbox}[
     common,
     borderline west={1.5pt}{0mm}{1号色},
-    title=\textcolor{1号色}{\textbf{\solutionname}},
+    title=\color{1号色}\solutionname,
     coltitle=1号色,
     colupper=solutioncolor,
     collower=solutioncolor
     ]}%
   \kaishu\color{solutioncolor}}{\end{tcolorbox}}
+
+\newenvironment{draft}{
+\begin{tcolorbox}[
+      common,
+      borderline west={1.5pt}{0mm}{1号色},
+      coltitle=1号色
+      ]
+    \color{1号色}\bfseries\solutionname
+  }
+{\end{tcolorbox}}
 
 \RequirePackage{enumerate}
 % list/itemize/enumerate setting
@@ -294,16 +280,14 @@
 \RequirePackage{paracol}
 \columnratio{0.67}
 \RequirePackage{multicol,multirow}
-
 \RequirePackage{fancyvrb}
 
 %绘图
 \RequirePackage{tikz} %% load tikz without tikz
-\usetikzlibrary{intersections,decorations.markings,spy,arrows,shapes,fadings,mindmap,shapes.arrows,shapes.symbols,tikzmark,shapes.geometric,graphs,decorations.pathmorphing,through,arrows.meta,shapes.misc,decorations.shapes,angles,backgrounds,calc,math,decorations,decorations.pathreplacing,fit,quotes,shadows,positioning,patterns,shadings,snakes}
+\usetikzlibrary{intersections,decorations.markings,spy,arrows,shapes,fadings,mindmap,shapes.arrows,shapes.symbols,tikzmark,shapes.geometric,graphs,decorations.pathmorphing,through,arrows.meta,shapes.misc,decorations.shapes,angles,backgrounds,calc,math,decorations,decorations.pathreplacing,fit,quotes,shadows,positioning,patterns,shadings}
 \tikzset{>=stealth,line cap=round,line join=round}
 \RequirePackage{pgfplots}
 \pgfplotsset{compat=1.9}
-%电路图绘制
 \RequirePackage{circuitikz}
 \ctikzset{logic ports=ieee,logic ports/scale=0.6,fill=backgroundcolor}
 
@@ -411,16 +395,22 @@
 \def\T{\mathsf{T}}
 \def\unit#1{\,\mathrm{#1}}
 \def\mat#1{\mathbf{#1}}
-\def\rank#1{\text{R}\ab({#1})}
+\def\rank#1{\text{R}({#1})}
 \def\QED{\hfill\sffamily Q.E.D. }
 \def\mailto#1{\href{mailto:#1}{\nolinkurl{#1}}}
 \def\sokka#1{故本题选择 \textbf{#1} 项.}
-\newcommand\length[4]{
+\def\length#1#2#3#4{
 \node (a) at ($0.5*($#2+#1$)$) {#3};
 \draw [->|] ($0.5*($#2+#1+#4$)$) -- #2; 
-\draw [->|] ($0.5*($#2+#1-#4$)$) -- #1;}
+\draw [->|] ($0.5*($#2+#1-#4$)$) -- #1;
+}
 \def\point#1{\leavevmode\cleaders\hb@xt@.44em{\hss$\cdot$\hss}\hfill\kern\z@\texttt{(#1pt)}}
 \makeatletter
+\pdfstringdefDisableCommands{%
+  \def\pkg#1{<#1>}%
+  \def\mode#1{<#1>}%
+  \def\titlelogo#1#2{<#1#2>}%
+}
 \def\@pkg#1{\texorpdfstring{\href{https://www.ctan.org/pkg/#1}{\textcolor{pkgcolor}{\textsf{#1}}}}{“#1”}}
 \def\s@pkg#1{\texorpdfstring{\textcolor{pkgcolor}{\textsf{#1}}}{“#1”}}
 \DeclareRobustCommand\pkg{\@ifstar\s@pkg\@pkg}
@@ -438,8 +428,10 @@
   \lower\dimexpr\f@size\p@*1/10\hbox{\includegraphics[height={\f@size\p@}]{#1}}
   }
 \DeclareRobustCommand\titlelogo{\@ifstar\s@titlelogo\@titlelogo}
+
 \RequirePackage{qrcode}
 \qrset{link, height=4em}
+
 \renewcommand*{\date}[8]{
   \vspace{-0.5em}
   \begin{minipage}{0.64\textwidth}
@@ -469,12 +461,40 @@
   \end{minipage}
   \vspace{-0.5em}
 }
+
+\def\sim@x@scale{.15}
+\def\sim@y@scale{.05}
+\def\sim@y@thick{.02}
+\newsavebox\sim@upper
+\newsavebox\sim@lower
+% extensible sim symbol
+\NewDocumentCommand{\xSim}{ O{} m }{%
+  \TextOrMath{%
+    \PackageError{TEST}{`\string\xSim` is valid in math mode only.}{}%
+  }{
+    % math mode only, hence no need to eliminate spaces
+    \sbox\sim@upper{$\scriptstyle #2$}
+    \sbox\sim@lower{$\scriptstyle #1$}
+    \pgfmathparse{min(max(\wd\sim@upper/1em, \wd\sim@lower/1em, 1.0), 1.5)}
+    \edef\sim@ratio{\pgfmathresult}
+    \def\sim@x {\sim@x@scale * \sim@ratio}
+    \def\sim@y {\sim@y@scale * \sim@ratio}
+    \def\sim@@y{\sim@y@thick * \sim@ratio}
+    \pgfmathparse{floor(max(\wd\sim@upper/1em, \wd\sim@lower/1em)) + 1}
+    \edef\sim@wd{\pgfmathresult em}
+    \mathrel{
+      \begin{tikzpicture}[baseline=-.7ex]
+        \filldraw[line width=.2pt] 
+          (0, 0)
+            .. controls +(\sim@x, \sim@y+\sim@@y) and +(-\sim@x, -\sim@y) .. 
+          +(\sim@wd, 0) 
+            node[midway, above] {\usebox\sim@upper} 
+            node[midway, below] {\usebox\sim@lower}
+            .. controls +(-\sim@x, -\sim@y-\sim@@y) and +(\sim@x, \sim@y) .. 
+          (0, 0);
+      \end{tikzpicture}
+    }
+  }%
+}
 \makeatother
-\setmainfont{Libertinus Serif}
-\setsansfont{Libertinus Sans}
-\setmonofont{NotoSansMono}[
-  Scale=MatchLowercase,
-  Extension=.ttf,
-  UprightFont=*-Light,
-  BoldFont=*-Medium
-]
+\hidesolution
