@@ -1,11 +1,164 @@
-\documentclass[ans,continuous]{litesolution}
-
+\documentclass[ans]{litesolution}
+\newenvironment{abstract}
+    {\small\setstretch{2}\begin{center}\textbf{Abstract}\par}{\end{center}}
 \begin{document}
 
-\chapterimage{cover1.png}
-\input{litesolution-doc.tex}
-\input{litesolution-demo.tex}
-\chapterfont{PingFang HK}
-\input{litesolution-gauge.tex}
+\chapterfont{Chiron Sung HK}
+\chapterimage{Beautiful-realities}
+\chapter{The \pkg{LiteSolution} Template}
+
+\begin{center}
+    Hsia Mingyu, \href{https://www.hdu.edu.cn}{Hangzhou Dianzi University}
+
+    \href{mailto:xiamyphys@gmail.com}{\ttfamily xiamyphys@gmail.com}
+
+    \today, Version 2.0a
+\end{center}
+
+\begin{abstract}
+    This is the document for \pkg{LiteSolution} template, which provides a lite design of the solution of test paper.
+\end{abstract}
+
+\section{Introduction}
+\subsection{The purpose of this template}
+This template provides a fresh design for typesetting solutions of midterm or final exam, textbooks and other exercises. Welcome to feedback bugs or ideas via email \href{mailto:xiamyphys@gmail.com}{\ttfamily xiamyphys@gmail.com} or \href{https://github.com/xiamyphys/litesolution}{GitHub}.
+
+\subsection{Installing \pkg{LiteSolution} and loading it}
+For portable version, simply download latest \verb|litesolution.cls| file from \href{https://github.com/xiamyphys/LiteSolution}{GitHub} or \href{https://ctan.org/pkg/litesolution}{CTAN} and save it under your working directory. This way of installation is simple and convenient, but you have to manually update \verb|.cls| now and then.
+
+However, I strongly suggest that you should use terminal/cmd to implement the commands to update all the packages (and install this package) to the latest version or switch to portable version instead
+\begin{verbatim}
+    sudo tlmgr update --self --all
+\end{verbatim}
+
+If you are in some areas with awful Internet environment (such as a), you can choose proper mirror source or use other means\footnote{Please comply with local network regulations.}. To learn more, please refer to \href{https://tex.stackexchange.com/questions/55437/how-do-i-update-my-tex-distribution}{How do I update my \hologo{TeX} distribution?}
+
+\subsection{Compatibility}
+The test environments are macOS + Mac\hologo{TeX} 2024 / Overleaf and they all work fine for \hologo{pdfLaTeX} and \hologo{XeLaTeX} compilers. Windows, Linux and Unix platforms compatibility unknown.
+
+\clearpage
+
+\section{Global options of \pkg{LiteSolution}}
+\begin{verbatim}
+    \documentclass[options]{litesolution}
+\end{verbatim}
+\subsection{The \mode{answer} option}
+This option has two modes, \mode{ans} and \mode{noans}, which can show and hide answers respectively. After you enabled the \mode{noans} mode, the contents in the environment \cmd{solution}, the command \cmd{ans} and the answers of choice questions will be replaced with an area of the same blank size as the original contents.
+
+\subsection{The \mode{counter} option}
+This option has two modes, \mode{separate} and \mode{continuous}, which can make the page number between chapters be reset or continuous.
+
+\section{Commands of \pkg{LiteSolution}}
+\subsection{The \cmd{chapterimage} command}
+\begin{verbatim}
+    \chapterimage {⟨image path⟩}
+\end{verbatim}
+
+This command can assign the title background image for each subsequent chapter.
+
+\subsection{The \cmd{chapterfont} command}
+\begin{verbatim}
+    \chapterfont [⟨font features⟩] {⟨font name⟩}
+\end{verbatim}
+
+This command can assign the title font for each chapter and the default font of the title is \emph{Songti SC} in Chinese and \emph{Libertinus} in English. This command is \emph{only available with \hologo{XeLaTeX} compiler}.
+
+\subsection{The \cmd{ans} command}
+\begin{verbatim}
+    \ans {⟨contents⟩}
+\end{verbatim}
+ 
+This command can underline the answer, and if mode \mode{noans} is enabled, the answer will disappear, leaving only a horizontal line the same width as the answer.
+
+\subsection{The \cmd{solute} command}
+\begin{verbatim}
+    \solute {⟨number⟩}
+\end{verbatim}
+
+This command can create a fixable answer box when the mode \mode{noans} is enabled.
+
+\subsection{The \cmd{watermark} command}
+\begin{verbatim}
+    \watermark {⟨image path⟩}
+\end{verbatim}
+
+This command can add watermark to the document.
+
+\subsection{Other preset commands}
+This template provides the same math commands as \S 1.5 of the template \pkg{LiteBook} described additionly.
+
+\section{Environments of \pkg{LiteSolution}}
+\subsection{The \cmd{choice} environment}
+\begin{tcblisting}{sidebyside,colback=cmdcolor!5,colframe=cmdcolor!80}
+\begin{problem}[Keywords]
+  You can add keywords to the problem.
+\end{problem}
+\end{tcblisting}
+
+\subsection{The \cmd{solution} environment}
+\begin{tcblisting}{colback=moducolor!5,colframe=moducolor!80}
+\begin{solution}\leavevmode
+    \begin{tasks}(4)
+        \task Choice A  \task[\small\faIcon{check-square}.] Choice B
+        \addtocounter{task}{1}        \task Choice C  \task Choice D
+    \end{tasks}
+\end{solution}
+\end{tcblisting}
+
+\subsection{The \cmd{note} environment}
+\begin{tcblisting}{sidebyside,colback=pkgcolor!5,colframe=pkgcolor!80}
+\begin{note}
+    Please note that...
+\end{note}
+\end{tcblisting}
+
+\section{Version History}
+This template is used to type the midterm and final exam solutions of \emph{College Physics}. Initially, I used the \href{https://github.com/Azure1210/VividBooK}{\pkg{VividBooK}} template for layout. However, this template is too bloated and many functions \& designs are excess and need to be redesigned, so I started developing the \pkg{LiteSolution} template.
+
+\subsection*{Update Announcements}
+\textbf{Version 0.1b -- 2023/07/06}
+\begin{itemize}
+    \item Support page number remaking between chapters.
+    \item Added \cmd{watermark} command.
+\end{itemize}
+
+\vskip1ex\hrule\vskip1ex
+
+\textbf{Version 1.0a -- 2023/11/15}
+\begin{itemize}
+    \item Redesigned the \cmd{chapterimage} part, include the layout and the code.
+    \item Redesigned the \cmd{choice} and \cmd{solution} environments, keywords are optional and supports star (*) key. 
+    \item Replaced the \cmd{exercise} environment with the \cmd{problem} environment, supports adding only keywords or points.
+    \item Added the \cmd{note} environment and some custom commands.
+\end{itemize}
+
+\vskip1ex\hrule\vskip1ex
+
+\textbf{Version 1.2a -- 2023/12/13}
+\begin{itemize}
+    \item Fixed the bug that the gap around the chapter image.
+    \item Added some commands for matrices.
+    \item Redesigned the \cmd{chapterfont} command.
+    \item Redesigned the \cmd{proof} environment.
+    \item Supports to adjust the height of solution box when output the exam paper without answer.
+    \item Fixed the bug that warnings of the packages \pkg{xeCJK} and \pkg{fontspec}.
+\end{itemize}
+
+\vskip1ex\hrule\vskip1ex
+
+\textbf{Version 1.3a -- 2023/03/08}
+\begin{itemize}
+    \item Added the mode \mode{tcolorbox}, which you can choose whether the tcolorbox breakable or not.
+    \item This version separate the chapterimage part to a single \verb|titleimage.sty| file, which will be posted on \nolinkurl{ctan.org} soon to make this template more maintainable.
+\end{itemize}
+
+\vskip1ex\hrule\vskip1ex
+
+\textbf{Version 2.0a -- \today}
+\begin{itemize}
+    \item This version redesigned the whole template and simplified the code, replaced the \pkg{tcolorbox} design with \pkg{amsthm} to accelerate compile.
+    \item Redesigned the chapter title.
+    \item Supports the \hologo{pdfLaTeX} compiler.
+\end{itemize}
 
 \end{document}
