@@ -1,0 +1,44 @@
+\documentclass[svgnames,tikz]{standalone}
+
+\usepackage{xcolor}\let\Bbbk\relax
+\usepackage{newtxtext,mtpro2,cancel,physics2,xfrac}
+\usephysicsmodule{ab.legacy}
+\usetikzlibrary{tikzmark}
+\tikzset{every node/.style={align=center,MidnightBlue!30},
+          every path/.style={MidnightBlue!30,line cap=round}}
+
+\begin{document}\tikz{
+    \node [above right] at (0,0) {$\color{MidnightBlue!30}
+      \tikzmarknode a\Psi=\displaystyle\tikzmarknode b\int
+      \tikzmarknode c{\mathrm e}^{
+        \sfrac{\tikzmarknode d{\mathrm i}}{\tikzmarknode e\hbar}
+        \int\ab(\frac{\tikzmarknode fR}{16\pi \tikzmarknode gG}-\frac14\tikzmarknode hF^2
+        +\overline\psi\mathrm i\tikzmarknode{i}{\cancel D}\psi-\tikzmarknode j\lambda
+        \tikzmarknode k{\varphi\overline\psi}\psi
+        +\abs{D\tikzmarknode l\varphi}^2-V(\varphi))}$};
+      \draw ([yshift=-1ex] a.south) coordinate (A) --++ (0,-.5)
+       node [scale=.45,below] {Schr\"odinger\\\footnotesize wave function};
+      \draw ([yshift=1ex] b.north) coordinate (B) --++ (0,.55)
+       node [scale=.45,above] {\footnotesize path integral\\Feynmann};
+      \draw ([yshift=-1ex] c.south) coordinate (C) --++ (0,-.7)
+       node [scale=.45,below] {Euler\\\footnotesize exponential};
+      \draw ([yshift=1ex] d.north) coordinate (D) --++ (0,.45)
+       node [scale=.45,above,xshift=1ex] {\footnotesize imaginary unit};
+      \draw ([yshift=-1ex] e.south) coordinate (E) --++ (0,-.5)
+       node [scale=.45,below,xshift=2ex] {Planck\\\footnotesize quantum};
+      \draw ([yshift=1ex] f.north) coordinate (F) --++ (0,.7)
+       node [scale=.45,above] {\footnotesize spacetime-relativity\\Einstein};
+      \draw ([yshift=-1ex] g.south) coordinate (G) --++ (0,-.5)
+       node [scale=.45,below] {Newton\\\footnotesize gravitation};
+      \draw ([yshift=1ex] h.north) coordinate (H) --++ (0,.5)
+       node [scale=.45,above,xshift=5ex] {\footnotesize strong/weak/e.m. interactions\\Maxwell Yang-Mills};
+      \draw ([yshift=-1ex] i.south) coordinate (I) --++ (0,-.6)
+       node [scale=.45,below] {Dirac\\\footnotesize relativistic wave function};
+      \draw ([yshift=-1ex] j.south) coordinate (J) --++ (0,-.2)
+       node [scale=.45,below,xshift=3ex] {Kobayashi-Maskawa\\\footnotesize CKM matrix};
+      \draw ([yshift=1ex] k.north) coordinate (K) --++ (0,.5)
+       node [scale=.45,above] {\footnotesize $\varphi$ - $\psi$ interaction\\Yukawa};
+      \draw ([yshift=-1ex] l.south) coordinate (L) --++ (0,-.3)
+       node [scale=.45,below] {Higgs\\\footnotesize Boson};
+      \foreach \x in {A,B,...,L}\fill [MidnightBlue!30] (\x) circle (.025);}
+\end{document}

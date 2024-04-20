@@ -1,32 +1,29 @@
 \documentclass[ans,mtpro2]{litesolution}
 
 \usepackage[listings]{tcolorbox}
+\usepackage{fancyvrb}
 
-\cover{schrodinger}
+\lstset{language=[LaTeX]TeX,basicstyle=\small\ttfamily,breaklines=true,columns=flexible}
 \title{\sffamily The \pkg{LiteSolution} Class}
 \subtitle{\sffamily\scshape Hangzhou Dianzi University}
-\bioinfo{\scshape\sffamily Mingyu Hsia, \href{mailto:xiamyphys@gmail.com}{\ttfamily xiamyphys@gmail.com} | \today, Version 2.1a}
-\coverdecoration{$\Psi=\displaystyle\int\e^{\frac i\hbar\int\ab(\frac{R}{16\pi G}-\frac14F^2+\overline\psi i\cancel D\psi-\lambda\varphi\overline\psi\psi+\abs{D\varphi}^2-V(\varphi))}$}
+\bioinfo{\scshape\sffamily Mingyu Hsia, \href{mailto:xiamyphys@gmail.com}{\ttfamily xiamyphys@gmail.com} | \today, Version 2.1c}
+\cover[checkerboard]{schrodinger}\coverhead[5]{universe}
 
 \begin{document}
-
-\maketitle
+\maketitle[MidnightBlue]
 
 \chapterimage{\UPFadingImage[trim={0 {.9\paperheight} 0 0},clip]{Beautiful-realities}}
-
-\chapter{An Introduction to the \pkg{LiteSolution} Class}
+\chapter{An Introduction to The \pkg{LiteSolution} Class}
 
 \section{Introduction}
 
-This is the document for \pkg{litesolution} template, which provides a lite design of the solution of test paper.
+This is the document for the \pkg{litesolution} class, which provides a lite design for typesetting solutions of exams, textbooks or other exercises.
 
-\subsection{The purpose of this template}
+Welcome to feedback bugs or ideas via email \href{mailto:xiamyphys@gmail.com}{\ttfamily xiamyphys@gmail.com} or \href{https://github.com/xiamyphys/litesolution}{GitHub}.
 
-This template provides a fresh design for typesetting solutions of exams, textbooks or other exercises. Welcome to feedback bugs or ideas via email \href{mailto:xiamyphys@gmail.com}{\ttfamily xiamyphys@gmail.com} or \href{https://github.com/xiamyphys/litesolution}{GitHub}.
+\subsection{Installing \pkg{litesolution} and loading it}
 
-\subsection{Installing \pkg{Litesolution} and loading it}
-
-Simply download \verb|litesolution.cls| file from \href{https://github.com/xiamyphys/LiteSolution}{GitHub} or \href{https://ctan.org/pkg/litesolution}{CTAN} and save it under your working directory. However, I strongly suggest to use terminal to install and update all packages to the latest version
+Simply download \verb|litesolution.cls| file from \href{https://github.com/xiamyphys/litesolution}{GitHub} or \href{https://ctan.org/pkg/litesolution}{CTAN} and save it under your working directory. However, I strongly suggest to use terminal to install and update all packages to the latest version
 
 \begin{verbatim}
     sudo tlmgr update --self --all
@@ -35,9 +32,10 @@ Simply download \verb|litesolution.cls| file from \href{https://github.com/xiamy
 To learn more, please refer to \href{https://tex.stackexchange.com/questions/55437/how-do-i-update-my-tex-distribution}{How do I update my \hologo{TeX} distribution?}
 
 \subsection{Compatibility}
-The test environments are macOS + Mac\hologo{TeX} 2024 / Overleaf and they all work fine for \hologo{pdfLaTeX} and \hologo{XeLaTeX} compilers. Windows, Linux and Unix platforms compatibility unknown.
 
-\section{Global Options of \pkg{Litesolution}}
+The test environments are macOS + Mac\hologo{TeX} 2024 / Overleaf / Ubuntu 22.04.2 + \hologo{TeX} Live 2024 and they all work fine for \hologo{pdfLaTeX} and \hologo{XeLaTeX} compilers. Windows and Unix platforms compatibility unknown.
+
+\section{Global Options of this Class}
 
 \begin{verbatim}
     \documentclass[<options>]{litesolution}
@@ -45,32 +43,36 @@ The test environments are macOS + Mac\hologo{TeX} 2024 / Overleaf and they all w
 
 \subsection{The \mode{answer} option}
 
-This option has two modes, \mode{ans} and \mode{noans}, which can show or hide answers. After the \mode{noans} mode is enabled, the environment \cmd{solution} will be deactivated and contents in command \cmd{ans} will be hidden.
+The \mode{ans} and \mode{noans} modes can show or hide contents in \cmd{solution} environment and \cmd{ans} command.
 
 \subsection{The \mode{counter} option}
 
-This option has two modes, \mode{separate} and \mode{continuous}, which can make the page number between chapters be reset or continuous.
+The \mode{separate} and \mode{continuous} modes can make the page number between chapters be reset or continuous.
+
+\subsection{The \mode{math} option}
+
+The \mode{mtpro2} and \mode{newtx} modes can format the font of formulas in the document. Please check if mtpro2 font has been installed on your computer correctly before using \mode{mtpro2} mode.
 
 \section{Cover Configurations}
 
 \subsection{The cover page configurations}
 
 \begin{verbatim}
-    \cover{<image name>}  \title{<title>}  \subtitle{<vertical subtitle>}
-    \bioinfo{<bioinfo on bottom>}          \coverdecoration{<above contents>}
-\end{verbatim}
+    \title{<content>}               \subtitle{<content>}
+    \bioinfo{<content>}             \cover[<pattern>]{<image>}
+    \coverhead[<angle>]{<image>}    \coverhead*[<angle>]{<content>}
 
-The same as the \pkg{book} class, the macro title could not be omitted, or it will return an error. The following is the cover configurations of this document
+    \begin{document}                \maketitle[<color>]
+\end{verbatim}
 
 \begin{verbatim}
     \title{\sffamily The \pkg{litesolution} Class}
     \subtitle{\sffamily\scshape Hangzhou Dianzi University}
     \bioinfo{\scshape\sffamily Mingyu Hsia, \href{mailto:xiamyphys@gmail.com}
-        {\ttfamily xiamyphys@gmail.com} | \today, Version 2.1a}
-    \coverdecoration{$\Psi=\displaystyle\int\e^{\frac i\hbar
-        \int\ab(\frac{R}{16\pi G}-\frac14F^2+\overline\psi i\cancel D\psi
-        -\lambda\varphi\overline\psi\psi+\abs{D\varphi}^2-V(\varphi))}$}
-    \cover{schrodinger}
+            {\ttfamily xiamyphys@gmail.com} | \today, Version 2.1a}
+    \cover[checkerboard]{schrodinger}       \coverhead[5]{universe}
+
+    \begin{document}                \maketitle[Midnightblue]
 \end{verbatim}
 
 \subsection{The chapter head configurations}
@@ -101,7 +103,10 @@ This command can create a fixable answer box when the mode \mode{noans} is enabl
 
 \subsection{Other preset commands}
 
-This template provides the same math commands as \S 1.5 of the template \pkg{LiteBook} described additionly.
+\begin{verbatim}
+    \def\i{\mathrm i}       \def\e{\mathrm e}       \def\T{\mathsf T}
+    \let\leq\leqslant       \let\geq\geqslant
+\end{verbatim}
 
 \section{Preset \pkg{amsthm} Environments}
 
@@ -134,17 +139,44 @@ This template provides the same math commands as \S 1.5 of the template \pkg{Lit
 \end{tcblisting}    
 \end{minipage}
 
-\appendix
-\def\thesection{Appendix \Alph{section}}
+\subsection{Equation test}
 
-\section{An Introduction to The \pkg{notebeamer} Class}
+\[\i\hbar\partial_t\psi(\mathbf x,t)=-(\i\hbar c\bm\alpha\cdot\bm\nabla+\beta mc^2)\psi(\mathbf x,t)\]
 
-This class provides an easy way to input Beamers on note papers and make notebook quickly. It's optimized for Goodnotes' default paper size and there won't have difference between papers.
+\section{Preset packages}
 
-In the future, this class will be redesigned to a package that optimized for the \pkg{litesolution} class.
+This template has preset many packages. The following packages are the common ones
 
-\section{An Introduction to The \pkg{fadingimage} Package}
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l l l l l l l l}
+        \toprule
+        \pkg{amsthm} & \pkg{bm} & \pkg{booktabs} & \pkg{cancel} & \pkg{caption} & \pkg{circuitikz} & \pkg{datetime} & \pkg{derivative}\\
+        \midrule
+        \pkg{diagbox} & \pkg{esvect} & \pkg{extarrows} & \pkg{fancyhdr} & \pkg{fixdif} & \pkg{fontawesome5} & \pkg{geometry} & \pkg{indentfirst}\\
+        \midrule
+        \pkg{lipsum} & \pkg{multicol} & \pkg{multirow} & \pkg{nicematrix} & \pkg{paracol} & \pkg{pgfplots} & \pkg{physics2} & \pkg{refstyle} \\
+        \midrule
+        \pkg{setspace} & \pkg{siunitx} & \pkg{tabularx} & \pkg{tasks} & \pkg{wallpaper} & \pkg{xcolor} & \pkg{xeCJK} & \pkg{xfrac}\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Related packages}
+
+\subsection{The \pkg{notebeamer} package}
+
+This package provides an easy way to input slides on note papers quickly for making annotations.
+
+\subsection{The \pkg{fadingimage} package}
 
 This package provides three commands for adding fading full width picture at the top or bottom of a page.
+
+\clearpage\appendix\def\thesection{Appendix}
+
+\section{Original code for the cover head}
+
+\setstretch{1.15}
+\lstinputlisting{figure/universe.tex}
 
 \end{document}

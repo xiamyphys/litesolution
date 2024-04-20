@@ -3,7 +3,7 @@
 This template provides a fresh design for typesetting solutions of midterm or final exam, textbooks and other exercises.
 
 **Welcome to pull requests
-[here](https://github.com/xiamyphys/LiteSolution).**
+[here](https://github.com/xiamyphys/litesolution).**
 
 ## License
 

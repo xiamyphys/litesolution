@@ -15,12 +15,12 @@
 %%                                                           *
 %%   This work consists of the files litesolution.cls,       *
 %%                               and README.md.              *
-%%   available at https://github.com/xiamyphys/LitSolution   *
+%%   available at https://github.com/xiamyphys/litsolution   *
 %% ***********************************************************
 % !Mode:: "TeX:UTF-8"
 \NeedsTeXFormat{LaTeX2e}
 \PassOptionsToPackage{svgnames}{xcolor}
-\ProvidesClass{litesolution}[2024/04/17 v2.1a LiteSolution document class]
+\ProvidesClass{litesolution}[2024/04/20 v2.1c LiteSolution document class]
 \RequirePackage{kvoptions}
 \RequirePackage{etoolbox}
 \SetupKeyvalOptions{family=LITE, prefix=LITE@, setkeys=\kvsetkeys}
@@ -42,11 +42,12 @@
 \ProcessKeyvalOptions*\relax
 \LoadClass[letterpaper,11pt,openany]{book}
 
-\RequirePackage{geometry,setspace,datetime,caption,booktabs,multicol,diagbox,paracol,float,enumitem}
+\RequirePackage{setspace,datetime,caption,booktabs,multicol,diagbox,paracol,enumitem}
+\RequirePackage[notelinecolor=MidnightBlue,notemargin=.75in]{notebeamer}
 \RequirePackage[nokeyprefix]{refstyle}
 \newref{fig}{name={\sffamily\bfseries Figure~}}
 \newref{tab}{name={\sffamily\bfseries Table~}}
-\geometry{margin = 1in}
+\geometry{margin=1in}
 \linespread{1.3}
 \ddmmyyyydate
 \captionsetup{labelsep=period,labelfont={bf,sf},font=small}
@@ -58,7 +59,7 @@
 \setlist[enumerate]{itemsep=.5ex}
 \setlist[itemize]{itemsep=.5ex}
 
-\RequirePackage{graphics,graphicx,wallpaper}
+\RequirePackage{graphics,graphicx,wallpaper,pagecolor}
 \graphicspath{{./figure/}{./figures/}{./image/}{./images/}{./graphics/}{./graphic/}{./pictures/}{./picture/}}
 
 \RequirePackage{ifxetex}
@@ -79,13 +80,11 @@
   \RequirePackage[libertine,mono=false]{newtx}
 }{\relax}
 \let\openbox\relax\def\hmmax{0}\def\bmmax{0}
-\RequirePackage{amsthm,mdframed,physics2,bm,fixdif,derivative,cancel,extarrows,siunitx,xfrac,nicematrix}
+\RequirePackage{amsthm,physics2,bm,fixdif,derivative,cancel,extarrows,siunitx,xfrac,nicematrix}
 \usephysicsmodule{ab,braket,diagmat,doubleprod,xmat,ab.legacy,op.legacy}
 \RequirePackage[e]{esvect}
 \AtBeginDocument{%
-  \def\i{\mathrm i}
-  \def\e{\mathrm e}
-  \def\T{\mathsf T}
+  \def\i{\mathrm i}\def\e{\mathrm e}\def\T{\mathsf T}
   \let\leq\leqslant\let\geq\geqslant
   \setlength{\abovedisplayskip}{9pt}
   \setlength{\belowdisplayskip}{9pt}
@@ -99,13 +98,13 @@
 \AddToHook{cmd/faIcon/after}{\endgroup}
 
 \RequirePackage{circuitikz,pgfplots,fadingimage}
-\usetikzlibrary{arrows,tikzmark,patterns,calc,fadings,angles,quotes,intersections,}
+\usetikzlibrary{arrows,tikzmark,patterns,calc,fadings,angles,quotes,intersections}
 \tikzset{>=stealth',
 every picture/.append style={%
     line join=round,line cap=round,thick
   }}
 \pgfplotsset{compat=1.8}
-\ctikzset{capacitors/width=0.12,capacitors/height=0.3}
+\ctikzset{capacitors/width=.12,capacitors/height=.3}
 \NewDocumentCommand\length{ O{} m m m m m }{%
   \node [#1] at ($.5*($#3+#2$)$) {#4}#6
   \draw [->|,thick] ($.5*($#3+#2+#5$)$) -- #3#6
@@ -125,30 +124,39 @@ every picture/.append style={%
 
 \def\subtitle#1{\gdef\@subtitle{#1}}
 \def\bioinfo#1{\gdef\@bioinfo{#1}}
-\def\coverdecoration#1{\gdef\@coverdecoration{#1}}
-\def\cover#1{\gdef\@cover{#1}}
-\renewcommand*\maketitle{
-  \newgeometry{margin = 0in}
+\NewDocumentCommand\coverhead{ s O{0} m }{
+  \IfBooleanTF{#1}{
+    \gdef\s@coverheadrotate{#2}
+    \gdef\s@coverhead{#3}}{
+    \gdef\@coverheadrotate{#2}
+    \gdef\@coverhead{#3}
+    }}
+\NewDocumentCommand\cover{ o m }{
+  \IfValueT{#1}{\gdef\@coverpattern{#1}}
+  \gdef\@cover{#2}}
+\RenewDocumentCommand\maketitle{O{MidnightBlue}}{
+  \newgeometry{margin=0in}\newpagecolor{#1!10}
   \tikz[remember picture,overlay]{
-    \fill [MidnightBlue!10] (current page.north west) rectangle (current page.south east);
+    \ifcsname @coverhead\endcsname
+      \node[rotate=\@coverheadrotate] at ($(current page.center)+(0,.35*\paperheight)$) {\includegraphics[width=\paperwidth]{\@coverhead}};
+    \fi
+    \ifcsname s@coverhead\endcsname
+      \node[scale=2,color=#1!30,rotate=\s@coverheadrotate] at ($(current page.center)+(0,.35*\paperheight)$) {\s@coverhead};
+    \fi
     \fill [white,opacity=.5] ($(current page.south west)+(.2*\paperwidth,.6*\paperheight)$) rectangle (current page.south east);
     \fill [white,opacity=.5] ($(current page.south west)+(.3*\paperwidth,.7*\paperheight)$) rectangle (current page.south east);
     \ifcsname @cover\endcsname
       \node [opacity=.5] at ($(current page.south west)+(.65*\paperwidth,.3*\paperheight)$) {\includegraphics[height=.3\paperheight]{\@cover}};
-      \foreach \a in {0,1,...,50}
-        \fill [pattern=checkerboard,pattern color=MidnightBlue!10!white!50!white!50] ($(current page.south west)+(.3*\paperwidth,0)$) rectangle ++ (.7*\paperwidth,.6\paperheight);
-    \fi
+      \ifcsname @coverpattern\endcsname
+      \fill [pattern=\@coverpattern,pattern color=#1!10!white!50!white!50] ($(current page.south west)+(.3*\paperwidth,0)$) rectangle ++ (.7*\paperwidth,.6\paperheight);
+    \fi\fi
     \node [darkgray] at ($(current page.south west)+(.65*\paperwidth,.65*\paperheight)$) {\Huge\bfseries\@title};
     \ifcsname @subtitle\endcsname
-      \node [rotate=90,gray!60] at ($(current page.south west)+(.25*\paperwidth,.3*\paperheight)$) {\huge\bfseries\@subtitle};
-    \fi
-    \ifcsname @coverdecoration\endcsname
-    \node[opacity=0.5,scale=2,color=MidnightBlue!40,rotate=15] at ($(current page.center)+(0,.35*\paperheight)$) {\@coverdecoration};
+      \node [rotate=90,gray,opacity=.6] at ($(current page.south west)+(.25*\paperwidth,.3*\paperheight)$) {\huge\bfseries\@subtitle};
     \fi
     \ifcsname @bioinfo\endcsname
-      \node [gray!40] at ($(current page.south)+(.15*\paperwidth,.075*\paperheight)$) {\large\@bioinfo};
-    \fi
-  }\restoregeometry
+      \node [gray,opacity=.4] at ($(current page.south)+(.15*\paperwidth,.075*\paperheight)$) {\large\@bioinfo};
+    \fi}\restoregeometry\restorepagecolor
 }
 
 \def\chapterimage#1{\gdef\@chapterimage{#1}}
@@ -200,16 +208,10 @@ every picture/.append style={%
   \AtBeginDocument{%
     \excludecomment{solution}\excludecomment{note}
     \let\endsolution\relax\let\endnote\relax}
-  \def\true{%
-    \addtocounter{task}{1}%
-    \thetask
-  }
+  \def\true{\addtocounter{task}{1}\thetask}
 }{\relax}
 \def\solute{\@ifstar\s@solute\@solute}
 
-\newtheoremstyle{tags}{3pt}{3pt}{}{}{}{}{.5em}
-  {\bfseries  \thmname{#1} \thmnumber{#2}. \hfill \thmnote{\normalfont\faIcon{rss}~#3}\\\leavevmode}
-\theoremstyle{tags}
 \theoremstyle{definition}
 \newtheorem{problem}{\scshape\sffamily\color{DarkGreen}\faIcon{pen-square}~\scshape Problem}[chapter]
 \def\theproblem{\arabic{problem}}
