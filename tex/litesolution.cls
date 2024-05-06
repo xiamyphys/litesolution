@@ -1,5 +1,5 @@
 %% ***********************************************************
-%%   Copyright 2024 by Mingyu Hsia <xiamyphys@gmail.com>     *
+%%   Copyright 2024 by Mingyu Hsia <xiamyphys@hdu.edu.cn>    *
 %%                                                           *
 %%   This work may be distributed and/or modified under      *
 %%   the conditions of the LaTeX Project Public License      *
@@ -19,34 +19,33 @@
 %% ***********************************************************
 % !Mode:: "TeX:UTF-8"
 \NeedsTeXFormat{LaTeX2e}
+\PassOptionsToPackage{no-math}{fontspec}
 \PassOptionsToPackage{svgnames}{xcolor}
-\ProvidesClass{litesolution}[2024/04/20 v2.1c LiteSolution document class]
+\ProvidesClass{litesolution}[2024/05/06 v2.2a LiteSolution document class]
 \RequirePackage{kvoptions}
 \RequirePackage{etoolbox}
 \SetupKeyvalOptions{family=LITE, prefix=LITE@, setkeys=\kvsetkeys}
 \def\ekv#1{\kvsetkeys{LITE}{#1}}
 
-\DeclareStringOption[ans]{answer}
-\DeclareVoidOption{ans}{\ekv{answer=ans}}
-\DeclareVoidOption{noans}{\ekv{answer=noans}}
+\DeclareStringOption{answer}
+\DeclareVoidOption{hideanswer}{\ekv{answer=hideanswer}}
 
 \DeclareStringOption[newtx]{math}
 \DeclareVoidOption{newtx}{\ekv{math=newtx}}
+\DeclareVoidOption{newtxsf}{\ekv{math=newtxsf}}
 \DeclareVoidOption{mtpro2}{\ekv{math=mtpro2}}
-
-\DeclareStringOption[separate]{counter}
-\DeclareVoidOption{separate}{\ekv{counter=separate}}
-\DeclareVoidOption{continuous}{\ekv{counter=continuous}}
 
 \DeclareDefaultOption{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessKeyvalOptions*\relax
 \LoadClass[letterpaper,11pt,openany]{book}
 
-\RequirePackage{setspace,datetime,caption,booktabs,multicol,diagbox,paracol,enumitem}
+\RequirePackage{setspace,datetime,caption,booktabs,multicol,diagbox,paracol}
+\RequirePackage[inline]{enumitem}
 \RequirePackage[notelinecolor=MidnightBlue,notemargin=.75in]{notebeamer}
 \RequirePackage[nokeyprefix]{refstyle}
-\newref{fig}{name={\sffamily\bfseries Figure~}}
-\newref{tab}{name={\sffamily\bfseries Table~}}
+\newref{eq}{refcmd=(\ref{#1}),name={\sffamily eq.~},Name={\sffamily Eq.~}}
+\newref{fig}{name={\sffamily fig.~},Name={\sffamily Fig.~}}
+\newref{tab}{name={\sffamily tab.~},Name={\sffamily Tab.~}}
 \geometry{margin=1in}
 \linespread{1.3}
 \ddmmyyyydate
@@ -70,19 +69,32 @@
 \fi
 
 \ifdefstring{\LITE@math}{mtpro2}{%
-  \RequirePackage{amssymb}
-  \let\Bbbk\relax
   \RequirePackage[mtpscr,mtpccal,mtpfrak]{mtpro2}
+  \let\Bbbk\relax
   \RequirePackage[mono=false]{libertine}
 }{\relax}
 
 \ifdefstring{\LITE@math}{newtx}{%
   \RequirePackage[libertine,mono=false]{newtx}
+  \let\Bbbk\relax
+}{\relax}
+
+\ifdefstring{\LITE@math}{newtxsf}{%
+  \RequirePackage{newtxsf,mathrsfs}
+  \RequirePackage[mono=false]{libertine}
 }{\relax}
 \let\openbox\relax\def\hmmax{0}\def\bmmax{0}
-\RequirePackage{amsthm,physics2,bm,fixdif,derivative,cancel,extarrows,siunitx,xfrac,nicematrix}
+\RequirePackage{amsthm,amssymb,mathtools,physics2,bm,fixdif,derivative,cancel,extarrows,siunitx,xfrac,nicematrix}
+\renewcommand\qedsymbol{$\color{gray}\blacksquare$}
 \usephysicsmodule{ab,braket,diagmat,doubleprod,xmat,ab.legacy,op.legacy}
 \RequirePackage[e]{esvect}
+\let\vec\vv
+\renewcommand*\env@cases[1][.84]{%
+  \let\@ifnextchar\new@ifnextchar
+  \left\lbrace
+  \def\arraystretch{#1}%
+  \array{@{}l@{\quad}l@{}}%
+}
 \AtBeginDocument{%
   \def\i{\mathrm i}\def\e{\mathrm e}\def\T{\mathsf T}
   \let\leq\leqslant\let\geq\geqslant
@@ -91,6 +103,7 @@
 }
 
 \RequirePackage[hidelinks]{hyperref}
+\def\mailto#1{\href{mailto:#1}{\ttfamily #1}}
 \RequirePackage{fontawesome5}
 \AddToHook{cmd/faIcon/before}{%
   \begingroup\fontsize{\fpeval{\f@size*.8}}{0}\selectfont
@@ -98,7 +111,7 @@
 \AddToHook{cmd/faIcon/after}{\endgroup}
 
 \RequirePackage{circuitikz,pgfplots,fadingimage}
-\usetikzlibrary{arrows,tikzmark,patterns,calc,fadings,angles,quotes,intersections}
+\usetikzlibrary{arrows,tikzmark,patterns,calc,angles,quotes,intersections}
 \tikzset{>=stealth',
 every picture/.append style={%
     line join=round,line cap=round,thick
@@ -124,13 +137,9 @@ every picture/.append style={%
 
 \def\subtitle#1{\gdef\@subtitle{#1}}
 \def\bioinfo#1{\gdef\@bioinfo{#1}}
-\NewDocumentCommand\coverhead{ s O{0} m }{
-  \IfBooleanTF{#1}{
-    \gdef\s@coverheadrotate{#2}
-    \gdef\s@coverhead{#3}}{
-    \gdef\@coverheadrotate{#2}
-    \gdef\@coverhead{#3}
-    }}
+\NewDocumentCommand\coverhead{ O{0} m }{
+  \gdef\@coverheadrotate{#1}\gdef\@coverhead{#2}
+}
 \NewDocumentCommand\cover{ o m }{
   \IfValueT{#1}{\gdef\@coverpattern{#1}}
   \gdef\@cover{#2}}
@@ -139,9 +148,6 @@ every picture/.append style={%
   \tikz[remember picture,overlay]{
     \ifcsname @coverhead\endcsname
       \node[rotate=\@coverheadrotate] at ($(current page.center)+(0,.35*\paperheight)$) {\includegraphics[width=\paperwidth]{\@coverhead}};
-    \fi
-    \ifcsname s@coverhead\endcsname
-      \node[scale=2,color=#1!30,rotate=\s@coverheadrotate] at ($(current page.center)+(0,.35*\paperheight)$) {\s@coverhead};
     \fi
     \fill [white,opacity=.5] ($(current page.south west)+(.2*\paperwidth,.6*\paperheight)$) rectangle (current page.south east);
     \fill [white,opacity=.5] ($(current page.south west)+(.3*\paperwidth,.7*\paperheight)$) rectangle (current page.south east);
@@ -159,62 +165,76 @@ every picture/.append style={%
     \fi}\restoregeometry\restorepagecolor
 }
 
+\let\@chapapptmp\@chapapp
+\def\@chapapp{\textsc{\@chapapptmp}}
 \def\chapterimage#1{\gdef\@chapterimage{#1}}
+\def\HUGE{\@setfontsize\HUGE{30}{40}}
 \def\@makechapterhead#1{%
+  \def\thesection{\arabic{chapter}.\arabic{section}}
+  \def\theproblem{\thechapter.\arabic{problem}}
+  \vspace*{-36\p@}{%
+  \parindent \z@ \raggedright \normalfont
+    \ifcsname @chapterimage\endcsname
+      \@chapterimage
+      \else\leavevmode
+    \fi
+    \ifnum \c@secnumdepth >\m@ne
+            \if@mainmatter
+        \parbox{2cm}
+        {\centering\HUGE\normalfont\bfseries\textcolor{darkgray}\thechapter\vskip4\p@\normalsize\bfseries\textcolor{darkgray}{\bfseries\sffamily\@chapapp}}%
+            \fi
+    \fi
+    \interlinepenalty\@M\hspace*{3ex}
+    \huge\bfseries #1\par\nobreak
+    \vskip 36\p@
+}}
+\def\@makeschapterhead#1{%
+  \def\thesection{\arabic{section}}
+  \def\theproblem{\arabic{problem}}
   \setcounter{section}{0}
   \setcounter{problem}{0}
-  \setcounter{page}{1}{\centering
+  {\centering
   \ifcsname @chapterimage\endcsname
     \@chapterimage
-  \fi\leavevmode\vskip-42\p@
+  \fi\vskip-40\p@
     \parindent \z@ \normalfont
       \interlinepenalty\@M
       \huge \bfseries #1\par\nobreak
-    \vskip 26\p@}}
-
-\def\mailto#1{\href{mailto:#1}{\ttfamily #1}}
-\def\thesection{\arabic{section}}
-\def\ans#1{\underline{~#1~}}
-\AddToHook{cmd/section/before}{\setcounter{problem}{0}}
+    \vskip 28\p@}}
 
 \RequirePackage{fancyhdr}
 \pagestyle{fancy}
   \let\oldheadrule\headrule
   \renewcommand{\headrule}{{\color{gray}\oldheadrule}}
   \renewcommand{\headrulewidth}{1pt}\cfoot{}
-  \fancyhead[OL]{\textsc{\color{darkgray}\nouppercase\leftmark}}
+  \fancyhead[OL]{\color{darkgray}\nouppercase\leftmark}
   \fancyhead[OR]{\color{darkgray}\sffamily\thepage}
-  \fancyhead[ER]{\textsc{\color{darkgray}\nouppercase\rightmark}}
+  \fancyhead[ER]{\color{darkgray}\nouppercase\rightmark}
   \fancyhead[EL]{\color{darkgray}\sffamily\thepage}
   \setlength{\headheight}{14pt}
 
 \RequirePackage{comment}
-\ifdefstring{\LITE@answer}{ans}{%
-  \def\ans#1{\underline{~#1~}}
-  \def\s@solute#1{\relax}\def\@solute#1{\relax}
-  \AtBeginDocument{%
-    \excludecomment{draft}
-    \let\enddraft\relax}
-  \def\true{%
-    \addtocounter{task}{1}%
-    \faIcon{check-circle}}
-}{\relax}
-
-\ifdefstring{\LITE@answer}{noans}{%
+\ifdefstring{\LITE@answer}{hideanswer}{%
   \def\ans#1{\underline{\phantom{#1}}}
   \def\choiceans#1{\phantom{#1}}
-  \def\s@solute#1{\begin{draft}#1\end{draft}}
-  \def\@solute#1{\begin{draft}\leavevmode\vspace*{#1ex}\end{draft}}
+  \def\s@solute#1{\begin{scratch}#1\end{scratch}}
+  \def\@solute#1{\begin{scratch}\leavevmode\vspace*{#1ex}\end{scratch}}
   \AtBeginDocument{%
     \excludecomment{solution}\excludecomment{note}
     \let\endsolution\relax\let\endnote\relax}
   \def\true{\addtocounter{task}{1}\thetask}
-}{\relax}
-\def\solute{\@ifstar\s@solute\@solute}
+}{
+  \def\ans#1{\underline{~#1~}}
+  \def\s@solute#1{\relax}\def\@solute#1{\relax}
+  \AtBeginDocument{%
+    \excludecomment{scratch}
+    \let\endscratch\relax}
+  \def\true{\addtocounter{task}{1}\faIcon{check-circle}}
+}
+\DeclareRobustCommand\solute{\@ifstar\s@solute\@solute}
 
 \theoremstyle{definition}
-\newtheorem{problem}{\scshape\sffamily\color{DarkGreen}\faIcon{pen-square}~\scshape Problem}[chapter]
-\def\theproblem{\arabic{problem}}
-\newtheorem*{solution}{\scshape\sffamily\color{MidnightBlue}\faIcon{check-square}~\scshape Solution}
-\newtheorem*{draft}{\scshape\sffamily\color{MidnightBlue}\faIcon{check-square}~\scshape Solution}
-\newtheorem*{note}{\scshape\sffamily\color{DarkRed}\faIcon{info-circle}~\scshape Note}
+\newtheorem{problem}{\color{DarkGreen}\faIcon{pen-square}~\textsc{\textsf{Problem}}}[chapter]
+\newtheorem*{solution}{\color{MidnightBlue}\faIcon{check-square}~\textsc{\textsf{Solution}}}
+\newtheorem*{scratch}{\color{MidnightBlue}\faIcon{check-square}~\textsc{\textsf{Scratch}}}
+\newtheorem*{note}{\color{DarkRed}\faIcon{info-circle}~\textsc{\textsf{Note}}}

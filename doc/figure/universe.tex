@@ -1,14 +1,14 @@
 \documentclass[svgnames,tikz]{standalone}
 
-\usepackage{xcolor}\let\Bbbk\relax
+\usepackage{xcolor}
 \usepackage{newtxtext,mtpro2,cancel,physics2,xfrac}
 \usephysicsmodule{ab.legacy}
 \usetikzlibrary{tikzmark}
-\tikzset{every node/.style={align=center,MidnightBlue!30},
-          every path/.style={MidnightBlue!30,line cap=round}}
+\tikzset{every node/.style={align=center,DarkSlateGray!30},
+          every path/.style={DarkSlateGray!30,line cap=round}}
 
 \begin{document}\tikz{
-    \node [above right] at (0,0) {$\color{MidnightBlue!30}
+    \node [above right] at (0,0) {$\color{DarkSlateGray!30}
       \tikzmarknode a\Psi=\displaystyle\tikzmarknode b\int
       \tikzmarknode c{\mathrm e}^{
         \sfrac{\tikzmarknode d{\mathrm i}}{\tikzmarknode e\hbar}
@@ -40,5 +40,5 @@
        node [scale=.45,above] {\footnotesize $\varphi$ - $\psi$ interaction\\Yukawa};
       \draw ([yshift=-1ex] l.south) coordinate (L) --++ (0,-.3)
        node [scale=.45,below] {Higgs\\\footnotesize Boson};
-      \foreach \x in {A,B,...,L}\fill [MidnightBlue!30] (\x) circle (.025);}
+      \foreach \x in {A,B,...,L}\fill [DarkSlateGray!30] (\x) circle (.025);}
 \end{document}

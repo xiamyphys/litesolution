@@ -1,27 +1,26 @@
-\documentclass[ans,mtpro2]{litesolution}
+\documentclass[mtpro2]{litesolution}
 
 \usepackage[listings]{tcolorbox}
-\usepackage{fancyvrb}
-
 \lstset{language=[LaTeX]TeX,basicstyle=\small\ttfamily,breaklines=true,columns=flexible}
+
 \title{\sffamily The \pkg{LiteSolution} Class}
 \subtitle{\sffamily\scshape Hangzhou Dianzi University}
-\bioinfo{\scshape\sffamily Mingyu Hsia, \href{mailto:xiamyphys@gmail.com}{\ttfamily xiamyphys@gmail.com} | \today, Version 2.1c}
-\cover[checkerboard]{schrodinger}\coverhead[5]{universe}
+\bioinfo{Mingyu Hsia (\mailto{xiamyphys@hdu.edu.cn})\quad|\quad\today\quad|\quad Version 2.2a}
+\cover[checkerboard]{schrodinger}\coverhead[3]{universe}
 
 \begin{document}
-\maketitle[MidnightBlue]
+\maketitle[DarkSlateGray]
 
-\chapterimage{\UPFadingImage[trim={0 {.9\paperheight} 0 0},clip]{Beautiful-realities}}
-\chapter{An Introduction to The \pkg{LiteSolution} Class}
+\chapterimage{\UPFadingImage*[trim={0 {.9\paperheight} 0 0},clip]{Beautiful-realities}}
+\chapter{User Manual For The \pkg{LiteSolution} Class}
 
 \section{Introduction}
 
-This is the document for the \pkg{litesolution} class, which provides a lite design for typesetting solutions of exams, textbooks or other exercises.
+This is the document for the \pkg{LiteSolution} class, which is designed for typesetting solutions of problems in exams, textbooks, etc.
 
-Welcome to feedback bugs or ideas via email \href{mailto:xiamyphys@gmail.com}{\ttfamily xiamyphys@gmail.com} or \href{https://github.com/xiamyphys/litesolution}{GitHub}.
+Welcome to feedback bugs or ideas via email \href{mailto:xiamyphys@hdu.edu.cn}{\ttfamily xiamyphys@hdu.edu.cn} or \href{https://github.com/xiamyphys/litesolution}{GitHub}.
 
-\subsection{Installing \pkg{litesolution} and loading it}
+\subsection{Installing \pkg{LiteSolution} and loading it}
 
 Simply download \verb|litesolution.cls| file from \href{https://github.com/xiamyphys/litesolution}{GitHub} or \href{https://ctan.org/pkg/litesolution}{CTAN} and save it under your working directory. However, I strongly suggest to use terminal to install and update all packages to the latest version
 
@@ -43,36 +42,38 @@ The test environments are macOS + Mac\hologo{TeX} 2024 / Overleaf / Ubuntu 22.04
 
 \subsection{The \mode{answer} option}
 
-The \mode{ans} and \mode{noans} modes can show or hide contents in \cmd{solution} environment and \cmd{ans} command.
-
-\subsection{The \mode{counter} option}
-
-The \mode{separate} and \mode{continuous} modes can make the page number between chapters be reset or continuous.
+The \mode{hideanswer} mode can hide contents in \cmd{solution} environment and \cmd{ans} command.
 
 \subsection{The \mode{math} option}
 
-The \mode{mtpro2} and \mode{newtx} modes can format the font of formulas in the document. Please check if mtpro2 font has been installed on your computer correctly before using \mode{mtpro2} mode.
+The \mode{mtpro2}, \mode{newtx} and \mode{newtxsf} modes can format the font of formulas in the document. Please check if mtpro2 font has been installed on your computer correctly before using \mode{mtpro2} mode.
+
+\section{Related packages}
+\begin{description}
+    \item[Package \pkg{notebeamer}] provides macros for inputting slides on note papers quickly.
+    \item[Package \pkg{fadingimage}] provides macros for inputting full width picture at the edges of pages quickly.
+\end{description}
 
 \section{Cover Configurations}
 
 \subsection{The cover page configurations}
 
 \begin{verbatim}
-    \title{<content>}               \subtitle{<content>}
-    \bioinfo{<content>}             \cover[<pattern>]{<image>}
-    \coverhead[<angle>]{<image>}    \coverhead*[<angle>]{<content>}
+    \title{<content>}                 \subtitle{<content>}
+    \bioinfo{<content>}               \cover[<pattern>]{<image>}
+    \coverhead[<angle>]{<image>}      \coverhead*[<angle>]{<content>}
 
-    \begin{document}                \maketitle[<color>]
+    \begin{document}                  \maketitle[<color>]
 \end{verbatim}
 
 \begin{verbatim}
-    \title{\sffamily The \pkg{litesolution} Class}
+    \title{\sffamily The \pkg{LiteSolution} Class}
     \subtitle{\sffamily\scshape Hangzhou Dianzi University}
-    \bioinfo{\scshape\sffamily Mingyu Hsia, \href{mailto:xiamyphys@gmail.com}
-            {\ttfamily xiamyphys@gmail.com} | \today, Version 2.1a}
-    \cover[checkerboard]{schrodinger}       \coverhead[5]{universe}
+    \bioinfo{Mingyu Hsia (\mailto{xiamyphys@hdu.edu.cn})
+            \quad|\quad\today\quad|\quad Version 2.1d}
+    \cover[checkerboard]{schrodinger} \coverhead[5]{universe}
 
-    \begin{document}                \maketitle[Midnightblue]
+    \begin{document}                  \maketitle[Midnightblue]
 \end{verbatim}
 
 \subsection{The chapter head configurations}
@@ -105,7 +106,7 @@ This command can create a fixable answer box when the mode \mode{noans} is enabl
 
 \begin{verbatim}
     \def\i{\mathrm i}       \def\e{\mathrm e}       \def\T{\mathsf T}
-    \let\leq\leqslant       \let\geq\geqslant
+    \let\leq\leqslant       \let\geq\geqslant       \let\vec\vv
 \end{verbatim}
 
 \section{Preset \pkg{amsthm} Environments}
@@ -113,7 +114,7 @@ This command can create a fixable answer box when the mode \mode{noans} is enabl
 \subsection{The \cmd{problem} environment}
 
 \begin{tcblisting}{sidebyside,colback=DarkGreen!5,colframe=DarkGreen!80}
-\begin{problem}\leavevmode
+\begin{problem}[Keywords]\leavevmode
 \begin{tasks}(2)
   \task Choice A  \task[\true] Choice B
   \task Choice C  \task Choice D
@@ -148,29 +149,26 @@ This command can create a fixable answer box when the mode \mode{noans} is enabl
 This template has preset many packages. The following packages are the common ones
 
 \begin{table}[htbp]
-    \centering
+    \centering\small
     \begin{tabular}{l l l l l l l l}
         \toprule
-        \pkg{amsthm} & \pkg{bm} & \pkg{booktabs} & \pkg{cancel} & \pkg{caption} & \pkg{circuitikz} & \pkg{datetime} & \pkg{derivative}\\
+        \pkg{amsthm}      & \pkg{amssymb}    & \pkg{bm}         & \pkg{booktabs} &
+        \pkg{cancel}      & \pkg{caption}    & \pkg{circuitikz} & \pkg{datetime} \\
         \midrule
-        \pkg{diagbox} & \pkg{esvect} & \pkg{extarrows} & \pkg{fancyhdr} & \pkg{fixdif} & \pkg{fontawesome5} & \pkg{geometry} & \pkg{indentfirst}\\
+        \pkg{derivative}  & \pkg{diagbox}    & \pkg{esvect}     & \pkg{extarrows} &
+        \pkg{fadingimage} & \pkg{fancyhdr}   & \pkg{fixdif}     & \pkg{fontawesome5} \\
         \midrule
-        \pkg{lipsum} & \pkg{multicol} & \pkg{multirow} & \pkg{nicematrix} & \pkg{paracol} & \pkg{pgfplots} & \pkg{physics2} & \pkg{refstyle} \\
+        \pkg{geometry}    & \pkg{graphics}   & \pkg{graphicx}   & \pkg{hyperref} &
+        \pkg{indentfirst} & \pkg{lipsum}     & \pkg{mathtools}  & \pkg{multicol} \\
         \midrule
-        \pkg{setspace} & \pkg{siunitx} & \pkg{tabularx} & \pkg{tasks} & \pkg{wallpaper} & \pkg{xcolor} & \pkg{xeCJK} & \pkg{xfrac}\\
+        \pkg{multirow}    & \pkg{nicematrix} & \pkg{notebeamer} & \pkg{paracol} &
+        \pkg{pgfplots}    & \pkg{physics2}   & \pkg{qrcode}     & \pkg{refstyle} \\
+        \midrule
+        \pkg{setspace}    & \pkg{siunitx}    & \pkg{tabularx}   & \pkg{tasks} &
+        \pkg{wallpaper}   & \pkg{xcolor}     & \pkg{xeCJK}      & \pkg{xfrac} \\
         \bottomrule
     \end{tabular}
 \end{table}
-
-\section{Related packages}
-
-\subsection{The \pkg{notebeamer} package}
-
-This package provides an easy way to input slides on note papers quickly for making annotations.
-
-\subsection{The \pkg{fadingimage} package}
-
-This package provides three commands for adding fading full width picture at the top or bottom of a page.
 
 \clearpage\appendix\def\thesection{Appendix}
 
