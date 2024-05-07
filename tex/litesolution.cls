@@ -21,7 +21,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \PassOptionsToPackage{no-math}{fontspec}
 \PassOptionsToPackage{svgnames}{xcolor}
-\ProvidesClass{litesolution}[2024/05/06 v2.2a LiteSolution document class]
+\ProvidesClass{litesolution}[2024/05/07 v2.2b LiteSolution document class]
 \RequirePackage{kvoptions}
 \RequirePackage{etoolbox}
 \SetupKeyvalOptions{family=LITE, prefix=LITE@, setkeys=\kvsetkeys}
@@ -37,16 +37,9 @@
 
 \DeclareDefaultOption{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessKeyvalOptions*\relax
-\LoadClass[letterpaper,11pt,openany]{book}
+\LoadClass[letterpaper,11pt]{book}
 
 \RequirePackage{setspace,datetime,caption,booktabs,multicol,diagbox,paracol}
-\RequirePackage[inline]{enumitem}
-\RequirePackage[notelinecolor=MidnightBlue,notemargin=.75in]{notebeamer}
-\RequirePackage[nokeyprefix]{refstyle}
-\newref{eq}{refcmd=(\ref{#1}),name={\sffamily eq.~},Name={\sffamily Eq.~}}
-\newref{fig}{name={\sffamily fig.~},Name={\sffamily Fig.~}}
-\newref{tab}{name={\sffamily tab.~},Name={\sffamily Tab.~}}
-\geometry{margin=1in}
 \linespread{1.3}
 \ddmmyyyydate
 \captionsetup{labelsep=period,labelfont={bf,sf},font=small}
@@ -55,8 +48,15 @@
 \AtBeginEnvironment{paracol}{\nointerlineskip}
 \AfterEndEnvironment{paracol}{\nointerlineskip}
 \columnratio{.64}
+\RequirePackage[inline]{enumitem}
 \setlist[enumerate]{itemsep=.5ex}
 \setlist[itemize]{itemsep=.5ex}
+\RequirePackage[notelinecolor=MidnightBlue,notemargin=.75in]{notebeamer}
+\geometry{margin=1in}
+\RequirePackage[nokeyprefix]{refstyle}
+\newref{eq}{refcmd=(\ref{#1}),name={\sffamily eq.~},Name={\sffamily Eq.~}}
+\newref{fig}{name={\sffamily fig.~},Name={\sffamily Fig.~}}
+\newref{tab}{name={\sffamily tab.~},Name={\sffamily Tab.~}}
 
 \RequirePackage{graphics,graphicx,wallpaper,pagecolor}
 \graphicspath{{./figure/}{./figures/}{./image/}{./images/}{./graphics/}{./graphic/}{./pictures/}{./picture/}}
@@ -73,12 +73,10 @@
   \let\Bbbk\relax
   \RequirePackage[mono=false]{libertine}
 }{\relax}
-
 \ifdefstring{\LITE@math}{newtx}{%
   \RequirePackage[libertine,mono=false]{newtx}
   \let\Bbbk\relax
 }{\relax}
-
 \ifdefstring{\LITE@math}{newtxsf}{%
   \RequirePackage{newtxsf,mathrsfs}
   \RequirePackage[mono=false]{libertine}
@@ -113,7 +111,7 @@
 \RequirePackage{circuitikz,pgfplots,fadingimage}
 \usetikzlibrary{arrows,tikzmark,patterns,calc,angles,quotes,intersections}
 \tikzset{>=stealth',
-every picture/.append style={%
+    every picture/.append style={%
     line join=round,line cap=round,thick
   }}
 \pgfplotsset{compat=1.8}
@@ -144,17 +142,18 @@ every picture/.append style={%
   \IfValueT{#1}{\gdef\@coverpattern{#1}}
   \gdef\@cover{#2}}
 \RenewDocumentCommand\maketitle{O{MidnightBlue}}{
-  \newgeometry{margin=0in}\newpagecolor{#1!10}
+  \begin{titlepage}
+  \newgeometry{margin=0in}\newpagecolor{#1!15}
   \tikz[remember picture,overlay]{
     \ifcsname @coverhead\endcsname
-      \node[rotate=\@coverheadrotate] at ($(current page.center)+(0,.35*\paperheight)$) {\includegraphics[width=\paperwidth]{\@coverhead}};
+      \node [rotate=\@coverheadrotate] at ($(current page.center)+(0,.35*\paperheight)$) {\includegraphics[width=\paperwidth]{\@coverhead}};
     \fi
     \fill [white,opacity=.5] ($(current page.south west)+(.2*\paperwidth,.6*\paperheight)$) rectangle (current page.south east);
     \fill [white,opacity=.5] ($(current page.south west)+(.3*\paperwidth,.7*\paperheight)$) rectangle (current page.south east);
     \ifcsname @cover\endcsname
       \node [opacity=.5] at ($(current page.south west)+(.65*\paperwidth,.3*\paperheight)$) {\includegraphics[height=.3\paperheight]{\@cover}};
       \ifcsname @coverpattern\endcsname
-      \fill [pattern=\@coverpattern,pattern color=#1!10!white!50!white!50] ($(current page.south west)+(.3*\paperwidth,0)$) rectangle ++ (.7*\paperwidth,.6\paperheight);
+      \fill [pattern=\@coverpattern,pattern color=#1!15!white!25] ($(current page.south west)+(.3*\paperwidth,0)$) rectangle ++ (.7*\paperwidth,.6\paperheight);
     \fi\fi
     \node [darkgray] at ($(current page.south west)+(.65*\paperwidth,.65*\paperheight)$) {\Huge\bfseries\@title};
     \ifcsname @subtitle\endcsname
@@ -162,8 +161,23 @@ every picture/.append style={%
     \fi
     \ifcsname @bioinfo\endcsname
       \node [gray,opacity=.4] at ($(current page.south)+(.15*\paperwidth,.075*\paperheight)$) {\large\@bioinfo};
-    \fi}\restoregeometry\restorepagecolor
+    \fi}
+  \end{titlepage}
+    \restoregeometry\restorepagecolor
+    \if@twoside
+      \clearpage%
+      \newpagecolor{#1!15!white!50}
+      \thispagestyle{empty}%
+      \null\clearpage
+    \fi\restorepagecolor
 }
+
+\RequirePackage{tocloft}
+\setlength{\cftbeforetoctitleskip}{6\p@}
+\setlength{\cftaftertoctitleskip}{24\p@}
+\setlength{\cftbeforesecskip}{3\p@}
+\def\contentsname{\sffamily\scshape\hfill Contents\hfill}
+\setcounter{tocdepth}{1}
 
 \let\@chapapptmp\@chapapp
 \def\@chapapp{\textsc{\@chapapptmp}}
@@ -180,7 +194,7 @@ every picture/.append style={%
     \fi
     \ifnum \c@secnumdepth >\m@ne
             \if@mainmatter
-        \parbox{2cm}
+        \parbox{6em}
         {\centering\HUGE\normalfont\bfseries\textcolor{darkgray}\thechapter\vskip4\p@\normalsize\bfseries\textcolor{darkgray}{\bfseries\sffamily\@chapapp}}%
             \fi
     \fi
@@ -201,18 +215,42 @@ every picture/.append style={%
       \interlinepenalty\@M
       \huge \bfseries #1\par\nobreak
     \vskip 28\p@}}
+\let\cleardoublepage=\clearpage
+\renewcommand*{\cleardoublepage}{\clearpage\if@twoside \ifodd\c@page\else
+\ifnum \thechapter=0
+  \vspace*{\fill}
+    {\centering\itshape\Large This page was intentionally left blank.\par}
+  \vspace{\fill}
+\else
+  \clearpage%
+  \thispagestyle{empty}%
+  \null\clearpage
+\fi
+\thispagestyle{empty}\newpage
+\if@twocolumn\hbox{}\newpage\fi\fi\fi}
 
 \RequirePackage{fancyhdr}
 \pagestyle{fancy}
   \let\oldheadrule\headrule
   \renewcommand{\headrule}{{\color{gray}\oldheadrule}}
-  \renewcommand{\headrulewidth}{1pt}\cfoot{}
-  \fancyhead[OL]{\color{darkgray}\nouppercase\leftmark}
-  \fancyhead[OR]{\color{darkgray}\sffamily\thepage}
-  \fancyhead[ER]{\color{darkgray}\nouppercase\rightmark}
-  \fancyhead[EL]{\color{darkgray}\sffamily\thepage}
+  \renewcommand{\headrulewidth}{1pt}
+  \if@twoside\cfoot{}
+    \fancyhead[OL]{\color{darkgray}\nouppercase\leftmark}
+    \fancyhead[OR]{\color{darkgray}\sffamily\thepage}
+    \fancyhead[ER]{\color{darkgray}\nouppercase\rightmark}
+    \fancyhead[EL]{\color{darkgray}\sffamily\thepage}
+  \else
+    \fancyhead[L]{\color{darkgray}\nouppercase\leftmark}
+    \fancyhead[R]{\color{darkgray}\nouppercase\rightmark}
+    \cfoot{\color{darkgray}\sffamily\thepage}
+  \fi
   \setlength{\headheight}{14pt}
 
+\theoremstyle{definition}
+\newtheorem{problem}{\color{DarkGreen}\faIcon{pen-square}~\textsc{\textsf{Problem}}}[chapter]
+\newtheorem*{solution}{\color{MidnightBlue}\faIcon{check-square}~\textsc{\textsf{Solution}}}
+\newtheorem*{scratch}{\color{MidnightBlue}\faIcon{check-square}~\textsc{\textsf{Scratch}}}
+\newtheorem*{note}{\color{DarkRed}\faIcon{info-circle}~\textsc{\textsf{Note}}}
 \RequirePackage{comment}
 \ifdefstring{\LITE@answer}{hideanswer}{%
   \def\ans#1{\underline{\phantom{#1}}}
@@ -232,9 +270,5 @@ every picture/.append style={%
   \def\true{\addtocounter{task}{1}\faIcon{check-circle}}
 }
 \DeclareRobustCommand\solute{\@ifstar\s@solute\@solute}
-
-\theoremstyle{definition}
-\newtheorem{problem}{\color{DarkGreen}\faIcon{pen-square}~\textsc{\textsf{Problem}}}[chapter]
-\newtheorem*{solution}{\color{MidnightBlue}\faIcon{check-square}~\textsc{\textsf{Solution}}}
-\newtheorem*{scratch}{\color{MidnightBlue}\faIcon{check-square}~\textsc{\textsf{Scratch}}}
-\newtheorem*{note}{\color{DarkRed}\faIcon{info-circle}~\textsc{\textsf{Note}}}
+%%
+%% End of file `litesolution.cls'.

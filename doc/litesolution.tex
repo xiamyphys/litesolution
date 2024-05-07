@@ -1,20 +1,22 @@
-\documentclass[mtpro2]{litesolution}
+\documentclass[mtpro2,twoside,openany]{litesolution}
 
 \usepackage[listings]{tcolorbox}
 \lstset{language=[LaTeX]TeX,basicstyle=\small\ttfamily,breaklines=true,columns=flexible}
 
 \title{\sffamily The \pkg{LiteSolution} Class}
 \subtitle{\sffamily\scshape Hangzhou Dianzi University}
-\bioinfo{Mingyu Hsia (\mailto{xiamyphys@hdu.edu.cn})\quad|\quad\today\quad|\quad Version 2.2a}
+\bioinfo{Mingyu Hsia (\mailto{xiamyphys@hdu.edu.cn})\quad|\quad\today\quad|\quad Version 2.2b}
 \cover[checkerboard]{schrodinger}\coverhead[3]{universe}
 
 \begin{document}
+
 \maketitle[DarkSlateGray]
-
+\frontmatter\tableofcontents\mainmatter
 \chapterimage{\UPFadingImage*[trim={0 {.9\paperheight} 0 0},clip]{Beautiful-realities}}
-\chapter{User Manual For The \pkg{LiteSolution} Class}
 
-\section{Introduction}
+\chapter{Introduction to the \pkg{LiteSolution} Class}
+
+\section{Preface}
 
 This is the document for the \pkg{LiteSolution} class, which is designed for typesetting solutions of problems in exams, textbooks, etc.
 
@@ -48,11 +50,13 @@ The \mode{hideanswer} mode can hide contents in \cmd{solution} environment and \
 
 The \mode{mtpro2}, \mode{newtx} and \mode{newtxsf} modes can format the font of formulas in the document. Please check if mtpro2 font has been installed on your computer correctly before using \mode{mtpro2} mode.
 
-\section{Related packages}
+\section{Related Packages}
 \begin{description}
     \item[Package \pkg{notebeamer}] provides macros for inputting slides on note papers quickly.
     \item[Package \pkg{fadingimage}] provides macros for inputting full width picture at the edges of pages quickly.
 \end{description}
+
+\chapter{Settings \& Usages of this Class}
 
 \section{Cover Configurations}
 
@@ -70,7 +74,7 @@ The \mode{mtpro2}, \mode{newtx} and \mode{newtxsf} modes can format the font of 
     \title{\sffamily The \pkg{LiteSolution} Class}
     \subtitle{\sffamily\scshape Hangzhou Dianzi University}
     \bioinfo{Mingyu Hsia (\mailto{xiamyphys@hdu.edu.cn})
-            \quad|\quad\today\quad|\quad Version 2.2a}
+            \quad|\quad\today\quad|\quad Version 2.2b}
     \cover[checkerboard]{schrodinger} \coverhead[5]{universe}
 
     \begin{document}                  \maketitle[Midnightblue]
@@ -84,67 +88,7 @@ The \mode{mtpro2}, \mode{newtx} and \mode{newtxsf} modes can format the font of 
 
 This command can assign the format of the image at every chapters begin and you can adjust the format of the image with the \pkg{fadingimage} package.
 
-\section{Preset Commands}
-
-\subsection{The \cmd{ans} command}
-
-\begin{verbatim}
-    \ans {<contents>}
-\end{verbatim}
- 
-This command can underline the answer, and if mode \mode{noans} is enabled, the answer will be hidden.
-
-\subsection{The \cmd{solute} command}
-
-\begin{verbatim}
-    \solute {<number>}              \solute* {<contents>}
-\end{verbatim}
-
-This command can create a fixable answer box when the mode \mode{noans} is enabled.
-
-\subsection{Other preset commands}
-
-\begin{verbatim}
-    \def\i{\mathrm i}       \def\e{\mathrm e}       \def\T{\mathsf T}
-    \let\leq\leqslant       \let\geq\geqslant       \let\vec\vv
-\end{verbatim}
-
-\section{Preset \pkg{amsthm} Environments}
-
-\subsection{The \cmd{problem} environment}
-
-\begin{tcblisting}{sidebyside,colback=DarkGreen!5,colframe=DarkGreen!80}
-\begin{problem}[Keywords]\leavevmode
-\begin{tasks}(2)
-  \task Choice A  \task[\true] Choice B
-  \task Choice C  \task Choice D
-\end{tasks}
-\end{problem}
-\end{tcblisting}
-
-\subsection{The \cmd{solution} and \cmd{note} environment}
-
-\begin{minipage}{.48\textwidth}
-\begin{tcblisting}{sidebyside,colback=MidnightBlue!5,colframe=MidnightBlue!80}
-\begin{solution}
-  B is correct.
-\end{solution}
-\end{tcblisting}
-\end{minipage}
-\hfill
-\begin{minipage}{.48\textwidth}
-\begin{tcblisting}{sidebyside,colback=DarkRed!5,colframe=DarkRed!80}
-\begin{note}
-  We note that.
-\end{note}
-\end{tcblisting}    
-\end{minipage}
-
-\subsection{Equation test}
-
-\[\i\hbar\partial_t\psi(\mathbf x,t)=-(\i\hbar c\bm\alpha\cdot\bm\nabla+\beta mc^2)\psi(\mathbf x,t)\]
-
-\section{Preset packages}
+\section{Preset Packages}
 
 This template has preset many packages. The following packages are the common ones
 
@@ -170,9 +114,70 @@ This template has preset many packages. The following packages are the common on
     \end{tabular}
 \end{table}
 
-\clearpage\appendix\def\thesection{Appendix}
+\section{Preset Commands}
 
-\section{Original code for the cover head}
+\subsection{The \cmd{ans} command}
+
+\begin{verbatim}
+    \ans {<contents>}
+\end{verbatim}
+ 
+This command can underline the answer, and if mode \mode{noans} is enabled the answer will be hidden.
+
+\subsection{The \cmd{solute} command}
+
+\begin{verbatim}
+    \solute {<number>}              \solute* {<contents>}
+\end{verbatim}
+
+This command can create a fixable answer box when the mode \mode{noans} is enabled.
+
+\subsection{Other preset commands}
+
+\begin{verbatim}
+    \def\i{\mathrm i}       \def\e{\mathrm e}       \def\T{\mathsf T}
+    \let\leq\leqslant       \let\geq\geqslant       \let\vec\vv
+\end{verbatim}
+
+\section{Preset \pkg{amsthm} Environments}
+
+\subsection{The \cmd{problem} environment}
+
+\begin{tcblisting}{sidebyside,colback=DarkGreen!5,colframe=DarkGreen!80}
+\begin{problem}[<Keywords>]\leavevmode
+\begin{tasks}(2)
+  \task Choice A  \task[\true] Choice B
+  \task Choice C  \task Choice D
+\end{tasks}
+\end{problem}
+\end{tcblisting}
+
+\subsection{The \cmd{solution} and \cmd{note} environment}
+
+\begin{minipage}{.48\textwidth}
+\begin{tcblisting}{sidebyside,colback=MidnightBlue!5,colframe=MidnightBlue!80}
+\begin{solution}
+  B is correct.
+\end{solution}
+\end{tcblisting}
+\end{minipage}
+\hfill
+\begin{minipage}{.48\textwidth}
+\begin{tcblisting}{sidebyside,colback=DarkRed!5,colframe=DarkRed!80}
+\begin{note}
+  We note that.
+\end{note}
+\end{tcblisting}    
+\end{minipage}
+
+\section{Equation test}
+
+\[\begin{cases}
+    \i\hbar\partial_t\psi(\mathbf x,t)=\ab(-\frac{\hbar^2}{2m}\bm\nabla^2+V)\\
+    \i\hbar\partial_t\psi(\mathbf x,t)=-(\i\hbar c\bm\alpha\cdot\bm\nabla+\beta mc^2)\psi(\mathbf x,t)
+\end{cases}\]
+
+\section*{Original Code for the Cover Head}
 
 \setstretch{1.15}
 \lstinputlisting{figure/universe.tex}
