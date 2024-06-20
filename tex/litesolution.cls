@@ -15,7 +15,7 @@
 %%                                                           *
 %%   This work consists of the files litesolution.cls,       *
 %%                               and README.md.              *
-%%   available at https://github.com/xiamyphys/litsolution   *
+%%   available at https://github.com/xiamyphys/litesolution  *
 %% ***********************************************************
 % !Mode:: "TeX:UTF-8"
 \NeedsTeXFormat{LaTeX2e}
