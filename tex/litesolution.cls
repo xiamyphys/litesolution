@@ -21,7 +21,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \PassOptionsToPackage{no-math}{fontspec}
 \PassOptionsToPackage{svgnames}{xcolor}
-\ProvidesClass{litesolution}[2024/07/02 v2.4a LiteSolution document class]
+\ProvidesClass{litesolution}[2024/08/15 v2.4a LiteSolution document class]
 \RequirePackage{kvoptions,etoolbox,keyval}
 \SetupKeyvalOptions{family=LITE, prefix=LITE@, setkeys=\kvsetkeys}
 \def\ekv#1{\kvsetkeys{LITE}{#1}}
