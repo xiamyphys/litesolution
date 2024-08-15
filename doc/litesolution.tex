@@ -1,17 +1,34 @@
+%% ******************************************************
+%% * This work may be distributed and/or modified under *
+%% * the conditions of the LaTeX Project Public License *
+%% *     http://www.latex-project.org/lppl.txt          *
+%% * either version 1.3c of this license or any later   *
+%% * version.                                           *
+%% ******************************************************
 \documentclass[mtpro2,twoside,openany]{litesolution}
-
 \usepackage[listings]{tcolorbox}
+\usepackage{pmboxdraw}
 \lstset{language=[LaTeX]TeX,basicstyle=\small\ttfamily,breaklines=true,columns=flexible}
 
-\title{\sffamily The \pkg{LiteSolution} Class}
-\subtitle{\sffamily\scshape Hangzhou Dianzi University}
-\bioinfo{Mingyu Hsia (\mailto{xiamyphys@hdu.edu.cn})\quad|\quad\today\quad|\quad Version 2.2b}
-\cover[checkerboard]{schrodinger}\coverhead[3]{universe}
+\coverset{
+    title            = \sffamily The \pkg{LiteSolution} Class,
+    subtitle         = \sffamily\scshape Hangzhou Dianzi University,
+    bioinfo          = Mingyu XIA (\mailto{xiamyphys@gmail.com})\quad|\quad Version 2.4a,
+    covercolor       = DarkSeaGreen,
+    coverhead        = universe,
+    coverhead.rotate = 3,
+    cover            = schrodinger,
+    cover.pattern    = sixpointed stars
+}
 
 \begin{document}
 
-\maketitle[DarkSlateGray]
-\frontmatter\tableofcontents\mainmatter
+\maketitle
+
+\frontmatter
+\tableofcontents
+\mainmatter
+
 \chapterimage{\UPFadingImage*[trim={0 {.9\paperheight} 0 0},clip]{Beautiful-realities}}
 
 \chapter{Introduction to the \pkg{LiteSolution} Class}
@@ -20,7 +37,7 @@
 
 This is the document for the \pkg{LiteSolution} class, which is designed for typesetting solutions of problems in exams, textbooks, etc.
 
-Welcome to feedback bugs or ideas via email \href{mailto:xiamyphys@hdu.edu.cn}{\ttfamily xiamyphys@hdu.edu.cn} or \href{https://github.com/xiamyphys/litesolution}{GitHub}.
+Welcome to feedback bugs or ideas via email \href{mailto:xiamyphys@gmail.com}{\ttfamily xiamyphys@gmail.com} or \href{https://github.com/xiamyphys/litesolution}{GitHub}.
 
 \subsection{Installing \pkg{LiteSolution} and loading it}
 
@@ -39,18 +56,18 @@ The test environments are macOS + Mac\hologo{TeX} 2024 / Overleaf / Ubuntu 22.04
 \section{Global Options of this Class}
 
 \begin{verbatim}
-    \documentclass[<options>]{litesolution}
+    \documentclass[⟨options⟩]{litesolution}
 \end{verbatim}
 
 \subsection{The \mode{answer} option}
 
-The \mode{hideanswer} mode can hide contents in \cmd{solution} environment and \cmd{ans} command.
+The \mode{hideanswer} mode can hide contents in the \cmd{solution} environment and \cmd{ans} command, and make the effect of \cmd{emph} weaker.
 
 \subsection{The \mode{math} option}
 
 The \mode{mtpro2}, \mode{newtx} and \mode{newtxsf} modes can format the font of formulas in the document. Please check if mtpro2 font has been installed on your computer correctly before using \mode{mtpro2} mode.
 
-\section{Related Packages}
+\section{Derivative Works}
 \begin{description}
     \item[Package \pkg{notebeamer}] provides macros for inputting slides on note papers quickly.
     \item[Package \pkg{fadingimage}] provides macros for inputting full width picture at the edges of pages quickly.
@@ -63,27 +80,23 @@ The \mode{mtpro2}, \mode{newtx} and \mode{newtxsf} modes can format the font of 
 \subsection{The cover page configurations}
 
 \begin{verbatim}
-    \title{<content>}                 \subtitle{<content>}
-    \bioinfo{<content>}               \cover[<pattern>]{<image>}
-    \coverhead[<angle>]{<image>}      \coverhead*[<angle>]{<content>}
-
-    \begin{document}                  \maketitle[<color>]
-\end{verbatim}
-
-\begin{verbatim}
-    \title{\sffamily The \pkg{LiteSolution} Class}
-    \subtitle{\sffamily\scshape Hangzhou Dianzi University}
-    \bioinfo{Mingyu Hsia (\mailto{xiamyphys@hdu.edu.cn})
-            \quad|\quad\today\quad|\quad Version 2.2b}
-    \cover[checkerboard]{schrodinger} \coverhead[5]{universe}
-
-    \begin{document}                  \maketitle[Midnightblue]
+    \coverset{
+        title            = \sffamily The \pkg{LiteSolution} Class,
+        subtitle         = \sffamily\scshape Hangzhou Dianzi University,
+        bioinfo          = Mingyu XIA (\mailto{xiamyphys@gmail.com})\quad|\quad
+                           Version 2.4a,
+        covercolor       = DarkSeaGreen,
+        coverhead        = universe,
+        coverhead.rotate = 3,
+        cover            = schrodinger,
+        cover.pattern    = sixpointed stars
+    }
 \end{verbatim}
 
 \subsection{The chapter head configurations}
 
 \begin{verbatim}
-    \chapterimage {<insert image macro>}
+    \chapterimage {⟨insert image macro⟩}
 \end{verbatim}
 
 This command can assign the format of the image at every chapters begin and you can adjust the format of the image with the \pkg{fadingimage} package.
@@ -94,24 +107,32 @@ This template has preset many packages. The following packages are the common on
 
 \begin{table}[htbp]
     \centering\small
-    \begin{tabular}{l l l l l l l l}
+    \begin{tabularx}{.96\linewidth}{*{6}{X}}
         \toprule
-        \pkg{amsthm}      & \pkg{amssymb}    & \pkg{bm}         & \pkg{booktabs} &
-        \pkg{cancel}      & \pkg{caption}    & \pkg{circuitikz} & \pkg{datetime} \\
+        \pkg{amsthm}      & \pkg{amssymb}     & \pkg{bm}          &
+        \pkg{booktabs}    & \pkg{cancel}      & \pkg{caption}\\
         \midrule
-        \pkg{derivative}  & \pkg{diagbox}    & \pkg{esvect}     & \pkg{extarrows} &
-        \pkg{fadingimage} & \pkg{fancyhdr}   & \pkg{fixdif}     & \pkg{fontawesome5} \\
+        \pkg{circuitikz}  & \pkg{datetime}    & \pkg{derivative}  &
+        \pkg{diagbox}     & \pkg{enumitem}    & \pkg{esvect}\\
         \midrule
-        \pkg{geometry}    & \pkg{graphics}   & \pkg{graphicx}   & \pkg{hyperref} &
-        \pkg{indentfirst} & \pkg{lipsum}     & \pkg{mathtools}  & \pkg{multicol} \\
+        \pkg{extarrows}   & \pkg{fadingimage} & \pkg{fancyhdr}    &
+        \pkg{fixdif}      & \pkg{fontawesome5}& \pkg{geometry}\\
         \midrule
-        \pkg{multirow}    & \pkg{nicematrix} & \pkg{notebeamer} & \pkg{paracol} &
-        \pkg{pgfplots}    & \pkg{physics2}   & \pkg{qrcode}     & \pkg{refstyle} \\
+        \pkg{graphicx}    & \pkg{hyperref}    & \pkg{indentfirst} &
+        \pkg{lipsum}      & \scriptsize\pkg{magicwatermark}       & \pkg{mathtools}\\
         \midrule
-        \pkg{setspace}    & \pkg{siunitx}    & \pkg{tabularx}   & \pkg{tasks} &
-        \pkg{wallpaper}   & \pkg{xcolor}     & \pkg{xeCJK}      & \pkg{xfrac} \\
+        \pkg{mhchem}      & \pkg{multicol}    & \pkg{multirow}    &
+        \pkg{nicematrix}  & \pkg{notebeamer}  & \pkg{paracol}\\
+        \midrule
+        \pkg{pgfplots}    & \pkg{physics2}    & \pkg{qrcode}      &
+        \pkg{refstyle}    & \pkg{setspace}    & \pkg{siunitx}\\
+        \midrule
+        \pkg{subcaption}  & \pkg{tabularx}    & \pkg{soul}        &
+        \pkg{tasks}       & \pkg{ulem}        & \pkg{xcolor}\\
+        \midrule
+        \pkg{xeCJK}       & \pkg{xeCJKfntef}  & \pkg{xfrac}\\
         \bottomrule
-    \end{tabular}
+    \end{tabularx}
 \end{table}
 
 \section{Preset Commands}
@@ -119,7 +140,7 @@ This template has preset many packages. The following packages are the common on
 \subsection{The \cmd{ans} command}
 
 \begin{verbatim}
-    \ans {<contents>}
+    \ans {⟨contents⟩}
 \end{verbatim}
  
 This command can underline the answer, and if mode \mode{noans} is enabled the answer will be hidden.
@@ -127,10 +148,20 @@ This command can underline the answer, and if mode \mode{noans} is enabled the a
 \subsection{The \cmd{solute} command}
 
 \begin{verbatim}
-    \solute {<number>}              \solute* {<contents>}
+    \solute {⟨number⟩}                \solute* {⟨contents⟩}
 \end{verbatim}
 
 This command can create a fixable answer box when the mode \mode{noans} is enabled.
+
+\subsection{The \cmd{emph} command}
+
+\begin{verbatim}
+    \emph {⟨content⟩}                 \emph* {⟨content⟩}
+\end{verbatim}
+
+\emph{The Quick Brown Fox Jumps Over the Lazy Dog: non-hideanswer mode}
+
+\emph*{The Quick Brown Fox Jumps Over the Lazy Dog: hideanswer mode}
 
 \subsection{Other preset commands}
 
@@ -144,7 +175,7 @@ This command can create a fixable answer box when the mode \mode{noans} is enabl
 \subsection{The \cmd{problem} environment}
 
 \begin{tcblisting}{sidebyside,colback=DarkGreen!5,colframe=DarkGreen!80}
-\begin{problem}[<Keywords>]\leavevmode
+\begin{problem}[Keywords]\leavevmode
 \begin{tasks}(2)
   \task Choice A  \task[\true] Choice B
   \task Choice C  \task Choice D
@@ -167,15 +198,8 @@ This command can create a fixable answer box when the mode \mode{noans} is enabl
 \begin{note}
   We note that.
 \end{note}
-\end{tcblisting}    
+\end{tcblisting}
 \end{minipage}
-
-\section{Equation test}
-
-\[\begin{cases}
-    \i\hbar\partial_t\psi(\mathbf x,t)=\ab(-\frac{\hbar^2}{2m}\bm\nabla^2+V)\\
-    \i\hbar\partial_t\psi(\mathbf x,t)=-(\i\hbar c\bm\alpha\cdot\bm\nabla+\beta mc^2)\psi(\mathbf x,t)
-\end{cases}\]
 
 \section*{Original Code for the Cover Head}
 

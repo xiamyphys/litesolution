@@ -1,5 +1,5 @@
 %% ***********************************************************
-%%   Copyright 2024 by Mingyu Hsia <xiamyphys@hdu.edu.cn>    *
+%%   Copyright 2024 by Mingyu XIA <xiamyphys@gmail.com>      *
 %%                                                           *
 %%   This work may be distributed and/or modified under      *
 %%   the conditions of the LaTeX Project Public License      *
@@ -11,7 +11,7 @@
 %%                                                           *
 %%   This work has the LPPL maintenance status `maintained'. *
 %%                                                           *
-%%   The Current Maintainer of this work is Mingyu Hsia.     *
+%%   The Current Maintainer of this work is Mingyu XIA.      *
 %%                                                           *
 %%   This work consists of the files litesolution.cls,       *
 %%                               and README.md.              *
@@ -21,9 +21,8 @@
 \NeedsTeXFormat{LaTeX2e}
 \PassOptionsToPackage{no-math}{fontspec}
 \PassOptionsToPackage{svgnames}{xcolor}
-\ProvidesClass{litesolution}[2024/05/07 v2.2b LiteSolution document class]
-\RequirePackage{kvoptions}
-\RequirePackage{etoolbox}
+\ProvidesClass{litesolution}[2024/07/02 v2.4a LiteSolution document class]
+\RequirePackage{kvoptions,etoolbox,keyval}
 \SetupKeyvalOptions{family=LITE, prefix=LITE@, setkeys=\kvsetkeys}
 \def\ekv#1{\kvsetkeys{LITE}{#1}}
 
@@ -39,7 +38,7 @@
 \ProcessKeyvalOptions*\relax
 \LoadClass[letterpaper,11pt]{book}
 
-\RequirePackage{setspace,datetime,caption,booktabs,multicol,diagbox,paracol}
+\RequirePackage{setspace,datetime,tabularx,caption,subcaption,anyfontsize,booktabs,multicol,diagbox,paracol}
 \linespread{1.3}
 \ddmmyyyydate
 \captionsetup{labelsep=period,labelfont={bf,sf},font=small}
@@ -52,18 +51,18 @@
 \setlist[enumerate]{itemsep=.5ex}
 \setlist[itemize]{itemsep=.5ex}
 \RequirePackage[notelinecolor=MidnightBlue,notemargin=.75in]{notebeamer}
-\geometry{margin=1in}
+\geometry{margin=1in,headheight=14pt}
 \RequirePackage[nokeyprefix]{refstyle}
 \newref{eq}{refcmd=(\ref{#1}),name={\sffamily eq.~},Name={\sffamily Eq.~}}
 \newref{fig}{name={\sffamily fig.~},Name={\sffamily Fig.~}}
 \newref{tab}{name={\sffamily tab.~},Name={\sffamily Tab.~}}
 
-\RequirePackage{graphics,graphicx,wallpaper,pagecolor}
+\RequirePackage{graphicx,magicwatermark,pagecolor}
 \graphicspath{{./figure/}{./figures/}{./image/}{./images/}{./graphics/}{./graphic/}{./pictures/}{./picture/}}
 
 \RequirePackage{ifxetex}
 \ifXeTeX
-  \RequirePackage[quiet]{xeCJK}
+  \RequirePackage[quiet,CJKmath,CheckSingle,PlainEquation]{xeCJK}
   \RequirePackage{zhlipsum}
   \setlength{\parindent}{2em}
 \fi
@@ -82,8 +81,7 @@
   \RequirePackage[mono=false]{libertine}
 }{\relax}
 \let\openbox\relax\def\hmmax{0}\def\bmmax{0}
-\RequirePackage{amsthm,amssymb,mathtools,physics2,bm,fixdif,derivative,cancel,extarrows,siunitx,xfrac,nicematrix}
-\renewcommand\qedsymbol{$\color{gray}\blacksquare$}
+\RequirePackage{amssymb,mathtools,physics2,bm,fixdif,derivative,cancel,extarrows,siunitx,xfrac,nicematrix}
 \usephysicsmodule{ab,braket,diagmat,doubleprod,xmat,ab.legacy,op.legacy}
 \RequirePackage[e]{esvect}
 \let\vec\vv
@@ -109,6 +107,7 @@
 \AddToHook{cmd/faIcon/after}{\endgroup}
 
 \RequirePackage{circuitikz,pgfplots,fadingimage}
+\RequirePackage[version=4]{mhchem}
 \usetikzlibrary{arrows,tikzmark,patterns,calc,angles,quotes,intersections}
 \tikzset{>=stealth',
     every picture/.append style={%
@@ -133,56 +132,77 @@
 \def\mode#1{\textcolor{Indigo}{\textsf{#1}}}
 \def\cmd#1{\textcolor{MidnightBlue}{\texttt{\string#1}}}
 
-\def\subtitle#1{\gdef\@subtitle{#1}}
-\def\bioinfo#1{\gdef\@bioinfo{#1}}
-\NewDocumentCommand\coverhead{ O{0} m }{
-  \gdef\@coverheadrotate{#1}\gdef\@coverhead{#2}
+\define@key{coverset}{title}{\gdef\@title{#1}}
+\define@key{coverset}{subtitle}{\gdef\@subtitle{#1}}
+\define@key{coverset}{bioinfo}{\gdef\@bioinfo{#1}}
+\define@key{coverset}{covercolor}{\gdef\@covercolor{#1}}
+\define@key{coverset}{coverhead}{\gdef\@coverhead{#1}}
+\define@key{coverset}{coverhead.rotate}{\gdef\@coverheadrotate{#1}}
+\define@key{coverset}{cover}{\gdef\@cover{#1}}
+\define@key{coverset}{cover.pattern}{\gdef\@coverpattern{#1}}
+\def\coverset#1{
+  \setkeys{coverset}{#1}
+  \ifcsname @covercolor\endcsname
+    \relax
+  \else
+    \gdef\@covercolor{DarkSlateGray}
+  \fi
 }
-\NewDocumentCommand\cover{ o m }{
-  \IfValueT{#1}{\gdef\@coverpattern{#1}}
-  \gdef\@cover{#2}}
-\RenewDocumentCommand\maketitle{O{MidnightBlue}}{
+
+\renewcommand*\maketitle{
   \begin{titlepage}
-  \newgeometry{margin=0in}\newpagecolor{#1!15}
+  \newgeometry{margin=0in}
+  \newpagecolor{\@covercolor!15}
+  \gdef\@covercolor{DarkSlateGray}
   \tikz[remember picture,overlay]{
-    \ifcsname @coverhead\endcsname
-      \node [rotate=\@coverheadrotate] at ($(current page.center)+(0,.35*\paperheight)$) {\includegraphics[width=\paperwidth]{\@coverhead}};
-    \fi
     \fill [white,opacity=.5] ($(current page.south west)+(.2*\paperwidth,.6*\paperheight)$) rectangle (current page.south east);
     \fill [white,opacity=.5] ($(current page.south west)+(.3*\paperwidth,.7*\paperheight)$) rectangle (current page.south east);
-    \ifcsname @cover\endcsname
-      \node [opacity=.5] at ($(current page.south west)+(.65*\paperwidth,.3*\paperheight)$) {\includegraphics[height=.3\paperheight]{\@cover}};
-      \ifcsname @coverpattern\endcsname
-      \fill [pattern=\@coverpattern,pattern color=#1!15!white!25] ($(current page.south west)+(.3*\paperwidth,0)$) rectangle ++ (.7*\paperwidth,.6\paperheight);
-    \fi\fi
     \node [darkgray] at ($(current page.south west)+(.65*\paperwidth,.65*\paperheight)$) {\Huge\bfseries\@title};
     \ifcsname @subtitle\endcsname
       \node [rotate=90,gray,opacity=.6] at ($(current page.south west)+(.25*\paperwidth,.3*\paperheight)$) {\huge\bfseries\@subtitle};
     \fi
     \ifcsname @bioinfo\endcsname
       \node [gray,opacity=.4] at ($(current page.south)+(.15*\paperwidth,.075*\paperheight)$) {\large\@bioinfo};
-    \fi}
+    \fi
+    \ifcsname @coverhead\endcsname
+      \ifcsname @coverheadrotate\endcsname
+        \relax
+      \else
+        \gdef\@coverheadrotate{0}
+      \fi
+      \node [rotate=\@coverheadrotate] at ($(current page.center)+(0,.35*\paperheight)$) {\includegraphics[width=\paperwidth]{\@coverhead}};
+    \fi
+    \ifcsname @cover\endcsname
+      \node (@cover) at ($(current page.south west)+(.65*\paperwidth,.3*\paperheight)$) {\includegraphics[height=.3\paperheight]{\@cover}};
+      \ifcsname @coverpattern\endcsname
+        \fill [scope fading=south,pattern=\@coverpattern,pattern color=\@covercolor!15!white!25] (@cover.south west) rectangle (@cover.north east);
+      \fi\fi}
   \end{titlepage}
-    \restoregeometry\restorepagecolor
+  \restoregeometry
+  \restorepagecolor
     \if@twoside
       \clearpage%
-      \newpagecolor{#1!15!white!50}
+      \newpagecolor{\@covercolor!15!white!25}
       \thispagestyle{empty}%
       \null\clearpage
-    \fi\restorepagecolor
+    \fi
+    \restorepagecolor
 }
 
 \RequirePackage{tocloft}
 \setlength{\cftbeforetoctitleskip}{6\p@}
 \setlength{\cftaftertoctitleskip}{24\p@}
-\setlength{\cftbeforesecskip}{3\p@}
-\def\contentsname{\sffamily\scshape\hfill Contents\hfill}
+\AddToHook{cmd/tableofcontents/before}{
+  \begingroup
+  \setstretch{1.5}
+}
+\AddToHook{cmd/tableofcontents/after}{\endgroup}
+\renewcommand\contentsname{\sffamily\scshape Contents}
 \setcounter{tocdepth}{1}
 
 \let\@chapapptmp\@chapapp
-\def\@chapapp{\textsc{\@chapapptmp}}
+\gdef\@chapapp{\textsc{\@chapapptmp}}
 \def\chapterimage#1{\gdef\@chapterimage{#1}}
-\def\HUGE{\@setfontsize\HUGE{30}{40}}
 \def\@makechapterhead#1{%
   \def\thesection{\arabic{chapter}.\arabic{section}}
   \def\theproblem{\thechapter.\arabic{problem}}
@@ -194,8 +214,8 @@
     \fi
     \ifnum \c@secnumdepth >\m@ne
             \if@mainmatter
-        \parbox{6em}
-        {\centering\HUGE\normalfont\bfseries\textcolor{darkgray}\thechapter\vskip4\p@\normalsize\bfseries\textcolor{darkgray}{\bfseries\sffamily\@chapapp}}%
+              \parbox{6em}
+              {\centering\@setfontsize\HUGE{30}{40}\normalfont\bfseries\textcolor{darkgray}\thechapter\vskip4\p@\normalsize\bfseries\textcolor{darkgray}{\bfseries\sffamily\@chapapp}}%
             \fi
     \fi
     \interlinepenalty\@M\hspace*{3ex}
@@ -203,20 +223,20 @@
     \vskip 36\p@
 }}
 \def\@makeschapterhead#1{%
-  \def\thesection{\arabic{section}}
-  \def\theproblem{\arabic{problem}}
-  \setcounter{section}{0}
-  \setcounter{problem}{0}
-  {\centering
-  \ifcsname @chapterimage\endcsname
-    \@chapterimage
-  \fi\vskip-40\p@
-    \parindent \z@ \normalfont
-      \interlinepenalty\@M
-      \huge \bfseries #1\par\nobreak
-    \vskip 28\p@}}
+\def\thesection{\arabic{section}}
+\def\theproblem{\arabic{problem}}
+\setcounter{section}{0}
+\setcounter{problem}{0}
+{\centering
+\ifcsname @chapterimage\endcsname
+  \@chapterimage
+\fi\vskip-40\p@
+  \parindent \z@ \normalfont
+    \interlinepenalty\@M
+    \huge \bfseries #1\par\nobreak
+  \vskip 28\p@}}
 \let\cleardoublepage=\clearpage
-\renewcommand*{\cleardoublepage}{\clearpage\if@twoside \ifodd\c@page\else
+\renewcommand*\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
 \ifnum \thechapter=0
   \vspace*{\fill}
     {\centering\itshape\Large This page was intentionally left blank.\par}
@@ -231,27 +251,38 @@
 
 \RequirePackage{fancyhdr}
 \pagestyle{fancy}
-  \let\oldheadrule\headrule
-  \renewcommand{\headrule}{{\color{gray}\oldheadrule}}
-  \renewcommand{\headrulewidth}{1pt}
-  \if@twoside\cfoot{}
-    \fancyhead[OL]{\color{darkgray}\nouppercase\leftmark}
-    \fancyhead[OR]{\color{darkgray}\sffamily\thepage}
-    \fancyhead[ER]{\color{darkgray}\nouppercase\rightmark}
-    \fancyhead[EL]{\color{darkgray}\sffamily\thepage}
-  \else
-    \fancyhead[L]{\color{darkgray}\nouppercase\leftmark}
-    \fancyhead[R]{\color{darkgray}\nouppercase\rightmark}
-    \cfoot{\color{darkgray}\sffamily\thepage}
-  \fi
-  \setlength{\headheight}{14pt}
+\let\oldheadrule\headrule
+\renewcommand{\headrule}{{\color{gray}\oldheadrule}}
+\renewcommand{\headrulewidth}{1pt}
+\fancyfoot[L]{\footnotesize\fbox{Unauthorized copying or reuse of any part of this page is illegal}}
+\fancyfoot[OR]{\sffamily\bfseries GO ON TO THE NEXT PAGE}
+\if@twoside\cfoot{}
+  \fancyhead[OL]{\color{darkgray}\nouppercase\leftmark}
+  \fancyhead[OR]{\color{darkgray}\sffamily\thepage}
+  \fancyhead[ER]{\color{darkgray}\nouppercase\rightmark}
+  \fancyhead[EL]{\color{darkgray}\sffamily\thepage}
+\else
+  \fancyhead[L]{\color{darkgray}\nouppercase\leftmark}
+  \fancyhead[R]{\color{darkgray}\nouppercase\rightmark}
+  \cfoot{\color{darkgray}\sffamily\thepage}
+\fi
 
+\RequirePackage{amsthm}
+\renewcommand\qedsymbol{$\color{gray}\blacksquare$}
 \theoremstyle{definition}
 \newtheorem{problem}{\color{DarkGreen}\faIcon{pen-square}~\textsc{\textsf{Problem}}}[chapter]
 \newtheorem*{solution}{\color{MidnightBlue}\faIcon{check-square}~\textsc{\textsf{Solution}}}
 \newtheorem*{scratch}{\color{MidnightBlue}\faIcon{check-square}~\textsc{\textsf{Scratch}}}
 \newtheorem*{note}{\color{DarkRed}\faIcon{info-circle}~\textsc{\textsf{Note}}}
-\RequirePackage{comment}
+\RequirePackage{comment,ulem,soul}
+\ifxetex
+  \RequirePackage{xeCJKfntef}
+  \def\@emph#1{\CJKsout*[thickness=2.5ex, format=\color{\@covercolor!15}]{#1}}
+  \def\s@emph#1{\CJKunderwave{#1}}
+\else
+  \def\@emph#1{\sethlcolor{\@covercolor!15}\hl{#1}}
+  \def\s@emph#1{\uwave{#1}}
+\fi
 \ifdefstring{\LITE@answer}{hideanswer}{%
   \def\ans#1{\underline{\phantom{#1}}}
   \def\choiceans#1{\phantom{#1}}
@@ -261,6 +292,7 @@
     \excludecomment{solution}\excludecomment{note}
     \let\endsolution\relax\let\endnote\relax}
   \def\true{\addtocounter{task}{1}\thetask}
+  \DeclareRobustCommand\emph{\@ifstar\s@emph\s@emph}
 }{
   \def\ans#1{\underline{~#1~}}
   \def\s@solute#1{\relax}\def\@solute#1{\relax}
@@ -268,6 +300,7 @@
     \excludecomment{scratch}
     \let\endscratch\relax}
   \def\true{\addtocounter{task}{1}\faIcon{check-circle}}
+  \DeclareRobustCommand\emph{\@ifstar\s@emph\@emph}
 }
 \DeclareRobustCommand\solute{\@ifstar\s@solute\@solute}
 %%
